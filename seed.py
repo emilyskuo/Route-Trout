@@ -64,16 +64,17 @@ def set_val_user_id():
 def set_val_user_trail_id():
     """Set value for the next ut_id after seeding database"""
 
-    # Get the Max user_id in the database
+    # Get the Max ut_id in the database
     result = db.session.query(func.max(User_Trail.ut_id)).one()
     max_id = int(result[0])
 
-    # Set the value for the next user_id to be max_id + 1
+    # Set the value for the next ut_id to be max_id + 1
     query = "SELECT setval('user_trails_ut_id_seq', :new_id)"
     db.session.execute(query, {'new_id': max_id + 1})
     db.session.commit()
 
 
+# To seed sample data into the database, run this file
 if __name__ == "__main__":
     connect_to_db(app)
 
@@ -85,7 +86,7 @@ if __name__ == "__main__":
 
     print("Tables created, all rows deleted")
 
-    # Import different types of data
+    # Seed sample data into the database, and set the values for user_id and ut_id
     load_users()
     load_trails()
     load_user_trails()
