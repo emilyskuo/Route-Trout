@@ -24,16 +24,32 @@ def reg_form():
 
     return render_template("register.html")
 
-# @app.route("/register", methods=["POST"])
-# def register_user():
-#     """Creates new user if user does not yet exist"""
+@app.route("/register", methods=["POST"])
+def register_user():
+    """Creates new user if user does not yet exist"""
 
-#     email = request.form.get("email")
-#     password = request.form.get("password")
+    username = request.form.get("username")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    cell = request.form.get("cell")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zipcode = request.form.get("zipcode")
 
+    user = User(username=username, email=email, password=password, fname=fname, lname=lname, 
+            cell=cell, city=city, state=state, zipcode=zipcode)
 
-#     """validate if username is taken, email is used, cell already exists"""
-#     if not User.query.filter_by(email=email).first():
+    db.session.add(user)
+    db.session.commit()
+
+    flash("User created!")
+
+    return redirect("/")
+
+    # """validate if username is taken, email is used, cell already exists"""
+    # if not User.query.filter_by(email=email).first():
 
 
 if __name__ == "__main__":
