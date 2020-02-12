@@ -58,12 +58,14 @@ class User_Trail(db.Model):
     completed = db.Column(db.Boolean, default=False)
     date_added = db.Column(db.DateTime, nullable=False)
 
+    user = db.relationship('User', backref='user_trails')
+    trail = db.relationship('Trail', backref='user_trails')
+
 
     def __repr__(self):
         """Define representation of user-trail objects"""
 
         return f"<UT id={self.ut_id}, user_id={self.user_id}, trail_id={self.trail_id}>"
-
 
 
 def connect_to_db(app):
@@ -75,17 +77,43 @@ def connect_to_db(app):
     db.init_app(app)
 
 
+# For testing - sample seed data
 if __name__ == "__main__":
     from flask import Flask
     from datetime import datetime
     app = Flask(__name__)
     connect_to_db(app)
+
+    # Create all tables, delete all data to be reseeded
     db.create_all()
+    User_Trail.query.delete()
+    User.query.delete()
+    Trail.query.delete()
+    
+
     print("Connected to db")
+
+    # Reseed sample data
     user1 = User(username="hello", email="hello@hello.com", password="hello", fname="hel", lname="lo", cell="1234567890")
     trail1 = Trail(trail_id=1234, trail_name="Sample trail", length=7, long=123.123, lat=123.123)
-    ut1 = User_Trail(user_id=1, trail_id=1234, completed=True, date_added=datetime.now())
+    user2 = User(username="dude", email="dude@hello.com", password="hello", fname="du", lname="de", cell="1234567891")
+    trail2 = Trail(trail_id=12345, trail_name="Sample trail 2", length=3, long=321.123, lat=321.123)
+   
     db.session.add(user1)
     db.session.add(trail1)
-    db.session.add(ut1)
+    db.session.add(user2)
+    db.session.add(trail2)
     db.session.commit()
+
+    ut1 = User_Trail(user_id=user1.user_id, trail_id=1234, completed=True, date_added=datetime.now())
+    ut2 = User_Trail(user_id=user2.user_id, trail_id=1234, completed=False, date_added=datetime.now())
+    ut3 = User_Trail(user_id=user2.user_id, trail_id=12345, completed=False, date_added=datetime.now())
+    ut4 = User_Trail(user_id=user1.user_id, trail_id=12345, completed=True, date_added=datetime.now())
+
+    db.session.add(ut1)
+    db.session.add(ut2)
+    db.session.add(ut3)
+    db.session.add(ut4)
+    db.session.commit()
+
+    print("Data reseeded")
