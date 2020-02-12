@@ -16,7 +16,7 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
-    cell = db.Column(db.String(10), nullable=True, unique=True)
+    cell = db.Column(db.String(15), nullable=True, unique=True)
     city = db.Column(db.String(50), nullable=True)
     state = db.Column(db.String(2), nullable=True)
     zipcode = db.Column(db.String(5), nullable=True)
