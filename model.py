@@ -16,6 +16,7 @@ class User(db.Model):
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
     cell = db.Column(db.String(10), nullable=True, unique=True)
+    #user location - zip, city, state - use this for searches
 
     def __repr__(self):
         """Define representation of user objects"""
@@ -39,6 +40,7 @@ class Trail(db.Model):
     long = db.Column(db.Float, nullable=False)
     lat = db.Column(db.Float, nullable=False)
     location = db.Column(db.String(100))
+        # split this out to city/state?
     description = db.Column(db.String(200))
     avg_user_rating = db.Column(db.Float)
 
@@ -55,8 +57,10 @@ class User_Trail(db.Model):
     ut_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"), nullable=False)
-    completed = db.Column(db.Boolean, default=False)
+    is_completed = db.Column(db.Boolean, default=False)
     date_added = db.Column(db.DateTime, nullable=False)
+
+    # date completed, completion count
 
     user = db.relationship('User', backref='user_trails')
     trail = db.relationship('Trail', backref='user_trails')
@@ -117,3 +121,24 @@ if __name__ == "__main__":
     db.session.commit()
 
     print("Data reseeded")
+
+
+
+
+
+
+
+"""recent searches or recent trails
+parking lots nearby or if trailhead has parking
+bathrooms - available? location?
+other amenities?
+ADA accesible?
+dog friendly?
+bikes?
+horses?
+
+
+
+save list priority in cookies? - maybe add a column to user_trails
+star saved trails? - put those on top of page
+"""
