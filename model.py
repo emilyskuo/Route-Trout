@@ -17,7 +17,9 @@ class User(db.Model):
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
     cell = db.Column(db.String(10), nullable=True, unique=True)
-    #user location - zip, city, state - use this for searches
+    city = db.Column(db.String(50), nullable=True)
+    state = db.Column(db.String(2), nullable=True)
+    zipcode = db.Column(db.String(5), nullable=True)
 
     def __repr__(self):
         """Define representation of user objects"""
@@ -40,10 +42,10 @@ class Trail(db.Model):
     img_lg_url = db.Column(db.String(200))
     long = db.Column(db.Float, nullable=False)
     lat = db.Column(db.Float, nullable=False)
-    location = db.Column(db.String(100))
-        # split this out to city/state?
+    city = db.Column(db.String(50))
+    state = db.Column(db.String(50))
     description = db.Column(db.String(200))
-    avg_user_rating = db.Column(db.Float)
+    # avg_user_rating = db.Column(db.Float)
 
     def __repr__(self):
         """Define representation of trail objects"""
@@ -60,8 +62,6 @@ class User_Trail(db.Model):
     trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"), nullable=False)
     is_completed = db.Column(db.Boolean, default=False)
     date_added = db.Column(db.DateTime, nullable=False)
-
-    # date completed, completion count
 
     user = db.relationship('User', backref='user_trails')
     trail = db.relationship('Trail', backref='user_trails')
