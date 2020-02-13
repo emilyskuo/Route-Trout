@@ -61,11 +61,37 @@ def register_user():
         return redirect("/register")
 
 @app.route("/login")
-def login():
+def show_login_form():
     """Display login form"""
 
     return render_template("login.html")
 
+@app.route("/login", methods=["POST"])
+def log_in_user():
+    """Validate user login"""
+
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    # Validate that user's username and password match database
+    if User.query.filter((User.username == username) & (User.password == password)).all():
+        session["username"] = username
+        flash("Login successful")
+
+        return redirect("/")
+
+    else:
+        flash("Incorrect login information")
+        return redirect("/login")
+
+@app.route("/logout")
+def log_out_user():
+    """Log out user"""
+
+    del session["username"]
+    flash("Logged out")
+
+    return redirect("/")
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
