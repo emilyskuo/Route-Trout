@@ -12,7 +12,7 @@
   <form action="/register" method="POST">
   <label for="username">Username</label>
     <input type="text" class="form-control" id="username" name="username" placeholder="Username" required
-    minlength=5>
+    minlength=5 onblur="myFunction()">
   <label for="email">Email</label>
     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" required>
   <label for="password">Password</label>
@@ -20,5 +20,24 @@
   <input type="submit" class="btn btn-primary">
   </form>
 </div>
+
+<script>
+  const myFunction = () => {
+      console.log("hi hello");
+
+  };
+
+
+
+</script>
+
+<!-- onblur - get value of username input, use AJAX request to send that info to python
+using server, check if value exists in database as a username
+return message
+have a div under the textbox - show error message there if any - user visibility:hidden
+to keep the div in place (rather than display: none which doesn't allocate space for the div)
+-->
+
+<!-- <input type="text" onblur=jsFunction()> -->
 
 {% endblock %}
