@@ -58,8 +58,10 @@ class User_Trail(db.Model):
 
     __tablename__ = "user_trails"
     ut_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"),
+                        nullable=False)
+    trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"),
+                         nullable=False)
     is_completed = db.Column(db.Boolean, default=False)
     date_added = db.Column(db.DateTime, nullable=False)
 
