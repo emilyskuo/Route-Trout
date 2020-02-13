@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     """Users of hiking app"""
 
@@ -14,8 +15,8 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
-    fname = db.Column(db.String(50), nullable=False)
-    lname = db.Column(db.String(50), nullable=False)
+    fname = db.Column(db.String(50), nullable=True)
+    lname = db.Column(db.String(50), nullable=True)
     cell = db.Column(db.String(15), nullable=True)
     city = db.Column(db.String(50), nullable=True)
     state = db.Column(db.String(2), nullable=True)
@@ -65,7 +66,6 @@ class User_Trail(db.Model):
     user = db.relationship('User', backref='user_trails')
     trail = db.relationship('Trail', backref='user_trails')
 
-
     def __repr__(self):
         """Define representation of user-trail objects"""
 
@@ -79,6 +79,7 @@ def connect_to_db(app):
     app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
     db.app = app
     db.init_app(app)
+
 
 # For testing database & relations, run this file interactively
 if __name__ == "__main__":
