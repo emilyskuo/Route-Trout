@@ -51,7 +51,7 @@ def register_user():
 
         flash("User created!")
 
-        return redirect("/")
+        return redirect("/login")
     
     # If one does exist, flash message to indicate if email or username
     else:
