@@ -1,4 +1,4 @@
-from flask import (Flask, render_template, redirect, request, flash, session)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_sqlalchemy import SQLAlchemy
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
@@ -104,6 +104,8 @@ def update_account_info():
 
     user = User.query.filter_by(username=session["username"]).first()
 
+    # Form fields are not required - only update database if text was entered
+    # in that field
     if len(fname) > 0:
         user.fname = fname
 
@@ -144,14 +146,24 @@ def log_out_user():
 def search_for_trails():
     """Something goes here"""
 
-    return
+    return render_template("search.html")
 
 
-@app.route("/trail/<int:trail_id>")
-def display_trail_info(trail_id):
+@app.route("/trail")
+def display_trail_info():
     """Display trail information page"""
 
-    return render_template("trail.html", trail_id=trail_id)
+    return render_template("trail.html")
+
+
+@app.route("/test")
+def return_first_letter():
+
+    word = request.args.get("text")
+
+    print(word)
+
+    return jsonify(word[0])
 
 
 if __name__ == "__main__":
