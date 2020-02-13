@@ -104,12 +104,23 @@ def update_account_info():
 
     user = User.query.filter_by(username=session["username"]).first()
 
-    user.fname = fname
-    user.lname = lname
-    user.cell = cell
-    user.city = city
-    user.state = state
-    user.zipcode = zipcode
+    if len(fname) > 0:
+        user.fname = fname
+
+    if len(lname) > 0:
+        user.lname = lname
+
+    if len(cell) > 0:
+        user.cell = cell
+
+    if len(city) > 0:
+        user.city = city
+
+    if len(state) > 0:
+        user.state = state
+
+    if len(zipcode) > 0:
+        user.zipcode = zipcode
 
     db.session.add(user)
     db.session.commit()
