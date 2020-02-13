@@ -18,11 +18,13 @@ def index():
 
     return render_template("index.html")
 
+
 @app.route("/register")
 def reg_form():
     """Display registration form"""
 
     return render_template("register.html")
+
 
 @app.route("/register", methods=["POST"])
 def register_user():
@@ -60,11 +62,13 @@ def register_user():
 
         return redirect("/register")
 
+
 @app.route("/login")
 def show_login_form():
     """Display login form"""
 
     return render_template("login.html")
+
 
 @app.route("/login", methods=["POST"])
 def log_in_user():
@@ -92,6 +96,7 @@ def log_out_user():
     flash("Logged out")
 
     return redirect("/")
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
