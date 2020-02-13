@@ -6,6 +6,27 @@
 {% endblock %}
 
 {% block content %}
+<form id="form" action="/test">
+<input type="text" id="text" name="text">
+<input type="submit">
+</form>
 
+<div id="copycat"></div>
+
+<script>
+    $("#form").on("submit", (evt) => {
+        evt.preventDefault();
+
+        const text = $("#text").val();
+
+        $.get("/test", {text}, (res) => {
+            $("#copycat").html(res);
+
+        });
+    });
+    
+const { foo, bar } = Obj
+
+</script>
 
 {% endblock %}
