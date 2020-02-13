@@ -27,7 +27,6 @@ class User(db.Model):
         return f"<User id={self.user_id}, username={self.username}>"
 
 
-
 class Trail(db.Model):
     """Hiking trails for hiking app"""
 
