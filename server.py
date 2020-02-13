@@ -12,6 +12,7 @@ app.secret_key = "supersecret"
 # For getting error messages in Jinja when variables are undefined
 app.jinja_env.undefined = StrictUndefined
 
+
 @app.route("/")
 def index():
     """Display homepage"""
@@ -33,18 +34,12 @@ def register_user():
     username = request.form.get("username")
     email = request.form.get("email")
     password = request.form.get("password")
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    cell = request.form.get("cell")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zipcode = request.form.get("zipcode")
 
-    # Validate if username or email already exists in the users table in database
+
+# Validate if username or email already exists in the users table in database
     if not User.query.filter((User.email == email) | (User.username == username)).all():
 
-        user = User(username=username, email=email, password=password, fname=fname, lname=lname, 
-                cell=cell, city=city, state=state, zipcode=zipcode)
+        user = User(username=username, email=email, password=password)
 
         db.session.add(user)
         db.session.commit()
@@ -52,8 +47,8 @@ def register_user():
         flash("User created!")
 
         return redirect("/login")
-    
-    # If one does exist, flash message to indicate if email or username
+
+# If one does exist, flash message to indicate if email or username
     else:
         if User.query.filter_by(email=email).all():
             flash(f"There's already an account associated with {email}")
@@ -87,6 +82,41 @@ def log_in_user():
     else:
         flash("Incorrect login information")
         return redirect("/login")
+
+
+@app.route("/account")
+def show_account_options():
+    """Display account options for logged in users"""
+
+    return render_template("account.html")
+
+
+@app.route("/account", methods=["POST"])
+def update_account_info():
+    """Update a user's account information"""
+
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    cell = request.form.get("cell")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zipcode = request.form.get("zipcode")
+
+    user = User.query.filter_by(username=session["username"]).first()
+
+    user.fname = fname
+    user.lname = lname
+    user.cell = cell
+    user.city = city
+    user.state = state
+    user.zipcode = zipcode
+
+    db.session.add(user)
+    db.session.commit()
+
+    flash("Information updated!")
+
+    return redirect("/account")
 
 
 @app.route("/logout")
