@@ -3,9 +3,46 @@
 {% block title %}{% endblock %}
 
 {% block head %}
+<style>
+    /* Set the size of the div element that contains the map */
+   #map-container {
+     height: 400px;  /* The height is 400 pixels */
+     width: 100%;  /* The width is the width of the web page */
+    }
+ </style>
+
+
 {% endblock %}
 
 {% block content %}
+<h2>Hello</h2>
 
+<div id="map-container"></div>
+
+<script>
+    const fourPassLoop = {
+        lat: 39.0985,
+        lng: -106.9407
+    };
+
+    function initMap() {
+        const map = new google.maps.Map(
+            document.getElementById("map-container"), 
+            {zoom: 10, 
+            center: fourPassLoop
+            }
+        );
+        const marker = new google.maps.Marker(
+            {position: fourPassLoop, 
+             map: map
+            }
+        );
+    }
+
+</script>
+
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEbDche9_E-5BxgMMda3bYYvWSxY-po5g&callback=initMap">
+</script>
 
 {% endblock %}
