@@ -54,12 +54,17 @@ def register_user():
     # If one does exist, flash message to indicate if email or username
     else:
         if User.query.filter_by(email=email).all():
-            flash("There's already an account associated with this email address")
+            flash(f"There's already an account associated with {email}")
         else:
-            flash("This username is already taken")
+            flash(f"The username {username} is already taken")
 
         return redirect("/register")
 
+@app.route("/login")
+def login():
+    """Display login form"""
+
+    return render_template("login.html")
 
 
 if __name__ == "__main__":
