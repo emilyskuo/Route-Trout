@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+<div id="update-acct-info" class="col">
+  <h2>Tell us more about yourself!</h2>
+  <form class="form-group" action="/account" method="POST">
+    <div class="form-row">
+      <div class="col">
+        <label for="fname">First Name</label>
+          <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+      </div>
+      <div class="col">
+        <label for="lname">Last Name</label>
+          <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+      </div>
+    </div>
+    <label for="cell">Cellphone Number</label>
+      <input type="tel" class="form-control" id="cell" name="cell" placeholder="eg 123-456-7890" 
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+    <div class="form-row">
+      <div class="col">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" name="city" placeholder="City">
+      </div>
+      <div class="col">
+        <label for="state">City</label>
+        <input type="text" class="form-control" id="state" name="state" placeholder="State" maxlength=2>
+      </div>
+      <div class="col">
+        <label for="zipcode">Zip Code</label>
+        <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
+      </div>
+    </div>   
+    <input type="submit" class="btn btn-primary"> 
+  </form>
+</div>
+
+{% endblock %}
