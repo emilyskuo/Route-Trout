@@ -88,6 +88,7 @@ def log_in_user():
         flash("Incorrect login information")
         return redirect("/login")
 
+
 @app.route("/logout")
 def log_out_user():
     """Log out user"""
@@ -96,6 +97,20 @@ def log_out_user():
     flash("Logged out")
 
     return redirect("/")
+
+
+@app.route("/search")
+def search_for_trails():
+    """Something goes here"""
+
+    return
+
+
+@app.route("/trail/<int:trail_id>")
+def display_trail_info(trail_id):
+    """Display trail information page"""
+
+    return render_template("trail.html", trail_id=trail_id)
 
 
 if __name__ == "__main__":
