@@ -38,18 +38,28 @@ def register_user():
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
 
-    user = User(username=username, email=email, password=password, fname=fname, lname=lname, 
-            cell=cell, city=city, state=state, zipcode=zipcode)
+    # Validate if username or email already exists in the users table in database
+    if not User.query.filter((User.email == email) | (User.username == username)).all():
 
-    db.session.add(user)
-    db.session.commit()
+        user = User(username=username, email=email, password=password, fname=fname, lname=lname, 
+                cell=cell, city=city, state=state, zipcode=zipcode)
 
-    flash("User created!")
+        db.session.add(user)
+        db.session.commit()
 
-    return redirect("/")
+        flash("User created!")
 
-    # """validate if username is taken, email is used, cell already exists"""
-    # if not User.query.filter_by(email=email).first():
+        return redirect("/")
+    
+    # If one does exist, flash message to indicate if email or username
+    else:
+        if User.query.filter_by(email=email).all():
+            flash("There's already an account associated with this email address")
+        else:
+            flash("This username is already taken")
+
+        return redirect("/register")
+
 
 
 if __name__ == "__main__":
