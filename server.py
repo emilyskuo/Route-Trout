@@ -1,4 +1,5 @@
-from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
+from flask import (Flask, render_template, redirect, request, flash, session,
+                   jsonify)
 from flask_sqlalchemy import SQLAlchemy
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
@@ -6,6 +7,8 @@ import requests
 import os
 
 from model import User, Trail, User_Trail, db, connect_to_db
+from helperfunctions import (call_geocoding_api, call_hiking_project_api,
+                             seed_trails_into_db)
 
 GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
 HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
@@ -39,7 +42,6 @@ def register_user():
     username = request.form.get("username")
     email = request.form.get("email")
     password = request.form.get("password")
-
 
 # Validate if username or email already exists in the users table in database
     if not User.query.filter((User.email == email) | (User.username == username)).all():
@@ -149,69 +151,22 @@ def log_out_user():
 
 @app.route("/search")
 def search_for_trails():
-    """Something goes here"""
+    """Search for trails given a location, seed trails into database, and return json response"""
 
     search_terms = request.args.get("search")
-    api_url = "https://maps.googleapis.com/maps/api/geocode/json"
-    payload = {
-        "address": search_terms,
-        "key": GOOGLE_MAPS_KEY
-    }
-    r = requests.get(api_url, params=payload)
+    lat_long = call_geocoding_api(search_terms)
+    response = call_hiking_project_api(lat_long)
+    seed_trails_into_db(response)
 
-    response = r.json()
+    return jsonify(response["trails"])
 
-    lat_long = response["results"][0]["geometry"]["location"]
 
-    hiking_api_url = "https://www.hikingproject.com/data/get-trails"
-
-    payload = {
-        "lat": lat_long["lat"],
-        "lon": lat_long["lng"],
-        "key": HIKING_PROJECT_KEY
-    }
-
-    r2 = requests.get(hiking_api_url, params=payload)
-    response2 = r2.json()
-
-    trail_list = []
-
-    for trail in response2["trails"]:
-        trail_id = trail["id"]
-        trail_name = trail["name"]
-        length = trail["length"]
-        difficulty = trail["difficulty"]
-        img_thumb_url = trail["imgSmall"]
-        img_lg_url = trail["imgSmallMed"]
-        long = trail["longitude"]
-        lat = trail["latitude"]
-        location = trail["location"].split(",")
-        city = location[0]
-        state = location[1][1:]
-        description = trail["summary"]
-
-        if not Trail.query.filter_by(trail_id=trail_id).all():
-            new_trail = Trail(trail_id=trail_id, trail_name=trail_name,
-                              length=length, difficulty=difficulty,
-                              img_thumb_url=img_thumb_url, img_lg_url=img_lg_url,
-                              long=long, lat=lat, city=city, state=state, 
-                              description=description)
-
-            trail_list.append(new_trail)
-
-            db.session.add(new_trail)
-            db.session.commit()
-        
-        else:
-            trail_list.append(Trail.query.get(trail_id))
-
-    print(trail_list)
-
-    return render_template("search.html", trail_list=trail_list)
-
+# modularize API calls, maybe put them in a helper functions file,
+# call them here, and serve them as json
+# then use ajax requests to update data on client side
 
 @app.route("/trail/<int:trail_id>")
-def display_trail_info():
+def display_trail_info(trail_id):
     """Display trail information page"""
 
     return render_template("trail.html", trail_id=trail_id)
