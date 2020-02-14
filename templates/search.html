@@ -45,4 +45,9 @@
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEbDche9_E-5BxgMMda3bYYvWSxY-po5g&callback=initMap">
 </script>
 
+
+{% for trail in trail_list %}
+    <p>{{trail}}</p>
+    <p>{{trail.trail_name}}</p>
+{% endfor %}
 {% endblock %}
