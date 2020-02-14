@@ -161,13 +161,13 @@ def search_for_trails():
 
     response = r.json()
 
-    lat_log = response["results"][0]["geometry"]["location"]
+    lat_long = response["results"][0]["geometry"]["location"]
 
     hiking_api_url = "https://www.hikingproject.com/data/get-trails"
 
     payload = {
-        "lat": lat_log["lat"],
-        "lon": lat_log["lng"],
+        "lat": lat_long["lat"],
+        "lon": lat_long["lng"],
         "key": HIKING_PROJECT_KEY
     }
 
