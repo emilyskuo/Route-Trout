@@ -172,12 +172,42 @@ def search_for_trails():
     }
 
     r2 = requests.get(hiking_api_url, params=payload)
-
-    print(r2.url)
-
     response2 = r2.json()
 
-    return response2
+    trail_list = []
+
+    for trail in response2["trails"]:
+        trail_id = trail["id"]
+        trail_name = trail["name"]
+        length = trail["length"]
+        difficulty = trail["difficulty"]
+        img_thumb_url = trail["imgSmall"]
+        img_lg_url = trail["imgSmallMed"]
+        long = trail["longitude"]
+        lat = trail["latitude"]
+        location = trail["location"].split(",")
+        city = location[0]
+        state = location[1][1:]
+        description = trail["summary"]
+
+        if not Trail.query.filter_by(trail_id=trail_id).all():
+            new_trail = Trail(trail_id=trail_id, trail_name=trail_name,
+                              length=length, difficulty=difficulty,
+                              img_thumb_url=img_thumb_url, img_lg_url=img_lg_url,
+                              long=long, lat=lat, city=city, state=state, 
+                              description=description)
+
+            trail_list.append(new_trail)
+
+            db.session.add(new_trail)
+            db.session.commit()
+        
+        else:
+            trail_list.append(Trail.query.get(trail_id))
+
+    print(trail_list)
+
+    return render_template("search.html", trail_list=trail_list)
 
 
 @app.route("/trail/<int:trail_id>")
