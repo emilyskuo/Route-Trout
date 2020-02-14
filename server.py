@@ -2,8 +2,13 @@ from flask import (Flask, render_template, redirect, request, flash, session, js
 from flask_sqlalchemy import SQLAlchemy
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
+import requests
+import os
 
 from model import User, Trail, User_Trail, db, connect_to_db
+
+GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
+HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
 
 app = Flask(__name__)
 
@@ -146,24 +151,40 @@ def log_out_user():
 def search_for_trails():
     """Something goes here"""
 
-    return render_template("search.html")
+    search_terms = request.args.get("search")
+    api_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    payload = {
+        "address": search_terms,
+        "key": GOOGLE_MAPS_KEY
+    }
+    r = requests.get(api_url, params=payload)
+
+    response = r.json()
+
+    lat_log = response["results"][0]["geometry"]["location"]
+
+    hiking_api_url = "https://www.hikingproject.com/data/get-trails"
+
+    payload = {
+        "lat": lat_log["lat"],
+        "lon": lat_log["lng"],
+        "key": HIKING_PROJECT_KEY
+    }
+
+    r2 = requests.get(hiking_api_url, params=payload)
+
+    print(r2.url)
+
+    response2 = r2.json()
+
+    return response2
 
 
-@app.route("/trail")
+@app.route("/trail/<int:trail_id>")
 def display_trail_info():
     """Display trail information page"""
 
-    return render_template("trail.html")
-
-
-@app.route("/test")
-def return_first_letter():
-
-    word = request.args.get("text")
-
-    print(word)
-
-    return jsonify(word[0])
+    return render_template("trail.html", trail_id=trail_id)
 
 
 if __name__ == "__main__":
