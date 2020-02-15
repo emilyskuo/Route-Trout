@@ -169,7 +169,26 @@ def search_for_trails():
 def display_trail_info(trail_id):
     """Display trail information page"""
 
-    return render_template("trail.html", trail_id=trail_id)
+    trail = Trail.query.get(trail_id)
+
+    return render_template("trail.html", trail=trail, GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+
+
+
+@app.route("/json/latlongbyid/<trail_name>")
+def get_lat_long_by_trail_id(trail_name):
+    """Return json lat/long coordinates of a trail given its trail id"""
+
+    trail = Trail.query.filter_by(trail_name=trail_name).first()
+    lat = trail.lat
+    long = trail.long
+
+    lat_long = {
+        "lat": lat,
+        "lng": long
+    }
+
+    return jsonify(lat_long)
 
 
 if __name__ == "__main__":
