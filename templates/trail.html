@@ -17,7 +17,7 @@
 {% block content %}
 
 <div class="container-fluid">
-    <h1>{{trail.trail_name}}</h1>
+    <h1 id="trail-name">{{trail.trail_name}}</h1>
     <img src={{trail.img_lg_url}}>
     <p>{{trail.description}}</p>
     <p>Length: {{trail.length}}</p>
@@ -31,7 +31,7 @@
 
 <div id="map-container"></div>
 
-<script>
+<!-- <script>
 
     const long = "{{trail.long}}"
     const latt = "{{trail.lat}}"
@@ -62,7 +62,9 @@ function initMap() {
     );
 }
 
-</script>
+
+</script> -->
+<script src="/static/displaymap.js"></script>
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_KEY}}&callback=initMap">
 </script>
