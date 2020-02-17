@@ -44,7 +44,8 @@ def register_user():
     password = request.form.get("password")
 
 # Validate if username or email already exists in the users table in database
-    if not User.query.filter((User.email == email) | (User.username == username)).all():
+    if not User.query.filter((User.email == email) |
+                             (User.username == username)).all():
 
         user = User(username=username, email=email, password=password)
 
@@ -80,7 +81,8 @@ def log_in_user():
     password = request.form.get("password")
 
     # Validate that user's username and password match database
-    if User.query.filter((User.username == username) & (User.password == password)).all():
+    if User.query.filter((User.username == username) &
+                         (User.password == password)).all():
         session["username"] = username
         flash("Login successful")
 
@@ -151,7 +153,8 @@ def log_out_user():
 
 @app.route("/search")
 def search_for_trails():
-    """Search for trails given a location, seed trails into database, and return json response"""
+    """Search for trails given a location, seed trails into database, and
+    return json response"""
 
     search_terms = request.args.get("search")
     lat_long = call_geocoding_api(search_terms)
@@ -171,8 +174,8 @@ def display_trail_info(trail_id):
 
     trail = Trail.query.get(trail_id)
 
-    return render_template("trail.html", trail=trail, GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
-
+    return render_template("trail.html", trail=trail,
+                           GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
 @app.route("/json/latlongbyid/<trail_name>")
