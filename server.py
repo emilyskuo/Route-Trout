@@ -151,18 +151,34 @@ def log_out_user():
     return redirect("/")
 
 
-@app.route("/search")
-def search_for_trails():
+@app.route("/json/search")
+def return_json_search_results():
     """Search for trails given a location, seed trails into database, and
     return json response"""
 
-    search_terms = request.args.get("search")
+    search_terms = request.args.get("search") 
     lat_long = call_geocoding_api(search_terms)
     response = call_hiking_project_api(lat_long)
     seed_trails_into_db(response)
 
-    return jsonify(response["trails"])
+    json_response = jsonify(response["trails"])
 
+    trail_list = [trail["id"] for trail in response["trails"]]
+
+    session["trail_list"] = trail_list
+
+    print(session["trail_list"])
+
+    return json_response
+
+
+@app.route("/search")
+def display_search_results():
+    """Display search results"""
+
+    search_terms = request.args.get("search")
+
+    return render_template("search.html")
 
 # modularize API calls, maybe put them in a helper functions file,
 # call them here, and serve them as json
@@ -178,11 +194,11 @@ def display_trail_info(trail_id):
                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
-@app.route("/json/latlongbyid/<trail_name>")
-def get_lat_long_by_trail_id(trail_name):
+@app.route("/json/latlongbyid/<trail_id>")
+def get_lat_long_by_trail_id(trail_id):
     """Return json lat/long coordinates of a trail given its trail id"""
 
-    trail = Trail.query.filter_by(trail_name=trail_name).first()
+    trail = Trail.query.get(trail_id)
     lat = trail.lat
     long = trail.long
 
