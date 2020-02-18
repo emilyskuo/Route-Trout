@@ -1,11 +1,12 @@
 "use strict";
 
-const trail_name = $("#trail-name").html();
+const path = window.location.pathname
+const trail_id = path.slice(7)
 
-console.log(trail_name);
+console.log(trail_id)
 
 function initMap() {
-    $.get(`/json/latlongbyid/${trail_name}`, (res) => {
+    $.get(`/json/latlongbyid/${trail_id}`, (res) => {
         const map = new google.maps.Map(
             document.querySelector("#map-container"), {
                 center: res,
