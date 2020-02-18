@@ -19,39 +19,11 @@
 
 <div id="map-container"></div>
 
-<script>
-    const trails = "{{trail_list}}";
-
-    console.log(trails)
-
-    const fourPassLoop = {
-        lat: 39.0985,
-        lng: -106.9407
-    };
-
-    function initMap() {
-        const map = new google.maps.Map(
-            document.getElementById("map-container"), 
-            {zoom: 10, 
-            center: fourPassLoop
-            }
-        );
-        const marker = new google.maps.Marker(
-            {position: fourPassLoop, 
-             map: map
-            }
-        );
-    }
-
-</script>
-
+<script src="/static/searchresults.js"></script>
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEbDche9_E-5BxgMMda3bYYvWSxY-po5g&callback=initMap">
 </script>
 
 
-{% for trail in trail_list %}
-    <p>{{trail}}</p>
-    <p>{{trail.trail_name}}</p>
-{% endfor %}
+
 {% endblock %}
