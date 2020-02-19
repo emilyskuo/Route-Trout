@@ -10,8 +10,8 @@ const path1 = window.location.pathname
 const trail_id1 = path1.slice(7)
 
 saveButton.on("click", () => {
-    alert("button clicked");
     $.post("/user/save-trail", {trail_id: trail_id1}, (res) => {
-        console.log(res);
+        alert(res);
+        saveButton.addClass("disabled");
         });
 });
