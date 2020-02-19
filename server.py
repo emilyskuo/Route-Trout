@@ -150,13 +150,13 @@ def log_out_user():
 
     return redirect("/")
 
+
 @app.route("/search")
 def display_search_results():
     """Display search results"""
 
-    search_terms = request.args.get("search")
-
     return render_template("search.html", GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+
 
 # modularize API calls, maybe put them in a helper functions file,
 # call them here, and serve them as json
@@ -175,7 +175,7 @@ def return_json_search_results():
     """Search for trails given a location, seed trails into database, and
     return json response"""
 
-    search_terms = request.args.get("search") 
+    search_terms = request.args.get("search")
     lat_long = call_geocoding_api(search_terms)
     response = call_hiking_project_api(lat_long)
     seed_trails_into_db(response)
@@ -189,7 +189,6 @@ def return_json_search_results():
     print(session["trail_list"])
 
     return json_response
-
 
 
 @app.route("/trail/<int:trail_id>")

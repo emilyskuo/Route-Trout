@@ -55,8 +55,7 @@ function initMap() {
                     map.setZoom(8);
                     map.setCenter(res);
                 })
-
-                }
-            });
-            });
-    }
+            }
+        });
+    });
+}
