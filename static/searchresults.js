@@ -40,10 +40,19 @@ function initMap() {
                         lng: Number(trail.longitude),
                         lat: Number(trail.latitude)
                     },
-                    map: map
+                    map: map,
+                    title: trail.name
                     }
                 );
-            }
-        });
-    });
-}
+                const infowindow = new google.maps.InfoWindow({
+                    content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</li>`,
+                });
+                marker.addListener("click", function() {
+                    map.setZoom(11);
+                    map.setCenter(marker.getPosition());
+                    infowindow.open(marker.get("map"), marker);
+                });
+                }
+            });
+            });
+    }
