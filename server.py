@@ -5,6 +5,7 @@ from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
 import os
+from datetime import datetime
 
 from model import User, Trail, User_Trail, db, connect_to_db
 from helperfunctions import (call_geocoding_api, call_hiking_project_api,
@@ -215,6 +216,24 @@ def get_lat_long_by_trail_id(trail_id):
     }
 
     return jsonify(lat_long)
+
+
+@app.route("/user/save-trail", methods=["POST"])
+def save_trail_to_user_list():
+    """Instantiate a User-Trail instance"""
+
+    username = session.get("username")
+    user_id = (User.query.filter_by(username=username).first()).user_id
+    trail_id = request.form.get("trail_id")
+    date_added = datetime.now()
+
+    saved_trail = User_Trail(user_id=user_id, trail_id=trail_id,
+                             date_added=date_added)
+
+    db.session.add(saved_trail)
+    db.session.commit()
+
+    return "Trail added"
 
 
 if __name__ == "__main__":
