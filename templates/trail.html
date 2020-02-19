@@ -24,47 +24,24 @@
     <p>Difficulty: {{trail.difficulty}}</p>
     <p>Location: {{trail.city}}, {{trail.state}}</p>
 
-    <button type="button" class="btn btn-primary">Save this trail</button>
-    <button type="button" class="btn btn-primary">Mark the trail as completed</button>
+    <button type="button" class="btn btn-primary" id="save-button">
+        Save this trail
+    </button>
+    <button type="button" class="btn btn-primary" id="complete-button">
+        Mark the trail as completed
+    </button>
 
 </div>
 
 <div id="map-container"></div>
 
-<!-- <script>
+<!-- Script to capture interaction with save & complete buttons on trail pages -->
+<script src="/static/trailpagebuttons.js"></script>
 
-    const long = "{{trail.long}}"
-    const latt = "{{trail.lat}}"
-
-    console.log(long, latt)
-
-    const numLong = Number(long)
-    const numLat = Number(latt)
-
-    console.log(numLong, numLat)
-
-    const current_trail = {
-    lat: numLat,
-    lng: numLong
-};
-
-function initMap() {
-    const map = new google.maps.Map(
-        document.getElementById("map-container"), 
-        {zoom: 10, 
-        center: current_trail
-        }
-    );
-    const marker = new google.maps.Marker(
-        {position: current_trail, 
-         map: map
-        }
-    );
-}
-
-
-</script> -->
+<!-- Script to initialize Google map & place marker -->
 <script src="/static/displaymap.js"></script>
+
+<!-- Google Maps JS API script -->
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_KEY}}&callback=initMap">
 </script>
