@@ -178,7 +178,7 @@ def display_search_results():
 
     search_terms = request.args.get("search")
 
-    return render_template("search.html")
+    return render_template("search.html", GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 # modularize API calls, maybe put them in a helper functions file,
 # call them here, and serve them as json
