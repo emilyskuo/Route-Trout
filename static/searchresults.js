@@ -19,17 +19,13 @@ function initMap() {
     );
 }
 
-
-console.log(window.location)
-console.log(window.location.pathname)
-console.log(window.location.search)
-
-let params = (new URL(document.location)).searchParams;
-let search = params.get("search");
-
-console.log(params)
-console.log(search)
+const params = (new URL(document.location)).searchParams;
+const search = params.get("search");
 
 $.get(`/json/search`, {search: search}, (res) => {
     console.log(res);
+    for (const trail of res) {
+        console.log(trail.name);
+        $("#trail-list").append(`<li><a href="/trail/${trail.id}">${trail.name}</li>`);
+    }
 });
