@@ -150,6 +150,25 @@ def log_out_user():
 
     return redirect("/")
 
+@app.route("/search")
+def display_search_results():
+    """Display search results"""
+
+    search_terms = request.args.get("search")
+
+    return render_template("search.html", GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+
+# modularize API calls, maybe put them in a helper functions file,
+# call them here, and serve them as json
+# then use ajax requests to update data on client side
+
+@app.route("/json/search-coords")
+def get_search_coordinates():
+    search_terms = request.args.get("search")
+    lat_long = call_geocoding_api(search_terms)
+
+    return jsonify(lat_long)
+
 
 @app.route("/json/search")
 def return_json_search_results():
@@ -172,17 +191,6 @@ def return_json_search_results():
     return json_response
 
 
-@app.route("/search")
-def display_search_results():
-    """Display search results"""
-
-    search_terms = request.args.get("search")
-
-    return render_template("search.html", GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
-
-# modularize API calls, maybe put them in a helper functions file,
-# call them here, and serve them as json
-# then use ajax requests to update data on client side
 
 @app.route("/trail/<int:trail_id>")
 def display_trail_info(trail_id):
