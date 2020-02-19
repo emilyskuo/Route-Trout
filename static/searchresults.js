@@ -49,9 +49,15 @@ function initMap() {
                 });
                 marker.addListener("click", function() {
                     map.setZoom(11);
-                    map.setCenter(marker.getPosition());
+                    map.panTo(marker.getPosition());
                     infowindow.open(marker.get("map"), marker);
                 });
+                infowindow.addListener("closeclick", function() {
+                    infowindow.close();
+                    map.setZoom(8);
+                    map.setCenter(res);
+                })
+
                 }
             });
             });
