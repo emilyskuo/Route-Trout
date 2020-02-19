@@ -31,9 +31,7 @@ function initMap() {
             }
         );
         $.get(`/json/search`, {search: search}, (res2) => {
-            console.log(res2);
             for (const trail of res2) {
-                console.log(trail.name);
                 $("#trail-list").append(`<li><a href="/trail/${trail.id}">${trail.name}</li>`);
                 const marker = new google.maps.Marker(
                     {position: {
