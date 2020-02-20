@@ -19,6 +19,16 @@ saveButton.on("click", () => {
         });
 });
 
+unsaveButton.on("click", () => {
+    $.post("/user/unsave-trail", {trail_id: trail_id1}, (res) => {
+        alert(res);
+        unsaveButton.addClass("hidden");
+        saveButton.removeClass("hidden")
+        completeButton.removeClass("hidden")
+        uncompleteButton.addClass("hidden")
+        });
+});
+
 completeButton.on("click", () => {
     $.post("/user/complete-trail", {trail_id: trail_id1}, (res) => {
         alert(res);
