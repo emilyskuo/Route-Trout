@@ -240,9 +240,7 @@ def save_trail_to_user_list():
 
 @app.route("/user/complete-trail", methods=["POST"])
 def mark_saved_trail_as_complete():
-    """Update a User-Trail's is_completed attribute"""
-
-    print("hi")
+    """Update a User-Trail's is_completed attribute to True"""
 
     if "user_id" in session:
         user_id = session["user_id"]
@@ -272,6 +270,26 @@ def mark_saved_trail_as_complete():
     
     else:
         return "You must be signed in to save trails"
+
+
+@app.route("/user/uncomplete-trail", methods=["POST"])
+def unmark_saved_trail_as_complete():
+    """Update a User-Trail's is_completed attribute to False"""
+
+    user_id = session["user_id"]
+    trail_id = int(request.form.get("trail_id"))
+
+    saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
+                                            & (User_Trail.trail_id == trail_id)).first()
+    
+    print(saved_trail)
+
+    saved_trail.is_completed = False
+
+    db.session.add(saved_trail)
+    db.session.commit()
+
+    return "Trail unmarked as complete"
 
 
 if __name__ == "__main__":
