@@ -100,7 +100,14 @@ def show_account_options():
     """Display account options for logged in users"""
 
     if "user_id" in session:
-        return render_template("account.html")
+
+        saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+                                               & (User_Trail.is_completed == False)).all()
+
+        completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+                                                   & (User_Trail.is_completed == True)).all()
+        return render_template("account.html", saved_trails=saved_trails,
+                               completed_trails=completed_trails)
 
     else:
         flash("You need to be logged in to access that page")
