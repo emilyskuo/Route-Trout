@@ -84,7 +84,7 @@ def log_in_user():
     # Validate that user's username and password match database
     if User.query.filter((User.username == username) &
                          (User.password == password)).all():
-        session["username"] = username
+        session["user_id"] = (User.query.filter_by(username=username).one()).user_id
         flash("Login successful")
 
         return redirect("/")
@@ -112,7 +112,7 @@ def update_account_info():
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
 
-    user = User.query.filter_by(username=session["username"]).first()
+    user = User.query.get(session["user_id"])
 
     # Form fields are not required - only update database if text was entered
     # in that field
@@ -146,7 +146,7 @@ def update_account_info():
 def log_out_user():
     """Log out user"""
 
-    del session["username"]
+    del session["user_id"]
     flash("Logged out")
 
     return redirect("/")
@@ -222,18 +222,56 @@ def get_lat_long_by_trail_id(trail_id):
 def save_trail_to_user_list():
     """Instantiate a User-Trail instance"""
 
-    username = session.get("username")
-    user_id = (User.query.filter_by(username=username).first()).user_id
-    trail_id = request.form.get("trail_id")
-    date_added = datetime.now()
+    if "user_id" in session:
+        trail_id = request.form.get("trail_id")
+        date_added = datetime.now()
 
-    saved_trail = User_Trail(user_id=user_id, trail_id=trail_id,
-                             date_added=date_added)
+        saved_trail = User_Trail(user_id=session["user_id"], trail_id=trail_id,
+                                 date_added=date_added)
 
-    db.session.add(saved_trail)
-    db.session.commit()
+        db.session.add(saved_trail)
+        db.session.commit()
 
-    return "Trail added"
+        return "Trail added"
+
+    else:
+        return "You must sign in to save trails"
+
+
+@app.route("/user/complete-trail", methods=["POST"])
+def mark_saved_trail_as_complete():
+    """Update a User-Trail's is_completed attribute"""
+
+    print("hi")
+
+    if "user_id" in session:
+        user_id = session["user_id"]
+        trail_id = int(request.form.get("trail_id"))
+
+        saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
+                                              & (User_Trail.trail_id == trail_id)).first()
+        
+        print(saved_trail)
+
+        if saved_trail:
+            saved_trail.is_completed = True
+
+            db.session.add(saved_trail)
+            db.session.commit()
+
+        else:
+
+            date_added = datetime.now()
+            saved_trail = User_Trail(user_id=user_id, trail_id=trail_id,
+                                     date_added=date_added, is_completed=True)
+
+            db.session.add(saved_trail)
+            db.session.commit()
+
+        return "Trail marked as complete"
+    
+    else:
+        return "You must be signed in to save trails"
 
 
 if __name__ == "__main__":
