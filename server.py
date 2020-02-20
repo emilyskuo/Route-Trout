@@ -152,6 +152,17 @@ def log_out_user():
     return redirect("/")
 
 
+@app.route("/user/loggedin")
+def is_user_logged_in():
+    """Check if user is logged in"""
+
+    if "user_id" in session:
+        return "true"
+
+    else:
+        return "false"
+
+
 @app.route("/search")
 def display_search_results():
     """Display search results"""
