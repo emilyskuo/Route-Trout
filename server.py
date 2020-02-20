@@ -82,9 +82,10 @@ def log_in_user():
     password = request.form.get("password")
 
     # Validate that user's username and password match database
-    if User.query.filter((User.username == username) &
-                         (User.password == password)).all():
-        session["user_id"] = (User.query.filter_by(username=username).one()).user_id
+    user = User.query.filter((User.username == username) &
+                             (User.password == password)).first()
+    if user:
+        session["user_id"] = user.user_id
         flash("Login successful")
 
         return redirect("/")
@@ -98,7 +99,12 @@ def log_in_user():
 def show_account_options():
     """Display account options for logged in users"""
 
-    return render_template("account.html")
+    if "user_id" in session:
+        return render_template("account.html")
+
+    else:
+        flash("You need to be logged in to access that page")
+        return redirect("/login")
 
 
 @app.route("/account", methods=["POST"])
@@ -146,8 +152,9 @@ def update_account_info():
 def log_out_user():
     """Log out user"""
 
-    del session["user_id"]
-    flash("Logged out")
+    if "user_id" in session:
+        del session["user_id"]
+        flash("Logged out")
 
     return redirect("/")
 
@@ -273,7 +280,7 @@ def mark_saved_trail_as_complete():
 
         saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
                                               & (User_Trail.trail_id == trail_id)).first()
-        
+
         print(saved_trail)
 
         if saved_trail:
@@ -292,7 +299,7 @@ def mark_saved_trail_as_complete():
             db.session.commit()
 
         return "Trail marked as complete"
-    
+
     else:
         return "You must be signed in to save trails"
 
@@ -305,8 +312,8 @@ def unmark_saved_trail_as_complete():
     trail_id = int(request.form.get("trail_id"))
 
     saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
-                                            & (User_Trail.trail_id == trail_id)).first()
-    
+                                          & (User_Trail.trail_id == trail_id)).first()
+
     print(saved_trail)
 
     saved_trail.is_completed = False
