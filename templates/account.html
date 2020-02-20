@@ -7,38 +7,66 @@
 
 {% block content %}
 
-<div id="update-acct-info" class="col">
-  <h2>Tell us more about yourself!</h2>
-  <form class="form-group" action="/account" method="POST">
-    <div class="form-row">
-      <div class="col">
-        <label for="fname">First Name</label>
-          <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+<div class="row">
+  <div id="update-acct-info" class="col">
+    <h2>Tell us more about yourself!</h2>
+    <form class="form-group" action="/account" method="POST">
+      <div class="form-row">
+        <div class="col">
+          <label for="fname">First Name</label>
+            <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+        </div>
+        <div class="col">
+          <label for="lname">Last Name</label>
+            <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+        </div>
       </div>
-      <div class="col">
-        <label for="lname">Last Name</label>
-          <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
-      </div>
-    </div>
-    <label for="cell">Cellphone Number</label>
-      <input type="tel" class="form-control" id="cell" name="cell" placeholder="eg 123-456-7890" 
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-    <div class="form-row">
-      <div class="col">
-        <label for="city">City</label>
-        <input type="text" class="form-control" id="city" name="city" placeholder="City">
-      </div>
-      <div class="col">
-        <label for="state">City</label>
-        <input type="text" class="form-control" id="state" name="state" placeholder="State" maxlength=2>
-      </div>
-      <div class="col">
-        <label for="zipcode">Zip Code</label>
-        <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
-      </div>
-    </div>   
-    <input type="submit" class="btn btn-primary"> 
-  </form>
+      <label for="cell">Cellphone Number</label>
+        <input type="tel" class="form-control" id="cell" name="cell" placeholder="eg 123-456-7890" 
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+      <div class="form-row">
+        <div class="col">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" name="city" placeholder="City">
+        </div>
+        <div class="col">
+          <label for="state">City</label>
+          <input type="text" class="form-control" id="state" name="state" placeholder="State" maxlength=2>
+        </div>
+        <div class="col">
+          <label for="zipcode">Zip Code</label>
+          <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
+        </div>
+      </div>   
+      <input type="submit" class="btn btn-primary"> 
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col" id="saved-trails-list-div">
+    <h4>Saved Trails:</h4>
+    {% if saved_trails %}
+      <ul id="saved-trails-list-div-li">
+        {% for trail in saved_trails %}
+        <li><a href="/trail/{{trail.trail_id}}">{{trail.trail.trail_name}}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p>No saved trails!</p>
+    {% endif %}
+  </div>
+  <div class="col" id="completed-trails-list-div">
+    <h4>Completed Trails:</h4>
+    {% if completed_trails %}
+      <ul id="completed-trails-list-div-li">
+        {% for trail in completed_trails %}
+        <li><a href="/trail/{{trail.trail_id}}">{{trail.trail.trail_name}}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <p>No completed trails!</p>
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}
