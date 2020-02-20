@@ -203,18 +203,23 @@ def return_json_search_results():
 
     search_terms = request.args.get("search")
     lat_long = call_geocoding_api(search_terms)
-    response = call_hiking_project_api(lat_long)
-    seed_trails_into_db(response)
 
-    json_response = jsonify(response["trails"])
+    if lat_long != "Invalid search terms":
+        response = call_hiking_project_api(lat_long)
+        seed_trails_into_db(response)
 
-    trail_list = [trail["id"] for trail in response["trails"]]
+        json_response = jsonify(response["trails"])
 
-    session["trail_list"] = trail_list
+        trail_list = [trail["id"] for trail in response["trails"]]
 
-    print(session["trail_list"])
+        session["trail_list"] = trail_list
 
-    return json_response
+        print(session["trail_list"])
+
+        return json_response
+
+    else:
+        return "Invalid search terms"
 
 
 @app.route("/trail/<int:trail_id>")
