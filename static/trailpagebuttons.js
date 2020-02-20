@@ -2,6 +2,8 @@
 
 const saveButton = $("#save-button")
 const completeButton = $("#complete-button")
+const unsaveButton = $("#unsave-button")
+const uncompleteButton = $("#uncomplete-button")
 
 // Grab pathname from browser
 const path1 = window.location.pathname
@@ -12,7 +14,8 @@ const trail_id1 = path1.slice(7)
 saveButton.on("click", () => {
     $.post("/user/save-trail", {trail_id: trail_id1}, (res) => {
         alert(res);
-        saveButton.addClass("disabled");
+        saveButton.addClass("hidden");
+        unsaveButton.removeClass("hidden")
         });
 });
 
@@ -20,7 +23,8 @@ completeButton.on("click", () => {
     console.log("hi")
     $.post("/user/complete-trail", {trail_id: trail_id1}, (res) => {
         alert(res);
-        completeButton.addClass("disabled");
-        saveButton.addClass("disabled");
+        completeButton.addClass("hidden");
+        saveButton.addClass("hidden");
+        uncompleteButton.removeClass("hidden")
         });
 });
