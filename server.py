@@ -238,6 +238,20 @@ def save_trail_to_user_list():
         return "You must sign in to save trails"
 
 
+@app.route("/user/unsave-trail", methods=["POST"])
+def unsave_trail_to_user_list():
+    """Remove a User-Trail instance"""
+
+    trail_id = request.form.get("trail_id")
+    trail_to_delete = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+                                              & (User_Trail.trail_id == trail_id)).first()
+
+    db.session.delete(trail_to_delete)
+    db.session.commit()
+
+    return "Trail removed"
+
+
 @app.route("/user/complete-trail", methods=["POST"])
 def mark_saved_trail_as_complete():
     """Update a User-Trail's is_completed attribute to True"""
