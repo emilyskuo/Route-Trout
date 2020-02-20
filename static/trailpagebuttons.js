@@ -15,3 +15,12 @@ saveButton.on("click", () => {
         saveButton.addClass("disabled");
         });
 });
+
+completeButton.on("click", () => {
+    console.log("hi")
+    $.post("/user/complete-trail", {trail_id: trail_id1}, (res) => {
+        alert(res);
+        completeButton.addClass("disabled");
+        saveButton.addClass("disabled");
+        });
+});
