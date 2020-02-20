@@ -19,9 +19,14 @@ def call_geocoding_api(search_terms):
 
     r = requests.get(api_url, params=payload)
     response = r.json()
-    lat_long = response["results"][0]["geometry"]["location"]
 
-    return lat_long
+    if "error_message" not in response:
+        lat_long = response["results"][0]["geometry"]["location"]
+
+        return lat_long
+
+    else:
+        return "Invalid search terms"
 
 
 def call_hiking_project_api(lat_long):
