@@ -10,6 +10,10 @@
      height: 400px;  /* The height is 400 pixels */
      width: 100%;  /* The width is the width of the web page */
     }
+
+    .hidden {
+        display: none;
+    }
  </style>
  
 {% endblock %}
@@ -27,8 +31,15 @@
     <button type="button" class="btn btn-primary" id="save-button">
         Save this trail
     </button>
+    <button type="button" class="btn btn-primary hidden" id="unsave-button">
+        Unsave this trail
+    </button>
+
     <button type="button" class="btn btn-primary" id="complete-button">
         Mark the trail as completed
+    </button>
+    <button type="button" class="btn btn-primary hidden" id="uncomplete-button">
+        Unmark the trail as completed
     </button>
 
 </div>
