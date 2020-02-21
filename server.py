@@ -210,12 +210,6 @@ def return_json_search_results():
 
         json_response = jsonify(response["trails"])
 
-        trail_list = [trail["id"] for trail in response["trails"]]
-
-        session["trail_list"] = trail_list
-
-        print(session["trail_list"])
-
         return json_response
 
     else:
