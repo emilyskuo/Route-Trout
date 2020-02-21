@@ -19,7 +19,6 @@ function initMap() {
                 center: res
                 }
             );
-
             const addMarker = (markerInfo) => {
                 const marker = new google.maps.Marker(markerInfo);
                 markerArray.push(marker);
@@ -59,12 +58,13 @@ function initMap() {
                 getSearchResults(search);
             });
 
-            // prevButton.on("click", () => {
-            //     start -= 10;
-            //     stop -= 10;
-            //     $("#trail-list").empty()
-            //     getSearchResults(search);
-            // });
+            prevButton.on("click", () => {
+                start -= 10;
+                stop -= 10;
+                deleteMarkers();
+                $("#trail-list").empty()
+                getSearchResults(search);
+            });
 
                     // const infowindow = new google.maps.InfoWindow({
                     //     content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</li>`,
