@@ -79,11 +79,6 @@ function initMap() {
                 $("#trail-list").empty()
                 getSearchResults(search);
             });
-
-
-                }
-            });
         }
-    // });}
-
-console.log(markerArray)
+    });
+}
