@@ -37,6 +37,7 @@ def call_hiking_project_api(lat_long):
     payload = {
         "lat": lat_long["lat"],
         "lon": lat_long["lng"],
+        "maxResults": 30,
         "key": HIKING_PROJECT_KEY
     }
 
