@@ -19,9 +19,22 @@ function initMap() {
                 center: res
                 }
             );
-            const addMarker = (markerInfo) => {
+            const addMarker = (markerInfo, trail) => {
                 const marker = new google.maps.Marker(markerInfo);
                 markerArray.push(marker);
+                const infowindow = new google.maps.InfoWindow({
+                    content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</li>`,
+                });
+                marker.addListener("click", () => {
+                    map.setZoom(11);
+                    map.panTo(marker.getPosition());
+                    infowindow.open(marker.get("map"), marker);
+                });
+                infowindow.addListener("closeclick", () => {
+                    infowindow.close();
+                    map.setZoom(8);
+                    map.setCenter(res);
+                });
             };
             const setMarkersOnMap = (map) => {
                 for (let i = 0; i < markerArray.length; i++) {
@@ -34,21 +47,22 @@ function initMap() {
             }
             const getSearchResults = (searchTerms) => {
                 $.get(`/json/search`, {search: searchTerms}, (res2) => {
-                let list_slice = res2.slice(start, stop);
-                for (const trail of list_slice) {
-                    $("#trail-list").append(`<li><a href="/trail/${trail.id}">${trail.name}</li>`);
-                    const markerInfo = {
-                        position: {
-                            lng: Number(trail.longitude),
-                            lat: Number(trail.latitude)
-                        },
-                        map: map,
-                        title: trail.name
-                    };
-                    addMarker(markerInfo);
-                }
-                setMarkersOnMap(map);
-            })};
+                    let list_slice = res2.slice(start, stop);
+                    for (const trail of list_slice) {
+                        $("#trail-list").append(`<li><a href="/trail/${trail.id}">${trail.name}</li>`);
+                        const markerInfo = {
+                            position: {
+                                lng: Number(trail.longitude),
+                                lat: Number(trail.latitude)
+                            },
+                            map: map,
+                            title: trail.name
+                        };
+                        addMarker(markerInfo, trail);
+                    }
+                    setMarkersOnMap(map);
+                })
+            };
             getSearchResults(search);
             nextButton.on("click", () => {
                 start += 10;
@@ -66,22 +80,10 @@ function initMap() {
                 getSearchResults(search);
             });
 
-                    // const infowindow = new google.maps.InfoWindow({
-                    //     content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</li>`,
-                    // });
-                    // marker.addListener("click", function() {
-                    //     map.setZoom(11);
-                    //     map.panTo(marker.getPosition());
-                    //     infowindow.open(marker.get("map"), marker);
-                    // });
-                    // infowindow.addListener("closeclick", function() {
-                    //     infowindow.close();
-                    //     map.setZoom(8);
-                    //     map.setCenter(res);
-            //         })
-            //     }
-            // });
+
+                }
+            });
         }
-    });}
+    // });}
 
 console.log(markerArray)
