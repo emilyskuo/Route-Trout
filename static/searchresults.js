@@ -47,6 +47,12 @@ function initMap() {
             }
             const getSearchResults = (searchTerms) => {
                 $.get(`/json/search`, {search: searchTerms}, (res2) => {
+                    if (start <= 0) {
+                        $("#prev-button").addClass("hidden");
+                    }
+                    if (stop >= res2.length){
+                        $("#next-button").addClass("hidden");
+                    }
                     let list_slice = res2.slice(start, stop);
                     for (const trail of list_slice) {
                         $("#trail-list").append(`<li><a href="/trail/${trail.id}">${trail.name}</li>`);
@@ -70,6 +76,7 @@ function initMap() {
                 deleteMarkers();
                 $("#trail-list").empty()
                 getSearchResults(search);
+                $("#prev-button").removeClass("hidden");
             });
 
             prevButton.on("click", () => {
@@ -78,7 +85,9 @@ function initMap() {
                 deleteMarkers();
                 $("#trail-list").empty()
                 getSearchResults(search);
+                $("#next-button").removeClass("hidden");
             });
         }
     });
 }
+
