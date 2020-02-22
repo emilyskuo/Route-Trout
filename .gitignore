@@ -2,3 +2,4 @@ env
 *pycache*
 secrets.sh
 .DS_Store
+*.sql
