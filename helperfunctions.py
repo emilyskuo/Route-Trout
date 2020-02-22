@@ -20,11 +20,12 @@ def call_geocoding_api(search_terms):
     r = requests.get(api_url, params=payload)
     response = r.json()
 
+    # Check to see if search was valid
     if "error_message" not in response:
         lat_long = response["results"][0]["geometry"]["location"]
-
         return lat_long
 
+    # Return error message if message invalid
     else:
         return "Invalid search terms"
 
@@ -48,9 +49,8 @@ def call_hiking_project_api(lat_long):
 
 
 def seed_trails_into_db(api_response):
-    """Take Hiking Project API response and seed trail data into database"""
-
-    trail_list = []
+    """Take Hiking Project API response and seed trail data into database if
+    trail does not already exist"""
 
     for trail in api_response["trails"]:
         trail_id = trail["id"]
@@ -73,12 +73,5 @@ def seed_trails_into_db(api_response):
                               long=long, lat=lat, city=city, state=state,
                               description=description)
 
-            trail_list.append(new_trail)
-
             db.session.add(new_trail)
             db.session.commit()
-
-        else:
-            trail_list.append(Trail.query.get(trail_id))
-
-    return trail_list
