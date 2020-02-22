@@ -101,16 +101,21 @@ def show_account_options():
 
     if "user_id" in session:
 
+        # Query database to find User_trail objects belonging to user
+        # & not marked complete
         saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
                                                & (User_Trail.is_completed == False)).all()
-
+        # Query database to find User_trail objects belonging to user
+        # & marked complete
         completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
                                                    & (User_Trail.is_completed == True)).all()
+
         return render_template("account.html", saved_trails=saved_trails,
                                completed_trails=completed_trails)
 
     else:
         flash("You need to be logged in to access that page")
+
         return redirect("/login")
 
 
@@ -184,12 +189,10 @@ def display_search_results():
     return render_template("search.html", GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
-# modularize API calls, maybe put them in a helper functions file,
-# call them here, and serve them as json
-# then use ajax requests to update data on client side
-
 @app.route("/json/search-coords")
 def get_search_coordinates():
+    """Call Google Maps Geocoding API with search terms & return json of coordinates"""
+
     search_terms = request.args.get("search")
     lat_long = call_geocoding_api(search_terms)
 
@@ -287,8 +290,6 @@ def mark_saved_trail_as_complete():
         saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
                                               & (User_Trail.trail_id == trail_id)).first()
 
-        print(saved_trail)
-
         if saved_trail:
             saved_trail.is_completed = True
 
@@ -319,8 +320,6 @@ def unmark_saved_trail_as_complete():
 
     saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
                                           & (User_Trail.trail_id == trail_id)).first()
-
-    print(saved_trail)
 
     saved_trail.is_completed = False
 
