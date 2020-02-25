@@ -1,7 +1,7 @@
 """Create database classes & tables for hiking trails app"""
 
 from flask_sqlalchemy import SQLAlchemy
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -14,7 +14,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    password = db.Column(db.String(200), nullable=False)
+    password_hash = db.Column(db.String(128))
     fname = db.Column(db.String(50), nullable=True)
     lname = db.Column(db.String(50), nullable=True)
     cell = db.Column(db.String(15), nullable=True)
@@ -26,6 +26,16 @@ class User(db.Model):
         """Define representation of user objects"""
 
         return f"<User id={self.user_id}, username={self.username}>"
+
+    def set_password(self, password):
+        """Generate hash for users' passwords"""
+
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Check if password matches with password hash"""
+
+        return check_password_hash(self.password_hash, password)
 
 
 class Trail(db.Model):
@@ -74,10 +84,10 @@ class User_Trail(db.Model):
         return f"<UT id={self.ut_id}, user_id={self.user_id}, trail_id={self.trail_id}>"
 
 
-def connect_to_db(app):
+def connect_to_db(app, db_name='postgresql:///hikingapp'):
     """Connect database to Flask app"""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///hikingapp'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///testdb'
     app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
     db.app = app
     db.init_app(app)
@@ -86,6 +96,6 @@ def connect_to_db(app):
 # For testing database & relations, run this file interactively
 if __name__ == "__main__":
     from server import app
-    connect_to_db(app)
+    connect_to_db(app, 'postgresql:///testdb')
 
     print("Connected to db")
