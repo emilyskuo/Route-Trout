@@ -162,6 +162,31 @@ def update_account_info():
     return redirect("/account")
 
 
+@app.route("/changepassword", methods=["POST"])
+def change_user_password():
+    """Change a user's password"""
+
+    old_pass = request.form.get("oldpass")
+    new_pass = request.form.get("newpass")
+
+    user = User.query.get(session["user_id"])
+
+    if user.check_password(old_pass):
+        user.set_password(new_pass)
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash("Password successfully updated")
+
+        return redirect("/account")
+
+    else:
+        flash("Incorrect password, please try again")
+
+        return redirect("/account")
+
+
 @app.route("/logout")
 def log_out_user():
     """Log out user"""
