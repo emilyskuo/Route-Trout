@@ -15,12 +15,12 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
     password_hash = db.Column(db.String(128))
-    fname = db.Column(db.String(50), nullable=True)
-    lname = db.Column(db.String(50), nullable=True)
-    cell = db.Column(db.String(15), nullable=True)
-    city = db.Column(db.String(50), nullable=True)
-    state = db.Column(db.String(2), nullable=True)
-    zipcode = db.Column(db.String(5), nullable=True)
+    fname = db.Column(db.String(50))
+    lname = db.Column(db.String(50))
+    cell = db.Column(db.String(15))
+    city = db.Column(db.String(50))
+    state = db.Column(db.String(2))
+    zipcode = db.Column(db.String(5))
 
     def __repr__(self):
         """Define representation of user objects"""
@@ -46,16 +46,19 @@ class Trail(db.Model):
     trail_id = db.Column(db.Integer, primary_key=True)
     # Trail ids will be saved from Hiking Project API
     trail_name = db.Column(db.String(200), nullable=False)
-    length = db.Column(db.Float, nullable=False)
+    length = db.Column(db.Float)
     difficulty = db.Column(db.String(50))
     img_thumb_url = db.Column(db.String(200))
     img_lg_url = db.Column(db.String(200))
-    long = db.Column(db.Float, nullable=False)
-    lat = db.Column(db.Float, nullable=False)
+    long = db.Column(db.Float)
+    lat = db.Column(db.Float)
     city = db.Column(db.String(50))
     state = db.Column(db.String(50))
     description = db.Column(db.String(200))
-    # avg_user_rating = db.Column(db.Float)
+    ascent = db.Column(db.Float)
+    descent = db.Column(db.Float)
+    high_altitude = db.Column(db.Float)
+    low_altitude = db.Column(db.Float)
 
     def __repr__(self):
         """Define representation of trail objects"""
@@ -64,7 +67,9 @@ class Trail(db.Model):
 
 
 class User_Trail(db.Model):
-    """Users' saved trails for hiking app"""
+    """Users' saved trails for hiking app. 
+
+    Association table between Users and Trails"""
 
     __tablename__ = "user_trails"
     ut_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
@@ -73,7 +78,7 @@ class User_Trail(db.Model):
     trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"),
                          nullable=False)
     is_completed = db.Column(db.Boolean, default=False)
-    date_added = db.Column(db.DateTime, nullable=False)
+    date_added = db.Column(db.DateTime)
 
     user = db.relationship('User', backref='user_trails')
     trail = db.relationship('Trail', backref='user_trails')
@@ -82,6 +87,28 @@ class User_Trail(db.Model):
         """Define representation of user-trail objects"""
 
         return f"<UT id={self.ut_id}, user_id={self.user_id}, trail_id={self.trail_id}>"
+
+
+class Trip(db.Model):
+    """Trip data for users' trips"""
+
+    __tablename__ = "trips"
+
+    trip_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    trip_name = db.Column(db.String(100), nullable=False)
+    creator_id = db.Column(db.Integer, db.ForeignKey("users.user_id"),
+                           nullable=False)
+    trip_accommodations = db.Column(db.String(255))
+    accom_long = db.Column(db.Float)
+    accom_lat = db.Column(db.Float)
+    trip_start_date = db.Column(db.DateTime)
+    trip_end_date = db.Column(db.DateTime)
+    is_archived = db.Column(db.Boolean)
+
+    def __repr__(self):
+        """Define representation of trip objects"""
+
+        return f"<Trip name={self.trip_name}>"
 
 
 def connect_to_db(app, db_name='postgresql:///hikingapp'):
