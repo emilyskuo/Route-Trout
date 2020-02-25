@@ -7,6 +7,7 @@ from server import app
 
 from datetime import datetime
 
+
 def load_users():
     """Create user instances"""
 
@@ -18,15 +19,16 @@ def load_users():
 
     db.session.commit()
 
+
 def load_trails():
     """Create trail instances"""
 
     trail1 = Trail(trail_id=1234, trail_name="Sample trail", length=7, long=123.123, lat=123.123)
     trail2 = Trail(trail_id=12345, trail_name="Sample trail 2", length=3, long=321.123, lat=321.123)
-    
+
     db.session.add(trail1)
     db.session.add(trail2)
-    
+
     db.session.commit()
 
 
@@ -94,5 +96,3 @@ if __name__ == "__main__":
     set_val_user_trail_id()
 
     print("Sample data seeded")
-
-
