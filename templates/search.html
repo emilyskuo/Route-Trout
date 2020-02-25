@@ -7,7 +7,13 @@
 
 {% block content %}
 <h2>Hello</h2>
-
+<div class="form-group">
+  <label for="search-results-search"></label>
+  <form action="/search">
+    <input type="text" name="search" id="search-results-search" class="form-control">
+    <input type="submit" class="btn btn-primary" value="Search">
+  </form>
+</div>
 <div id="map-container"></div>
 
 <div id="trail-list-container">
