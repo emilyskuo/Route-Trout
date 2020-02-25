@@ -43,6 +43,18 @@
   </div>
 </div>
 <div class="row">
+  <div class="col">
+    <h2>Change your password:</h2>
+      <form class="form-group" action="/changepassword" method="POST">
+        <label for="oldpass">Current password</label>
+          <input type="password" class="form-control" id="oldpass" name="oldpass" placeholder="Current password">
+        <label for="newpass">New password</label>
+          <input type="password" class="form-control" id="newpass" name="newpass" placeholder="New password">
+        <input type="submit" class="btn btn-primary"> 
+      </form>
+  </div>
+</div>
+<div class="row">
   <div class="col" id="saved-trails-list-div">
     <h4>Saved Trails:</h4>
     {% if saved_trails %}
