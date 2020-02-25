@@ -103,7 +103,7 @@ class Trip(db.Model):
     accom_lat = db.Column(db.Float)
     trip_start_date = db.Column(db.DateTime)
     trip_end_date = db.Column(db.DateTime)
-    is_archived = db.Column(db.Boolean)
+    is_archived = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         """Define representation of trip objects"""
