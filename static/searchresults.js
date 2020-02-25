@@ -2,8 +2,12 @@
 
 const params = (new URL(document.location)).searchParams;
 const search = params.get("search");
+
+$("#search-results-search").attr("value", search);
+
 const nextButton = $("#next-button");
 const prevButton = $("#prev-button");
+
 let start = 0;
 let stop = 10;
 let markerArray = [];
