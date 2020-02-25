@@ -52,6 +52,25 @@ def call_hiking_project_api(lat_long):
     return response
 
 
+def convert_trail_difficulty(color_difficulty):
+    """Convert Hiking Project API's difficulty rating from color to words"""
+
+    if color_difficulty == "green":
+        difficulty = "Easy"
+    elif color_difficulty == "greenBlue":
+        difficulty = "Moderately Easy"
+    elif color_difficulty == "blue":
+        difficulty = "Intermediate"
+    elif color_difficulty == "blueBlack":
+        difficulty = "Somewhat Difficult"
+    elif color_difficulty == "black":
+        difficulty = "Difficult"
+    elif color_difficulty == "dblack":
+        difficulty = "Extremely Difficult"
+
+    return difficulty
+
+
 def seed_trails_into_db(api_response):
     """Take Hiking Project API response and seed trail data into database if
 
@@ -61,7 +80,7 @@ def seed_trails_into_db(api_response):
         trail_id = trail["id"]
         trail_name = trail["name"]
         length = trail["length"]
-        difficulty = trail["difficulty"]
+        difficulty = convert_trail_difficulty(trail["difficulty"])
         img_thumb_url = trail["imgSmall"]
         img_lg_url = trail["imgSmallMed"]
         long = trail["longitude"]
@@ -70,6 +89,10 @@ def seed_trails_into_db(api_response):
         city = location[0]
         state = location[1][1:]
         description = trail["summary"]
+        ascent = trail["ascent"]
+        descent = trail["descent"]
+        high_altitude = trail["high"]
+        low_altitude = trail["low"]
 
         if not Trail.query.filter_by(trail_id=trail_id).all():
             new_trail = Trail(trail_id=trail_id, trail_name=trail_name,
@@ -77,7 +100,9 @@ def seed_trails_into_db(api_response):
                               img_thumb_url=img_thumb_url,
                               img_lg_url=img_lg_url,
                               long=long, lat=lat, city=city, state=state,
-                              description=description)
+                              description=description, ascent=ascent,
+                              descent=descent, high_altitude=high_altitude,
+                              low_altitude=low_altitude)
 
             db.session.add(new_trail)
             db.session.commit()
