@@ -9,7 +9,9 @@ HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
 
 
 def call_geocoding_api(search_terms):
-    """Query Google Maps Geocoding API to convert search terms to long/lat coordinates"""
+    """Query Google Maps Geocoding API to convert search terms to
+
+    long/lat coordinates"""
 
     api_url = "https://maps.googleapis.com/maps/api/geocode/json"
     payload = {
@@ -31,7 +33,9 @@ def call_geocoding_api(search_terms):
 
 
 def call_hiking_project_api(lat_long):
-    """Query Hiking Project API to retrieve trail list given lat/long coordinates"""
+    """Query Hiking Project API to retrieve trail list given
+
+    lat/long coordinates"""
 
     hiking_api_url = "https://www.hikingproject.com/data/get-trails"
 
@@ -50,6 +54,7 @@ def call_hiking_project_api(lat_long):
 
 def seed_trails_into_db(api_response):
     """Take Hiking Project API response and seed trail data into database if
+
     trail does not already exist"""
 
     for trail in api_response["trails"]:
@@ -69,7 +74,8 @@ def seed_trails_into_db(api_response):
         if not Trail.query.filter_by(trail_id=trail_id).all():
             new_trail = Trail(trail_id=trail_id, trail_name=trail_name,
                               length=length, difficulty=difficulty,
-                              img_thumb_url=img_thumb_url, img_lg_url=img_lg_url,
+                              img_thumb_url=img_thumb_url,
+                              img_lg_url=img_lg_url,
                               long=long, lat=lat, city=city, state=state,
                               description=description)
 
