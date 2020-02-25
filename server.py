@@ -48,7 +48,9 @@ def register_user():
     if not User.query.filter((User.email == email) |
                              (User.username == username)).all():
 
-        user = User(username=username, email=email, password=password)
+        user = User(username=username, email=email)
+
+        user.set_password(password)
 
         db.session.add(user)
         db.session.commit()
@@ -81,10 +83,10 @@ def log_in_user():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # Validate that user's username and password match database
-    user = User.query.filter((User.username == username) &
-                             (User.password == password)).first()
-    if user:
+    # Validate that user's username exists in database
+    user = User.query.filter_by(username=username).first()
+
+    if user and user.check_password(password):
         session["user_id"] = user.user_id
         flash("Login successful")
 
