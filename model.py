@@ -134,7 +134,7 @@ class Trip_User(db.Model):
         return f"<Trip_user id={self.tu_id}>"
 
 
-class Trip_Trails(db.Model):
+class Trip_Trail(db.Model):
     """Trails associated with a given trip.
 
     Association table between Trail and Trip tables"""
@@ -160,7 +160,7 @@ class Trip_Trails(db.Model):
         return f"<Trip_trail id={self.tt_id}>"
 
 
-class Trip_Comments(db.Model):
+class Trip_Comment(db.Model):
     """Comments from users on a given trip."""
 
     __tablename__ = "trip_comments"
