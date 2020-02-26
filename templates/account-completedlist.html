@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Completed Trails{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col" id="completed-trails-list-div">
+      <h4>Completed Trails:</h4>
+      {% if completed_trails %}
+        <ul id="completed-trails-list-div-li">
+          {% for trail in completed_trails %}
+          <li><a href="/trail/{{trail.trail_id}}">{{trail.trail.trail_name}}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+          <p>No completed trails!</p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock %}
