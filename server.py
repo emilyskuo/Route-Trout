@@ -163,13 +163,13 @@ def update_account_info():
     return redirect("/account")
 
 
-@app.route("/changepassword")
+@app.route("/account/changepassword")
 def show_change_pass_form():
 
     return render_template("account-changepass.html")
 
 
-@app.route("/changepassword", methods=["POST"])
+@app.route("/account/changepassword", methods=["POST"])
 def change_user_password():
     """Change a user's password"""
 
@@ -215,8 +215,17 @@ def display_completed_trails():
     completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
                                                & (User_Trail.is_completed.is_(True))).all()
 
-    return render_template("account-savedlist.html",
+    return render_template("account-completedlist.html",
                            completed_trails=completed_trails)
+
+
+@app.route("/account/trips")
+def display_user_trips():
+    """Display a user's trips"""
+
+    user_trips = Trip_User.query.filter_by(user_id=session["user_id"]).all()
+
+    return render_template("account-trips.html", user_trips=user_trips)
 
 
 @app.route("/logout")
