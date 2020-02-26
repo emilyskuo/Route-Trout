@@ -367,6 +367,28 @@ def unmark_saved_trail_as_complete():
     return "Trail unmarked as complete"
 
 
+@app.route("/user/is-trail-saved/<trail_id>")
+def check_if_trail_saved_for_user(trail_id):
+    """For a given user, check if a trail is saved in user_trails"""
+
+    ut = User_Trail.query.filter((User_Trail.user_id == session["user_id"]) &
+                                 (User_Trail.trail_id == trail_id)).first()
+
+    response = {}
+
+    if ut:
+        response["saved"] = True
+        if ut.is_completed:
+            response["completed"] = True
+        else:
+            response["completed"] = False
+    else:
+        response["saved"] = False
+        response["completed"] = False
+
+    return jsonify(response)
+
+
 # ~~~~~ TRIP-RELATED ROUTES ~~~~~ #
 
 @app.route("/createnewtrip", methods=["GET"])
