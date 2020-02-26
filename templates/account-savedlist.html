@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Saved Trails{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col" id="saved-trails-list-div">
+      <h4>Saved Trails:</h4>
+      {% if saved_trails %}
+        <ul id="saved-trails-list-div-li">
+          {% for trail in saved_trails %}
+          <li><a href="/trail/{{trail.trail_id}}">{{trail.trail.trail_name}}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+          <p>No saved trails!</p>
+      {% endif %}
+    </div>
+</div>
+
+
+{% endblock %}
