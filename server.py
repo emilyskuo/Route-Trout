@@ -29,6 +29,8 @@ def index():
     return render_template("index.html")
 
 
+# ~~ ACCOUNT-RELATED ROUTES - registration, login, account info, logout ~~ #
+
 @app.route("/register")
 def reg_form():
     """Display registration form"""
@@ -209,6 +211,8 @@ def is_user_logged_in():
         return "false"
 
 
+# ~~ SEARCH-RELATED ROUTES ~~ #
+
 @app.route("/search")
 def display_search_results():
     """Display search results"""
@@ -218,7 +222,9 @@ def display_search_results():
 
 @app.route("/json/search-coords")
 def get_search_coordinates():
-    """Call Google Maps Geocoding API with search terms & return json of coordinates"""
+    """Call Google Maps Geocoding API with search terms & return json 
+
+    of coordinates"""
 
     search_terms = request.args.get("search")
     lat_long = call_geocoding_api(search_terms)
@@ -229,6 +235,7 @@ def get_search_coordinates():
 @app.route("/json/search")
 def return_json_search_results():
     """Search for trails given a location, seed trails into database, and
+
     return json response"""
 
     search_terms = request.args.get("search")
@@ -245,6 +252,8 @@ def return_json_search_results():
     else:
         return "Invalid search terms"
 
+
+# ~~ TRAIL-RELATED ROUTES ~~ # 
 
 @app.route("/trail/<int:trail_id>")
 def display_trail_info(trail_id):
