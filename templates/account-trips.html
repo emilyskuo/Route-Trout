@@ -6,6 +6,20 @@
 {% endblock %}
 
 {% block content %}
+<div class="row">
+    <div class="col" id="trips-list-div">
+      <h4>Trips:</h4>
+      {% if user_trips %}
+        <ul id="trips-list-div-li">
+          {% for trip in user_trips %}
+          <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+          <p>No trips planned! Plan a trip <a href="/createnewtrip"></a></p>
+      {% endif %}
+    </div>
+</div>
 
 
 {% endblock %}
