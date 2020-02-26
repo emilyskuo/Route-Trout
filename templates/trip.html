@@ -7,12 +7,22 @@
 
 {% block content %}
 
-<p>{{trip.trip_name}}</p>
+<h2>{{trip.trip_name}}</h2>
 
+<h5>Trip Accommodations</h5>
 <p>{{trip.trip_accommodations}}</p>
 
+<h5>Trip Start</h5>
 <p>{{trip.trip_start_date}}</p>
 
+<h5>Trip End</h5>
 <p>{{trip.trip_end_date}}</p>
+
+<h5>Trip Participants</h5>
+    <ul>
+        {% for trip_user in trip.trip_users %}
+            <li>{{trip_user.user.username}}</li>
+    </ul>
+{% endfor %}
 
 {% endblock %}
