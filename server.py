@@ -107,17 +107,19 @@ def show_account_options():
 
     if "user_id" in session:
 
-        # Query database to find User_trail objects belonging to user
-        # & not marked complete
-        saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
-                                               & (User_Trail.is_completed == False)).all()
-        # Query database to find User_trail objects belonging to user
-        # & marked complete
-        completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
-                                                   & (User_Trail.is_completed == True)).all()
+        return render_template("account.html")
 
-        return render_template("account.html", saved_trails=saved_trails,
-                               completed_trails=completed_trails)
+        # # Query database to find User_trail objects belonging to user
+        # # & not marked complete
+        # saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+        #                                        & (User_Trail.is_completed == False)).all()
+        # # Query database to find User_trail objects belonging to user
+        # # & marked complete
+        # completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+        #                                            & (User_Trail.is_completed == True)).all()
+
+        # return render_template("account.html", saved_trails=saved_trails,
+        #                        completed_trails=completed_trails)
 
     else:
         flash("You need to be logged in to access that page")
@@ -125,7 +127,14 @@ def show_account_options():
         return redirect("/login")
 
 
-@app.route("/account", methods=["POST"])
+@app.route("/account/updateacctinfo")
+def show_acct_info_form():
+    """Display form for user to update account information"""
+
+    return render_template("/account-userinfo.html")
+
+
+@app.route("/account/updateacctinfo", methods=["POST"])
 def update_account_info():
     """Update a user's account information"""
 
@@ -164,6 +173,12 @@ def update_account_info():
     flash("Information updated!")
 
     return redirect("/account")
+
+
+@app.route("/changepassword")
+def show_change_pass_form():
+
+    return render_template("account-changepass.html")
 
 
 @app.route("/changepassword", methods=["POST"])
