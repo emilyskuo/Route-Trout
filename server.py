@@ -7,7 +7,9 @@ import requests
 import os
 from datetime import datetime
 
-from model import User, Trail, User_Trail, db, connect_to_db
+from model import (User, Trail, User_Trail, Trip, Trip_User,
+                   Trip_Trail, Trip_Comment, db, connect_to_db)
+
 from helperfunctions import (call_geocoding_api, call_hiking_project_api,
                              seed_trails_into_db)
 
@@ -253,7 +255,7 @@ def return_json_search_results():
         return "Invalid search terms"
 
 
-# ~~ TRAIL-RELATED ROUTES ~~ # 
+# ~~ TRAIL-RELATED ROUTES ~~ #
 
 @app.route("/trail/<int:trail_id>")
 def display_trail_info(trail_id):
@@ -363,6 +365,36 @@ def unmark_saved_trail_as_complete():
     db.session.commit()
 
     return "Trail unmarked as complete"
+
+
+# ~~ TRIP-RELATED ROUTES ~~ #
+
+@app.route("/createnewtrip", methods=["GET"])
+def show_new_trip_form():
+    """Show form for user to create a new Trip instance"""
+
+    return render_template("createnewtrip.html")
+
+
+@app.route("/createnewtrip", methods=["POST"])
+def create_new_trip():
+    """Create a new Trip instance"""
+
+    trip_name = request.form.get("trip-name")
+    accommodations = request.form.get("accommodations")
+    trip_start_date = request.form.get("start-date")
+    trip_end_date = request.form.get("end-date")
+    creator_id = session.get("user_id")
+
+    new_trip = Trip(trip_name=trip_name, creator_id=creator_id,
+                    trip_accommodations=accommodations,
+                    trip_start_date=trip_start_date,
+                    trip_end_date=trip_end_date)
+
+    db.session.add(new_trip)
+    db.session.commit()
+
+    return "Trip created!"
 
 
 if __name__ == "__main__":
