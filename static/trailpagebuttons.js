@@ -11,6 +11,18 @@ const path1 = window.location.pathname
 // Slice pathname string to just include the trail_id
 const trail_id1 = path1.slice(7)
 
+$.get(`/user/is-trail-saved/${trail_id1}`, (res) => {
+    if (res.completed === true) {
+        saveButton.addClass("hidden");
+        unsaveButton.removeClass("hidden");
+        completeButton.addClass("hidden");
+        uncompleteButton.removeClass("hidden");
+    } else if (res.saved === true) {
+        saveButton.addClass("hidden");
+        unsaveButton.removeClass("hidden");
+    }
+});
+
 saveButton.on("click", () => {
     $.post("/user/save-trail", {trail_id: trail_id1}, (res) => {
         alert(res);
