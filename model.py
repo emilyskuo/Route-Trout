@@ -105,6 +105,8 @@ class Trip(db.Model):
     trip_end_date = db.Column(db.DateTime)
     is_archived = db.Column(db.Boolean, default=False)
 
+    # think about using chron to check/archive trips
+
     def __repr__(self):
         """Define representation of trip objects"""
 
