@@ -31,7 +31,7 @@ def index():
     return render_template("index.html")
 
 
-# ~~ ACCOUNT-RELATED ROUTES - registration, login, account info, logout ~~ #
+# ~~~~~ ACCOUNT-RELATED ROUTES - registration, login, account info, logout ~~~~~ #
 
 @app.route("/register")
 def reg_form():
@@ -213,7 +213,7 @@ def is_user_logged_in():
         return "false"
 
 
-# ~~ SEARCH-RELATED ROUTES ~~ #
+# ~~~~~ SEARCH-RELATED ROUTES ~~~~~ #
 
 @app.route("/search")
 def display_search_results():
@@ -255,7 +255,7 @@ def return_json_search_results():
         return "Invalid search terms"
 
 
-# ~~ TRAIL-RELATED ROUTES ~~ #
+# ~~~~~ TRAIL-RELATED ROUTES ~~~~~ #
 
 @app.route("/trail/<int:trail_id>")
 def display_trail_info(trail_id):
@@ -367,7 +367,7 @@ def unmark_saved_trail_as_complete():
     return "Trail unmarked as complete"
 
 
-# ~~ TRIP-RELATED ROUTES ~~ #
+# ~~~~~ TRIP-RELATED ROUTES ~~~~~ #
 
 @app.route("/createnewtrip", methods=["GET"])
 def show_new_trip_form():
@@ -394,7 +394,22 @@ def create_new_trip():
     db.session.add(new_trip)
     db.session.commit()
 
-    return "Trip created!"
+    new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=session["user_id"],
+                       date_joined=datetime.now())
+
+    db.session.add(new_tu)
+    db.session.commit()
+
+    return redirect(f"/trip/{new_trip.trip_id}")
+
+
+@app.route("/trip/<int:trip_id>")
+def show_trip(trip_id):
+    """Display Trip instance information"""
+
+    trip = Trip.query.get(trip_id)
+
+    return render_template("trip.html", trip=trip)
 
 
 if __name__ == "__main__":
