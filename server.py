@@ -109,18 +109,6 @@ def show_account_options():
 
         return render_template("account.html")
 
-        # # Query database to find User_trail objects belonging to user
-        # # & not marked complete
-        # saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
-        #                                        & (User_Trail.is_completed == False)).all()
-        # # Query database to find User_trail objects belonging to user
-        # # & marked complete
-        # completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
-        #                                            & (User_Trail.is_completed == True)).all()
-
-        # return render_template("account.html", saved_trails=saved_trails,
-        #                        completed_trails=completed_trails)
-
     else:
         flash("You need to be logged in to access that page")
 
@@ -204,6 +192,31 @@ def change_user_password():
         flash("Incorrect password, please try again")
 
         return redirect("/account")
+
+
+@app.route("/account/savedtrails")
+def display_saved_trails():
+    """Display a user's saved trails"""
+
+    # Query database to find User_trail objects belonging to user
+    # & not marked complete
+    saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+                                           & (User_Trail.is_completed.is_(False))).all()
+
+    return render_template("account-savedlist.html", saved_trails=saved_trails)
+
+
+@app.route("/account/completedtrails")
+def display_completed_trails():
+    """Display a user's completed trails"""
+
+    # Query database to find User_trail objects belonging to user
+    # & not marked complete
+    completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+                                               & (User_Trail.is_completed.is_(True))).all()
+
+    return render_template("account-savedlist.html",
+                           completed_trails=completed_trails)
 
 
 @app.route("/logout")
