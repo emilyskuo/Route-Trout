@@ -455,11 +455,12 @@ def create_new_trip():
     # and add the values to new_trip
     if accommodations:
         lat_long = call_geocoding_api(accommodations)
-        accomm_long = lat_long["lng"]
-        accomm_lat = lat_long["lat"]
+        if lat_long != "Invalid search terms":
+            accomm_long = lat_long["lng"]
+            accomm_lat = lat_long["lat"]
 
-        new_trip.accom_lat = accomm_lat
-        new_trip.accom_long = accomm_long
+            new_trip.accom_lat = accomm_lat
+            new_trip.accom_long = accomm_long
 
     db.session.add(new_trip)
     db.session.commit()
