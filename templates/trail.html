@@ -31,6 +31,25 @@
         Unmark the trail as completed
     </button>
 
+  <span class="dropdown">
+    <a role="button" class="btn btn-primary dropdown-toggle" id="add-to-trip-button" 
+            href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add to trip
+    </a>
+    <div class="dropdown-menu" aria-labelledby="add-to-trip-button">
+        {% for trip in trips %}
+        <a class="dropdown-item" href="/trail/{{trail.trail_id}}/addtotrip/{{trip.trip_id}}" id="{{trip.trip_id}}">
+            {{trip.trip.trip_name}}
+        </a>
+        {% endfor %}
+    </div>
+
+
+    <button type="button" class="btn btn-primary hidden" id="remove-from-trip-button">
+        Remove from trip
+    </button>
+</span>
+
 </div>
 
 <div id="trail-map-container" class="map-container"></div>
