@@ -18,7 +18,7 @@ function initMap() {
             $("#map-container").html("Invalid search terms, <a href='/'>please try again</a>")
         } else {
             const map = new google.maps.Map(
-                document.querySelector("#map-container"),
+                document.querySelector("#search-map-container"),
                 {zoom: 8,
                 center: res
                 }
