@@ -9,7 +9,7 @@ const trail_id = path.slice(7)
 function initMap() {
     $.get(`/json/latlongbyid/${trail_id}`, (res) => {
         const map = new google.maps.Map(
-            document.querySelector("#map-container"), {
+            document.querySelector("#trail-map-container"), {
                 center: res,
                 zoom: 15,
             },
