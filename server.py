@@ -531,6 +531,37 @@ def get_trip_info():
     return jsonify(response)
 
 
+@app.route("/deletetrip/<trip_id>")
+def delete_a_trip(trip_id):
+    """Deletes trip from database"""
+
+    trip_users = Trip_User.query.filter_by(trip_id=trip_id).all()
+
+    for tu in trip_users:
+        db.session.delete(tu)
+
+    trip_trails = Trip_Trail.query.filter_by(trip_id=trip_id).all()
+
+    for tt in trip_trails:
+        db.session.delete(tt)
+
+    trip_comments = Trip_Comment.query.filter_by(trip_id=trip_id).all()
+
+    for tc in trip_comments:
+        db.session.delete(tc)
+
+    db.session.commit()
+
+    trip = Trip.query.get(trip_id)
+
+    flash_msg = f"{trip.trip_name} has been deleted"
+
+    db.session.delete(trip)
+    db.session.commit()
+
+    flash(flash_msg)
+    return redirect("/account/trips")
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
