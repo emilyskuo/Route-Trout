@@ -299,9 +299,12 @@ def display_trail_info(trail_id):
     """Display trail information page"""
 
     trail = Trail.query.get(trail_id)
+    trips = Trip_User.query.filter_by(user_id=session["user_id"]).all()
+
+    print(trips)
 
     return render_template("trail.html", trail=trail,
-                           GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+                           GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY, trips=trips)
 
 
 @app.route("/json/latlongbyid/<trail_id>")
@@ -483,6 +486,29 @@ def show_trip(trip_id):
 
     return render_template("trip.html", trip=trip,
                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+
+
+@app.route("/trail/<trail_id>/addtotrip/<trip_id>")
+def add_trail_to_trip(trail_id, trip_id):
+    """Adds a Trail_Trip instance"""
+
+    tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
+                                       (Trip_Trail.trip_id == trip_id)).first()
+
+    if not tt_query:
+        tt = Trip_Trail(trail_id=trail_id, trip_id=trip_id,
+                        added_by=session["user_id"], date_added=datetime.now())
+
+        db.session.add(tt)
+        db.session.commit()
+
+        flash("Trail added to trip!")
+
+    else:
+        flash("Trail added to trip!")
+
+    return redirect(f"/trail/{trail_id}")
+
 
 
 @app.route("/json/tripinfo")
