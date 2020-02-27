@@ -445,14 +445,26 @@ def create_new_trip():
     trip_end_date = request.form.get("end-date")
     creator_id = session.get("user_id")
 
+    # Create new trip instance
     new_trip = Trip(trip_name=trip_name, creator_id=creator_id,
                     trip_accommodations=accommodations,
                     trip_start_date=trip_start_date,
                     trip_end_date=trip_end_date)
 
+    # If accommodations field was filled in, find the lat/long
+    # and add the values to new_trip
+    if accommodations:
+        lat_long = call_geocoding_api(accommodations)
+        accomm_long = lat_long["lng"]
+        accomm_lat = lat_long["lat"]
+
+        new_trip.accom_lat = accomm_lat
+        new_trip.accom_long = accomm_long
+
     db.session.add(new_trip)
     db.session.commit()
 
+    # Add Trip_User instance for creator of the trip upon creation of the trip
     new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=session["user_id"],
                        date_joined=datetime.now())
 
