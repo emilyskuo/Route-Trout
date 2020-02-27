@@ -22,8 +22,26 @@
     <ul>
         {% for trip_user in trip.trip_users %}
             <li>{{trip_user.user.username}}</li>
+        {% endfor %}
     </ul>
-{% endfor %}
+
+<h5>Trip Trails</h5>
+{% if trip.trip_trails %}
+<ul>
+    {% for trip_trail in trip.trip_trails %}
+        <li>
+            <a href="/trail/{{trip_trail.trail_id}}">{{trip_trail.trail.trail_name}}</a>
+            <br>
+            <p>Added by {{trip_trail.user.username}}</p>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No trails added to this trip</p>
+{% endif %}
+<button type="button" class="btn btn-primary" id="trip-trail-search-button">
+    Search for trails nearby
+</button>
 
 <div id="tripmapdiv" class="map-container"></div>
 
