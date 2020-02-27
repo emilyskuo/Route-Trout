@@ -9,17 +9,17 @@ const trip_id = tripPath.slice(6)
 console.log(trip_id)
 
 
-// function initMap() {
-//     $.get(`/json/latlongbyid/${trail_id}`, (res) => {
-//         const map = new google.maps.Map(
-//             document.querySelector("#map-container"), {
-//                 center: res,
-//                 zoom: 15,
-//             },
-//         );
-//         const newMarker = new google.maps.Marker({
-//             position: res,
-//             map: map
-//         });
-//     });
-// };
+function initMap() {
+    $.get(`/json/tripcoords`, {trip_id: trip_id}, (res) => {
+        const map = new google.maps.Map(
+            document.querySelector("#tripmapdiv"), {
+                center: res,
+                zoom: 15,
+            },
+        );
+        const newMarker = new google.maps.Marker({
+            position: res,
+            map: map
+        });
+    });
+};
