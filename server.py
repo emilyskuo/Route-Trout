@@ -481,12 +481,13 @@ def show_trip(trip_id):
 
     trip = Trip.query.get(trip_id)
 
-    return render_template("trip.html", trip=trip, GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+    return render_template("trip.html", trip=trip,
+                           GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
-@app.route("/json/tripcoords")
-def get_trip_coordinates():
-    """Return JSON of trip coordinates"""
+@app.route("/json/tripinfo")
+def get_trip_info():
+    """Return JSON of trip coordinates & accom address"""
 
     trip_id = request.args.get("trip_id")
 
@@ -496,7 +497,12 @@ def get_trip_coordinates():
         "lat": trip.accom_lat,
         "lng": trip.accom_long}
 
-    return jsonify(lat_long)
+    response = {
+        "lat_long": lat_long,
+        "accom_text": trip.trip_accommodations
+    }
+
+    return jsonify(response)
 
 
 
