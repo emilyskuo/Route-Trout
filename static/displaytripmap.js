@@ -2,12 +2,9 @@
 
 // Grab pathname from browser
 const tripPath = window.location.pathname
-console.log(tripPath)
 
 // Slice pathname string to just include the trail_id
 const trip_id = tripPath.slice(6)
-console.log(trip_id)
-
 
 function initMap() {
     $.get(`/json/tripcoords`, {trip_id: trip_id}, (res) => {
