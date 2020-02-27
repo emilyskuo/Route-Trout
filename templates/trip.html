@@ -25,4 +25,13 @@
     </ul>
 {% endfor %}
 
+
+
+<!-- Script to initialize Google map & place marker -->
+<script src="/static/displaytripmap.js"></script>
+
+<!-- Google Maps JS API script -->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_MAPS_KEY}}&callback=initMap">
+</script>
 {% endblock %}
