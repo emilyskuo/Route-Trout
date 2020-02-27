@@ -11,7 +11,9 @@ from model import (User, Trail, User_Trail, Trip, Trip_User,
                    Trip_Trail, Trip_Comment, db, connect_to_db)
 
 from helperfunctions import (call_geocoding_api, call_hiking_project_api,
-                             seed_trails_into_db)
+                             seed_trails_into_db, delete_trip_users,
+                             delete_trip_trails, delete_trip_comments,
+                             delete_trip)
 
 GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
 HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
@@ -535,31 +537,13 @@ def get_trip_info():
 def delete_a_trip(trip_id):
     """Deletes trip from database"""
 
-    trip_users = Trip_User.query.filter_by(trip_id=trip_id).all()
-
-    for tu in trip_users:
-        db.session.delete(tu)
-
-    trip_trails = Trip_Trail.query.filter_by(trip_id=trip_id).all()
-
-    for tt in trip_trails:
-        db.session.delete(tt)
-
-    trip_comments = Trip_Comment.query.filter_by(trip_id=trip_id).all()
-
-    for tc in trip_comments:
-        db.session.delete(tc)
-
-    db.session.commit()
-
-    trip = Trip.query.get(trip_id)
-
-    flash_msg = f"{trip.trip_name} has been deleted"
-
-    db.session.delete(trip)
-    db.session.commit()
+    delete_trip_users(trip_id)
+    delete_trip_trails(trip_id)
+    delete_trip_comments(trip_id)
+    flash_msg = delete_trip(trip_id)
 
     flash(flash_msg)
+
     return redirect("/account/trips")
 
 
