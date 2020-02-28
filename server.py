@@ -263,7 +263,7 @@ def display_search_results():
 
 @app.route("/json/search-coords")
 def get_search_coordinates():
-    """Call Google Maps Geocoding API with search terms & return json 
+    """Call Google Maps Geocoding API with search terms & return json
 
     of coordinates"""
 
