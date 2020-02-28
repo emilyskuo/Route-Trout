@@ -3,6 +3,10 @@
 {% block title %}{{trip.trip_name}}{% endblock %}
 
 {% block head %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -10,7 +14,16 @@
 <h2>{{trip.trip_name}}</h2>
 
 <h5>Trip Accommodations</h5>
+<!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#edit-accom-form" aria-expanded="false" aria-controls="collapseExample">
+    Edit
+</button> -->
 <p>{{trip.trip_accommodations}}</p>
+<!-- <div class="collapse" id="edit-accom-form">
+    <div class="form-group">
+        <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
+        <input type="submit" class="btn btn-primary">
+    </div>
+</div> -->
 
 <h5>Trip Start</h5>
 <p>{{trip.trip_start_date}}</p>
@@ -24,6 +37,14 @@
             <li>{{trip_user.user.username}}</li>
         {% endfor %}
     </ul>
+
+<div>
+    <select name="users[]" multiple="multiple" id="add-users-to-trip">
+        {% for user in all_users %}
+        <option value={{user.user_id}}>{{user.username}}</option>
+        {% endfor %}
+    </select>
+</div>
 
 <h5>Trip Trails</h5>
 {% if trip.trip_trails %}
@@ -53,7 +74,7 @@
     </button>
 </a>
 
-
+<script src="/static/adduserstotrip.js"></script>
 <!-- Script to initialize Google map & place marker -->
 <script src="/static/displaytripmap.js"></script>
 
