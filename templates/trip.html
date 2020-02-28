@@ -39,9 +39,11 @@
 {% else %}
 <p>No trails added to this trip</p>
 {% endif %}
-<button type="button" class="btn btn-primary" id="trip-trail-search-button">
+<a href="/search?search={{trip.trip_accommodations}}">
+    <button type="button" class="btn btn-primary" id="trip-trail-search-button">
     Search for trails nearby
-</button>
+    </button>
+</a>
 
 <div id="tripmapdiv" class="map-container"></div>
 
