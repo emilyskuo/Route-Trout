@@ -31,8 +31,27 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-md-auto">
-          <li class="nav-item hidden" id="account">
-            <a class="nav-link" href="/account">Account</a>
+          <li class="nav-item hidden dropdown" id="account">
+            <a class="nav-link dropdown-toggle" href="#" id="AcctDropDown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Account
+            </a>
+            <div class="dropdown-menu" aria-labelledby="AcctDropDown">
+              <a class="dropdown-item" href="/account/updateacctinfo">
+                Update Account Info
+              </a>
+              <a class="dropdown-item" href="/account/changepassword">
+                Change Password
+              </a>  
+              <a class="dropdown-item" href="/account/savedtrails">
+                Saved Trails
+              </a>              
+              <a class="dropdown-item" href="/account/completedtrails">
+                Completed Trails
+              </a> 
+              <a class="dropdown-item" href="/account/trips">
+                Trips
+              </a>
+            </div>
           </li>
           <li class="nav-item" id="register">
             <a class="nav-link" href="/register">Register</a>
