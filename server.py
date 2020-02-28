@@ -512,7 +512,6 @@ def add_trail_to_trip(trail_id, trip_id):
     return redirect(f"/trail/{trail_id}")
 
 
-
 @app.route("/json/tripinfo")
 def get_trip_info():
     """Return JSON of trip coordinates & accom address"""
