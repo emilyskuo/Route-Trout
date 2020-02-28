@@ -485,8 +485,9 @@ def show_trip(trip_id):
     """Display Trip instance information"""
 
     trip = Trip.query.get(trip_id)
+    all_users = User.query.all()
 
-    return render_template("trip.html", trip=trip,
+    return render_template("trip.html", trip=trip, all_users=all_users,
                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
 
 
