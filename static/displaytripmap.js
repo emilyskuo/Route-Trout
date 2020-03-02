@@ -10,6 +10,7 @@ const houseIcon = "/static/images/house.png"
 
 function initMap() {
     $.get(`/json/tripinfo`, {trip_id: trip_id}, (res) => {
+        console.log(res)
         const map = new google.maps.Map(
             document.querySelector("#tripmapdiv"), {
                 center: res.lat_long,
@@ -27,5 +28,20 @@ function initMap() {
         newMarker.addListener("click", () => {
             infowindow.open(newMarker.get("map"), newMarker);
         });
+
+        for (const trail of res.trip_trails) {
+            console.log(trail)
+            const trailMarker = new google.maps.Marker({
+                position: trail.trail_lat_long,
+                map: map,
+            });
+            const trailWindow = new google.maps.InfoWindow({
+                content: `<b>Trail:</b> <a href="/trail/${trail.trail_id}">${trail.trail_name}</a>`
+            });
+            trailMarker.addListener("click", () => {
+                trailWindow.open(trailMarker.get("map"), trailMarker);
+            });
+        };
+
     });
 };
