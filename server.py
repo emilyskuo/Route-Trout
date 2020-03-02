@@ -547,6 +547,34 @@ def delete_a_trip(trip_id):
     return redirect("/account/trips")
 
 
+@app.route("/archivetrip", methods=["POST"])
+def archive_a_trip():
+    """Archive's a trip in database"""
+
+    trip_id = request.form.get("trip_id")
+    trip = Trip.query.get(trip_id)
+    trip.is_archived = True
+
+    db.session.add(trip)
+    db.session.commit()
+
+    return "Successfully archived"
+
+
+@app.route("/unarchivetrip", methods=["POST"])
+def unarchive_a_trip():
+    """Unarchive's a trip in database"""
+
+    trip_id = request.form.get("trip_id")
+    trip = Trip.query.get(trip_id)
+    trip.is_archived = False
+
+    db.session.add(trip)
+    db.session.commit()
+
+    return "Successfully unarchived"
+
+
 # @app.route("/trip/user/getallusertrips")
 # def get_users_trips():
 #     """Gets all trips associated with a given user"""
