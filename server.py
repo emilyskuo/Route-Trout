@@ -521,13 +521,26 @@ def get_trip_info():
 
     trip = Trip.query.get(trip_id)
 
+    trip_trails = []
+
+    for trip_trail in trip.trip_trails:
+        trip_trails.append({
+            "trail_id": trip_trail.trail_id,
+            "trail_name": trip_trail.trail.trail_name,
+            "trail_lat_long": {
+                "lat": trip_trail.trail.lat,
+                "lng": trip_trail.trail.long,
+                }
+        })
+
     lat_long = {
         "lat": trip.accom_lat,
         "lng": trip.accom_long}
 
     response = {
         "lat_long": lat_long,
-        "accom_text": trip.trip_accommodations
+        "accom_text": trip.trip_accommodations,
+        "trip_trails": trip_trails,
     }
 
     return jsonify(response)
