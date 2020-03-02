@@ -27,7 +27,7 @@ function initMap() {
                 const marker = new google.maps.Marker(markerInfo);
                 markerArray.push(marker);
                 const infowindow = new google.maps.InfoWindow({
-                    content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</li>`,
+                    content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</a>`,
                 });
                 marker.addListener("click", () => {
                     map.setZoom(11);
