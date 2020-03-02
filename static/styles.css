@@ -7,3 +7,11 @@
 .hidden {
     display: none;
 }
+
+.edit {
+    display: inline-block;
+}
+
+#add-users-to-trip {
+    width: 400px;
+}
