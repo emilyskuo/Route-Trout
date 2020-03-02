@@ -13,23 +13,23 @@
 
 <h2>{{trip.trip_name}}</h2>
 
-<h5>Trip Accommodations</h5>
-<!-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#edit-accom-form" aria-expanded="false" aria-controls="collapseExample">
+<h5 class="edit">Trip Accommodations</h5>
+<button class="btn btn-link edit" type="button" data-toggle="collapse" data-target="#edit-accom-form" aria-expanded="false" aria-controls="collapseExample">
     Edit
-</button> -->
+</button>
 <p>{{trip.trip_accommodations}}</p>
-<!-- <div class="collapse" id="edit-accom-form">
+<div class="collapse" id="edit-accom-form">
     <div class="form-group">
         <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
         <input type="submit" class="btn btn-primary">
     </div>
-</div> -->
+</div>
 
-<h5>Trip Start</h5>
+<!-- <h5>Trip Start</h5>
 <p>{{trip.trip_start_date}}</p>
 
 <h5>Trip End</h5>
-<p>{{trip.trip_end_date}}</p>
+<p>{{trip.trip_end_date}}</p> -->
 
 <h5>Trip Participants</h5>
     <ul>
@@ -68,12 +68,39 @@
 
 <div id="tripmapdiv" class="map-container"></div>
 
+
+<button type="button" class="btn btn-secondary" id="archive-trip">
+    Archive this trip
+</button>
+<button type="button" class="btn btn-secondary hidden" id="unarchive-trip">
+    Unarchive this trip
+</button>
+
 <a href="/deletetrip/{{trip.trip_id}}">
     <button type="button" class="btn btn-danger" id="delete-trip">
     Delete this trip
     </button>
 </a>
+<script>
+    const archiveButton = $("#archive-trip");
+    const unarchiveButton = $("#unarchive-trip");
+    const trip_id = {{trip.trip_id}};
 
+    archiveButton.on("click", () => {
+        $.post("/archivetrip", {trip_id: trip_id}, (res) => {
+            console.log(res);
+            archiveButton.addClass("hidden");
+            unarchiveButton.removeClass("hidden");
+        });
+    });
+    unarchiveButton.on("click", () => {
+        $.post("/unarchivetrip", {trip_id: trip_id}, (res) => {
+            console.log(res);
+            archiveButton.removeClass("hidden");
+            unarchiveButton.addClass("hidden");
+        });
+    });
+</script>
 <script src="/static/adduserstotrip.js"></script>
 <!-- Script to initialize Google map & place marker -->
 <script src="/static/displaytripmap.js"></script>
