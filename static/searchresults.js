@@ -15,7 +15,8 @@ let markerArray = [];
 function initMap() {
     $.get(`/json/search-coords`, {search: search}, (res) => {
         if (res === "Invalid search terms") {
-            $("#map-container").html("Invalid search terms, <a href='/'>please try again</a>")
+            $("#search-map-container").html("Invalid search terms, please try again");
+            nextButton.addClass("hidden");
         } else {
             const map = new google.maps.Map(
                 document.querySelector("#search-map-container"),
