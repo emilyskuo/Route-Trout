@@ -10,7 +10,6 @@ const houseIcon = "/static/images/house.png"
 
 function initMap() {
     $.get(`/json/tripinfo`, {trip_id: trip_id}, (res) => {
-        console.log(res)
         const map = new google.maps.Map(
             document.querySelector("#tripmapdiv"), {
                 center: res.lat_long,
