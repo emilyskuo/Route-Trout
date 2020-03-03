@@ -83,20 +83,18 @@
 
     archiveButton.on("click", () => {
         $.post("/archivetrip", {trip_id: trip_id}, (res) => {
-            console.log(res);
             archiveButton.addClass("hidden");
             unarchiveButton.removeClass("hidden");
         });
     });
     unarchiveButton.on("click", () => {
         $.post("/unarchivetrip", {trip_id: trip_id}, (res) => {
-            console.log(res);
             archiveButton.removeClass("hidden");
             unarchiveButton.addClass("hidden");
         });
     });
 </script>
-<script src="/static/adduserstotrip.js"></script>
+<script src="/static/trippagebuttons.js"></script>
 <!-- Script to initialize Google map & place marker -->
 <script src="/static/displaytripmap.js"></script>
 
