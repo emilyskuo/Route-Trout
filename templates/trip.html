@@ -14,22 +14,16 @@
 <h2>{{trip.trip_name}}</h2>
 
 <h5 class="edit">Trip Accommodations</h5>
-<button class="btn btn-link edit" type="button" data-toggle="collapse" data-target="#edit-accom-form" aria-expanded="false" aria-controls="collapseExample">
+<button class="btn btn-link edit" type="button" id="edit-trip-accom-button">
     Edit
 </button>
-<p>{{trip.trip_accommodations}}</p>
-<div class="collapse" id="edit-accom-form">
-    <div class="form-group">
-        <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
-        <input type="submit" class="btn btn-primary">
-    </div>
+<p id="trip-accom-p">{{trip.trip_accommodations}}</p>
+<div class="form-group hidden" id="edit-trip-accom-div">
+    <form class="form-group" id="edit-trip-accom-form">
+    <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
+    <input type="submit" class="btn btn-primary" id="edit-trip-accom-submit">
+    </form>
 </div>
-
-<!-- <h5>Trip Start</h5>
-<p>{{trip.trip_start_date}}</p>
-
-<h5>Trip End</h5>
-<p>{{trip.trip_end_date}}</p> -->
 
 <h5>Trip Participants</h5>
     <ul>
@@ -44,6 +38,7 @@
         <option value={{user.user_id}}>{{user.username}}</option>
         {% endfor %}
     </select>
+    <input type="submit" value="Add users to trip" class="btn btn-primary" id="add-users-to-trip-button">
 </div>
 
 <h5>Trip Trails</h5>
