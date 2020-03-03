@@ -39,6 +39,7 @@ function initMap() {
                     map.setZoom(8);
                     map.setCenter(res);
                 });
+                return marker;
             };
             const setMarkersOnMap = (map) => {
                 for (let i = 0; i < markerArray.length; i++) {
@@ -59,16 +60,33 @@ function initMap() {
                     }
                     let list_slice = res2.slice(start, stop);
                     for (const trail of list_slice) {
-                        $("#trail-list").append(`<li><a href="/trail/${trail.id}">${trail.name}</li>`);
+                        $("#trail-list-container").append(
+                            `<div id=${trail.id}>
+                            <img src="${trail.imgSqSmall}">
+                            <a href="/trail/${trail.id}">${trail.name}</a>
+                            </div>`
+                            );
                         const markerInfo = {
                             position: {
                                 lng: Number(trail.longitude),
                                 lat: Number(trail.latitude)
                             },
                             map: map,
-                            title: trail.name
+                            title: trail.name,
                         };
-                        addMarker(markerInfo, trail);
+                        const marker = addMarker(markerInfo, trail);
+                        $(`#${trail.id}`).on("mouseenter", () => {
+                            marker.setOptions({
+                                Animation: google.maps.Animation.BOUNCE,
+                                zIndex: 50,
+                            })
+                        });
+                        $(`#${trail.id}`).on("mouseleave", () => {
+                            marker.setOptions({
+                                Animation: null,
+                                zIndex: 5,
+                            })
+                        });
                     }
                     setMarkersOnMap(map);
                 })
