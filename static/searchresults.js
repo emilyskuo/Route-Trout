@@ -76,16 +76,23 @@ function initMap() {
                         };
                         const marker = addMarker(markerInfo, trail);
                         $(`#${trail.id}`).on("mouseenter", () => {
+                            console.log(marker.getAnimation());
+                            console.log("this is a mouseenter");
                             marker.setOptions({
-                                Animation: google.maps.Animation.BOUNCE,
                                 zIndex: 50,
-                            })
+                            });
+                            marker.setAnimation(google.maps.Animation.BOUNCE);
+                            console.log(marker.getAnimation());
                         });
+                        
                         $(`#${trail.id}`).on("mouseleave", () => {
+                            console.log(marker.getAnimation());
+                            console.log("this is a mouseleave");
                             marker.setOptions({
-                                Animation: null,
                                 zIndex: 5,
-                            })
+                            });
+                            marker.setAnimation(null);
+                            console.log(marker.getAnimation());
                         });
                     }
                     setMarkersOnMap(map);
