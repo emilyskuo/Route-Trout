@@ -270,7 +270,11 @@ def get_search_coordinates():
     search_terms = request.args.get("search")
     lat_long = call_geocoding_api(search_terms)
 
-    return jsonify(lat_long)
+    if lat_long != "Invalid search terms":
+        return jsonify(lat_long)
+
+    else:
+        return "Invalid search terms"
 
 
 @app.route("/json/search")
@@ -586,6 +590,32 @@ def unarchive_a_trip():
     db.session.commit()
 
     return "Successfully unarchived"
+
+
+@app.route("/updatetripaccoms", methods=["POST"])
+def update_trip_accommodations():
+    """Update the accommodations & associated lat/long for a given trip"""
+
+    trip_id = request.form.get("trip_id")
+    trip_accom = request.form.get("trip_accom")
+
+    trip = Trip.query.get(trip_id)
+
+    trip.trip_accommodations = trip_accom
+    lat_long = call_geocoding_api(trip_accom)
+
+    if lat_long != "Invalid search terms":
+        trip.accom_long = lat_long["lng"]
+        trip.accom_lat = lat_long["lat"]
+
+        db.session.add(trip)
+        db.session.commit()
+
+        return f"{trip_accom}"
+
+    else:
+        return "Address could not be read"
+
 
 
 # @app.route("/trip/user/getallusertrips")
