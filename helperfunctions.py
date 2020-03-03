@@ -23,8 +23,10 @@ def call_geocoding_api(search_terms):
     r = requests.get(api_url, params=payload)
     response = r.json()
 
+    print(response)
+
     # Check to see if search was valid
-    if "error_message" not in response:
+    if response.get("results"):
         lat_long = response["results"][0]["geometry"]["location"]
         return lat_long
 
