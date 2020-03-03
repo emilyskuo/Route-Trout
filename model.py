@@ -101,8 +101,6 @@ class Trip(db.Model):
     trip_accommodations = db.Column(db.String(255))
     accom_long = db.Column(db.Float)
     accom_lat = db.Column(db.Float)
-    trip_start_date = db.Column(db.DateTime)
-    trip_end_date = db.Column(db.DateTime)
     is_archived = db.Column(db.Boolean, default=False)
 
     # think about using chron to check/archive trips
