@@ -13,7 +13,7 @@ const editAccomButton = $("#edit-trip-accom-button");
 const editAccomForm = $("#edit-trip-accom-form");
 const editAccomDiv = $("#edit-trip-accom-div");
 const editAccomSubmit = $("#edit-trip-accom-submit");
-const tripAccomP = $("trip-accom-p")
+const tripAccomP = $("#trip-accom-p")
 
 editAccomButton.on("click", () => {
     editAccomDiv.removeClass("hidden");
