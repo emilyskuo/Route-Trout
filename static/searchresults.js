@@ -96,7 +96,7 @@ function initMap() {
                 start += 10;
                 stop += 10;
                 deleteMarkers();
-                $("#trail-list").empty()
+                $("#trail-list-container").empty()
                 getSearchResults(search);
                 $("#prev-button").removeClass("hidden");
             });
@@ -105,7 +105,7 @@ function initMap() {
                 start -= 10;
                 stop -= 10;
                 deleteMarkers();
-                $("#trail-list").empty()
+                $("#trail-list-container").empty()
                 getSearchResults(search);
                 $("#next-button").removeClass("hidden");
             });
