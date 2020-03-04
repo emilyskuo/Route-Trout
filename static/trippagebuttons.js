@@ -1,16 +1,12 @@
 "use strict";
 
+// Select 2 code
 $(document).ready(function() {
     $("#add-users-to-trip").select2();
 });
 
-// $("#add-users-to-trip-button").on("submit", (evt) => {
-//     evt.preventDefault();
-
-// })
-
+// Event listeners for editing Trip Accommodations
 const editAccomButton = $("#edit-trip-accom-button");
-const editAccomForm = $("#edit-trip-accom-form");
 const editAccomDiv = $("#edit-trip-accom-div");
 const editAccomSubmit = $("#edit-trip-accom-submit");
 const tripAccomP = $("#trip-accom-p")
@@ -27,11 +23,22 @@ editAccomSubmit.on("click", (evt) => {
         if (res === "Address could not be read") {
             alert(res);
         } else {
+            // Update html in <p>
             tripAccomP.html(res);
+            // Hide edit form & unhide tripAccomP
             editAccomDiv.addClass("hidden");
             tripAccomP.removeClass("hidden");
+            // Refresh map with new coordinates
             initMap();
+            // Update "Search for trails nearby" link
             $("#trip-trail-search-a").attr("href", `/search?search=${res}`)
         }
     });
 });
+
+// Event listeners for updating Trip Participants
+
+// $("#add-users-to-trip-button").on("submit", (evt) => {
+//     evt.preventDefault();
+
+// })
