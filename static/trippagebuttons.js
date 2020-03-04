@@ -75,9 +75,7 @@ delUsersButton.on("click", (evt) => {
     evt.preventDefault();
     const users_to_del = delUsersSelect.val();
     for (const user_id of users_to_del) {
-        console.log(user_id);
         $.post("/removetripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
-            console.log(res);
             if (res === "An error has occurred") {
                 alert(res);
             } else {

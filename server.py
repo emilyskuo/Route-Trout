@@ -650,12 +650,6 @@ def remove_trip_users():
     tu = Trip_User.query.filter((Trip_User.user_id == user_id) &
                                 (Trip_User.trip_id == trip_id)).first()
 
-    print(trip_id)
-    print(user_id)
-    print(type(trip_id))
-    print(type(user_id))
-    print(tu)
-
     if tu:
         username = tu.user.username
         db.session.delete(tu)
