@@ -1,5 +1,11 @@
 "use strict";
 
+// Grab pathname from browser
+const tripPath = window.location.pathname
+
+// Slice pathname string to just include the trail_id
+const trip_id = tripPath.slice(6)
+
 // Select 2 code
 $(document).ready(function() {
     $("#add-users-to-trip").select2();
@@ -38,7 +44,33 @@ editAccomSubmit.on("click", (evt) => {
 
 // Event listeners for updating Trip Participants
 
-// $("#add-users-to-trip-button").on("submit", (evt) => {
-//     evt.preventDefault();
+const addUsersButton = $("#add-users-to-trip-button");
+const addUsersSelect = $("#add-users-to-trip");
 
-// })
+console.log(addUsersSelect.val())
+
+addUsersButton.on("click", (evt) => {
+    evt.preventDefault();
+    const list_users_selected = addUsersSelect.val();
+    // for (user_id of list_users_selected) {
+
+    // }
+});
+
+
+// Event listeners for Archive & Unarchive buttons
+const archiveButton = $("#archive-trip");
+const unarchiveButton = $("#unarchive-trip");
+
+archiveButton.on("click", () => {
+    $.post("/archivetrip", {trip_id: trip_id}, (res) => {
+        archiveButton.addClass("hidden");
+        unarchiveButton.removeClass("hidden");
+    });
+});
+unarchiveButton.on("click", () => {
+    $.post("/unarchivetrip", {trip_id: trip_id}, (res) => {
+        archiveButton.removeClass("hidden");
+        unarchiveButton.addClass("hidden");
+    });
+});
