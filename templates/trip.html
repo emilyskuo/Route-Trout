@@ -26,7 +26,7 @@
 </div>
 
 <h5>Trip Participants</h5>
-    <ul>
+    <ul id="trip-user-ul">
         {% for trip_user in trip.trip_users %}
             <li>{{trip_user.user.username}}</li>
         {% endfor %}
