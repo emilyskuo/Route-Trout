@@ -58,20 +58,16 @@ def call_hiking_project_api(lat_long):
 def convert_trail_difficulty(color_difficulty):
     """Convert Hiking Project API's difficulty rating from color to words"""
 
-    if color_difficulty == "green":
-        difficulty = "Easy"
-    elif color_difficulty == "greenBlue":
-        difficulty = "Moderately Easy"
-    elif color_difficulty == "blue":
-        difficulty = "Intermediate"
-    elif color_difficulty == "blueBlack":
-        difficulty = "Somewhat Difficult"
-    elif color_difficulty == "black":
-        difficulty = "Difficult"
-    elif color_difficulty == "dblack":
-        difficulty = "Extremely Difficult"
+    color_dict = {
+        "green": "Easy",
+        "greenBlue": "Moderately Easy",
+        "blue": "Intermediate",
+        "blueBlack": "Somewhat Difficult",
+        "black": "Difficult",
+        "dblack": "Extremely Difficult"
+    }
 
-    return difficulty
+    return color_dict[color_difficulty]
 
 
 def seed_trails_into_db(api_response):
@@ -115,6 +111,8 @@ def delete_trip_users(trip_id):
     """Deletes all Trip_User instances associated with a given trip_id"""
 
     trip_users = Trip_User.query.filter_by(trip_id=trip_id).all()
+
+    print(trip_users)
 
     for tu in trip_users:
         db.session.delete(tu)
