@@ -46,15 +46,27 @@ editAccomSubmit.on("click", (evt) => {
 
 const addUsersButton = $("#add-users-to-trip-button");
 const addUsersSelect = $("#add-users-to-trip");
+const tripUserUL = $("#trip-user-ul");
 
-console.log(addUsersSelect.val())
+console.log(addUsersSelect.val());
 
 addUsersButton.on("click", (evt) => {
     evt.preventDefault();
     const list_users_selected = addUsersSelect.val();
-    // for (user_id of list_users_selected) {
-
-    // }
+    console.log(list_users_selected)
+    // $.post("/addtripusers", {trip_id: trip_id, list_user_ids: list_users_selected}, (res) => {
+    //     console.log(res);
+    //     for (const user_id in res) {
+    //         console.log(res.user_id)
+    //         tripUserUL.append(`<li>${res.user_id}</li>`)
+    //     };
+    // })
+    for (const user_id of list_users_selected) {
+        $.post("/addtripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
+        console.log(res);
+        tripUserUL.append(`<li>${res}</li>`)
+        });
+    }
 });
 
 
@@ -63,13 +75,13 @@ const archiveButton = $("#archive-trip");
 const unarchiveButton = $("#unarchive-trip");
 
 archiveButton.on("click", () => {
-    $.post("/archivetrip", {trip_id: trip_id}, (res) => {
+    $.post("/archivetrip", {trip_id: trip_id}, () => {
         archiveButton.addClass("hidden");
         unarchiveButton.removeClass("hidden");
     });
 });
 unarchiveButton.on("click", () => {
-    $.post("/unarchivetrip", {trip_id: trip_id}, (res) => {
+    $.post("/unarchivetrip", {trip_id: trip_id}, () => {
         archiveButton.removeClass("hidden");
         unarchiveButton.addClass("hidden");
     });
