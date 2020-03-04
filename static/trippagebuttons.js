@@ -48,14 +48,11 @@ const addUsersButton = $("#add-users-to-trip-button");
 const addUsersSelect = $("#add-users-to-trip");
 const tripUserUL = $("#trip-user-ul");
 
-console.log(addUsersSelect.val());
-
 addUsersButton.on("click", (evt) => {
     evt.preventDefault();
     const list_users_selected = addUsersSelect.val();
     for (const user_id of list_users_selected) {
         $.post("/addtripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
-        console.log(res);
         tripUserUL.append(`<li>${res}</li>`)
         });
     }
