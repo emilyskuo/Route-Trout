@@ -68,14 +68,16 @@ addUsersButton.on("click", (evt) => {
 
 // Event listeners for removing Trip Participants
 
-const delUsersButton = $("#remove-users-to-trip-button");
-const delUsersSelect = $("#remove-users-to-trip");
+const delUsersButton = $("#remove-users-from-trip-button");
+const delUsersSelect = $("#remove-users-from-trip");
 
 delUsersButton.on("click", (evt) => {
     evt.preventDefault();
     const users_to_del = delUsersSelect.val();
     for (const user_id of users_to_del) {
+        console.log(user_id);
         $.post("/removetripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
+            console.log(res);
             if (res === "An error has occurred") {
                 alert(res);
             } else {
