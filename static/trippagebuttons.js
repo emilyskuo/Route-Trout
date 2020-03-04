@@ -11,6 +11,10 @@ $(document).ready(function() {
     $("#add-users-to-trip").select2();
 });
 
+$(document).ready(function() {
+    $("#remove-users-from-trip").select2();
+});
+
 // Event listeners for editing Trip Accommodations
 const editAccomButton = $("#edit-trip-accom-button");
 const editAccomDiv = $("#edit-trip-accom-div");
@@ -42,7 +46,7 @@ editAccomSubmit.on("click", (evt) => {
     });
 });
 
-// Event listeners for updating Trip Participants
+// Event listeners for adding Trip Participants
 
 const addUsersButton = $("#add-users-to-trip-button");
 const addUsersSelect = $("#add-users-to-trip");
@@ -62,6 +66,24 @@ addUsersButton.on("click", (evt) => {
     };
 });
 
+// Event listeners for removing Trip Participants
+
+const delUsersButton = $("#remove-users-to-trip-button");
+const delUsersSelect = $("#remove-users-to-trip");
+
+delUsersButton.on("click", (evt) => {
+    evt.preventDefault();
+    const users_to_del = delUsersSelect.val();
+    for (const user_id of users_to_del) {
+        $.post("/removetripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
+            if (res === "An error has occurred") {
+                alert(res);
+            } else {
+                $(`#${res}`).remove();
+            };
+        });
+    };
+});
 
 // Event listeners for Archive & Unarchive buttons
 const archiveButton = $("#archive-trip");
