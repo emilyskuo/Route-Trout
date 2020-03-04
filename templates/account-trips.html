@@ -12,7 +12,11 @@
       {% if user_trips %}
         <ul id="trips-list-div-li">
           {% for trip in user_trips %}
-          <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
+            {% if not trip.trip.is_archived %}
+              <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
+            {% else %}
+              <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}} (Archived)</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
         {% else %}
