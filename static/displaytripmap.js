@@ -1,11 +1,5 @@
 "use strict";
 
-// Grab pathname from browser
-const tripPath = window.location.pathname
-
-// Slice pathname string to just include the trail_id
-// const trip_id = tripPath.slice(6)
-
 const houseIcon = "/static/images/house.png"
 
 function initMap() {
