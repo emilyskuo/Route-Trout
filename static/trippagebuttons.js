@@ -10,13 +10,34 @@ const trip_id = tripPath.slice(6)
 $(document).ready(function() {
     $("#add-users-to-trip").select2();
 });
-
 $(document).ready(function() {
     $("#remove-users-from-trip").select2();
 });
-
 $(document).ready(function() {
     $("#remove-trip-trails").select2();
+});
+
+// Event listeners for editing Trip Name
+const editNameButton = $("#edit-trip-name-button");
+const editNameDiv = $("#edit-trip-name-div");
+const editNameSubmit = $("#edit-trip-name-submit");
+const tripNameH = $("#trip-name-h")
+
+editNameButton.on("click", () => {
+    editNameDiv.removeClass("hidden");
+});
+
+editNameSubmit.on("click", (evt) => {
+    evt.preventDefault();
+    const trip_name = $("#trip_name").val()
+    $.post("/updatetripname", {trip_id: trip_id, trip_name: trip_name}, (res) => {
+        if (res === "An error has occurred") {
+            alert(res);
+        } else {
+            tripNameH.html(res);
+            editNameDiv.addClass("hidden");
+        };
+    })
 });
 
 // Event listeners for editing Trip Accommodations
@@ -130,7 +151,7 @@ remTrailsButton.on("click", (evt) => {
     };
     editTrailsDiv.addClass("hidden");
     initMap();
-})
+});
 
 // Event listeners for Archive & Unarchive buttons
 const archiveButton = $("#archive-trip");
