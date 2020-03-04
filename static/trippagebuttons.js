@@ -111,6 +111,27 @@ editTrailsButton.on("click", () => {
     editTrailsDiv.removeClass("hidden");
 });
 
+
+const remTrailsButton = $("#remove-trip-trails-button");
+const remTrailsSelect = $("#remove-trip-trails");
+
+
+remTrailsButton.on("click", (evt) => {
+    evt.preventDefault();
+    const trails_to_del = remTrailsSelect.val();
+    for (const trail_id of trails_to_del) {
+        $.post("/removetriptrails", {trip_id: trip_id, trail_id: trail_id}, (res) => {
+            if (res === "An error has occurred") {
+                alert(res);
+            } else {
+                $(`#${res}`).remove();
+            };
+        });
+    };
+    editTrailsDiv.addClass("hidden");
+    initMap();
+})
+
 // Event listeners for Archive & Unarchive buttons
 const archiveButton = $("#archive-trip");
 const unarchiveButton = $("#unarchive-trip");
