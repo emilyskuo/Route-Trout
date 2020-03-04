@@ -10,21 +10,31 @@
 {% endblock %}
 
 {% block content %}
-
-<h2>{{trip.trip_name}}</h2>
-
-<h5 class="edit">Trip Accommodations</h5>
-<button class="btn btn-link edit" type="button" id="edit-trip-accom-button">
-    Edit
-</button>
-<p id="trip-accom-p">{{trip.trip_accommodations}}</p>
-<div class="form-group hidden" id="edit-trip-accom-div">
-    <form class="form-group" id="edit-trip-accom-form">
-    <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
-    <input type="submit" class="btn btn-primary" id="edit-trip-accom-submit">
-    </form>
+<div>
+    <h2 class="edit" id="trip-name-h">{{trip.trip_name}}</h2>
+    <button class="btn btn-link edit" type="button" id="edit-trip-name-button">
+        Edit
+    </button>
+    <div class="form-group hidden" id="edit-trip-name-div">
+        <form class="form-group" id="edit-trip-name-form">
+        <input type="text" class="form-control" id="trip_name" name="trip_name" value="{{trip.trip_name}}">
+        <input type="submit" class="btn btn-primary" id="edit-trip-name-submit" value="Update Trip Name">
+        </form>
+    </div>
 </div>
-
+<div>
+    <h5 class="edit">Trip Accommodations</h5>
+    <button class="btn btn-link edit" type="button" id="edit-trip-accom-button">
+        Edit
+    </button>
+    <p id="trip-accom-p">{{trip.trip_accommodations}}</p>
+    <div class="form-group hidden" id="edit-trip-accom-div">
+        <form class="form-group" id="edit-trip-accom-form">
+        <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
+        <input type="submit" class="btn btn-primary" id="edit-trip-accom-submit" value="Update Trip Accommodations">
+        </form>
+    </div>
+</div>
 <h5 class="edit">Trip Participants</h5> 
 <button class="btn btn-link edit" type="button" id="edit-trip-users-button">
     Add/Remove
