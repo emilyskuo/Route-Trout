@@ -623,8 +623,8 @@ def add_trip_users():
 
     trip_id = request.form.get("trip_id")
     user_id = request.form.get("user_id")
-    tu_query = Trip_User.query.filter((user_id == int(user_id)) &
-                                      (trip_id == int(trip_id))).first()
+    tu_query = Trip_User.query.filter((Trip_User.user_id == int(user_id)) &
+                                      (Trip_User.trip_id == int(trip_id))).first()
 
     if tu_query:
         return "User already added to trip"
@@ -645,10 +645,16 @@ def add_trip_users():
 def remove_trip_users():
     """Remove Trip_User instances"""
 
-    trip_id = request.form.get("trip_id")
-    user_id = request.form.get("user_id")
-    tu = Trip_User.query.filter((user_id == int(user_id)) &
-                                (trip_id == int(trip_id))).first()
+    trip_id = int(request.form.get("trip_id"))
+    user_id = int(request.form.get("user_id"))
+    tu = Trip_User.query.filter((Trip_User.user_id == user_id) &
+                                (Trip_User.trip_id == trip_id)).first()
+
+    print(trip_id)
+    print(user_id)
+    print(type(trip_id))
+    print(type(user_id))
+    print(tu)
 
     if tu:
         username = tu.user.username
