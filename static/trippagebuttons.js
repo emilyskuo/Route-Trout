@@ -30,7 +30,8 @@ editAccomSubmit.on("click", (evt) => {
             tripAccomP.html(res);
             editAccomDiv.addClass("hidden");
             tripAccomP.removeClass("hidden");
-            initMap()
+            initMap();
+            $("#trip-trail-search-a").attr("href", `/search?search=${res}`)
         }
     });
 });
