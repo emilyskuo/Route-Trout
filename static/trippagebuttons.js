@@ -53,7 +53,11 @@ addUsersButton.on("click", (evt) => {
     const list_users_selected = addUsersSelect.val();
     for (const user_id of list_users_selected) {
         $.post("/addtripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
-        tripUserUL.append(`<li>${res}</li>`);
+            if (res !== "User already added to trip") {
+                tripUserUL.append(`<li>${res}</li>`);
+            } else {
+                alert(res);
+            };
         });
     };
 });

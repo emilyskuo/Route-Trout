@@ -624,17 +624,21 @@ def add_trip_users():
     trip_id = request.form.get("trip_id")
     user_id = request.form.get("user_id")
 
-    print(user_id)
+    if not Trip_User.query.filter((trip_id == trip_id) &
+                                  (user_id == user_id)).first():
 
-    tu = Trip_User(trip_id=trip_id, user_id=int(user_id),
-                   date_joined=datetime.now())
+        tu = Trip_User(trip_id=trip_id, user_id=int(user_id),
+                       date_joined=datetime.now())
 
-    db.session.add(tu)
-    db.session.commit()
+        db.session.add(tu)
+        db.session.commit()
 
-    username = tu.user.username
+        username = tu.user.username
 
-    return username
+        return username
+    
+    else:
+        return "User already added to trip"
 
 
 # @app.route("/trip/user/getallusertrips")
