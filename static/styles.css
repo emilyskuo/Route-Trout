@@ -12,6 +12,6 @@
     display: inline-block;
 }
 
-#add-users-to-trip {
+.select2 {
     width: 400px;
 }
