@@ -672,11 +672,10 @@ def remove_trip_trail():
 
     if tt_query:
 
-        trail_name = tt_query.trail.trail_name
         db.session.delete(tt_query)
         db.session.commit()
 
-        return trail_name
+        return str(trail_id)
 
     else:
         return "An error has occurred"
