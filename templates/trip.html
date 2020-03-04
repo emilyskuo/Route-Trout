@@ -28,17 +28,26 @@
 <h5>Trip Participants</h5>
     <ul id="trip-user-ul">
         {% for trip_user in trip.trip_users %}
-            <li>{{trip_user.user.username}}</li>
+            <li id={{trip_user.user.username}}>{{trip_user.user.username}}</li>
         {% endfor %}
     </ul>
 
 <div>
-    <select name="users[]" multiple="multiple" id="add-users-to-trip">
+    <select name="users[]" multiple="multiple" id="add-users-to-trip" class="select2">
         {% for user in all_users %}
         <option value={{user.user_id}}>{{user.username}}</option>
         {% endfor %}
     </select>
     <input type="submit" value="Add users to trip" class="btn btn-primary" id="add-users-to-trip-button">
+</div>
+
+<div>
+    <select name="remove-users[]" multiple="multiple" id="remove-users-from-trip" class="select2">
+        {% for trip_user in trip.trip_users %}
+        <option value={{trip_user.user_id}}>{{trip_user.user.username}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Remove users from trip" class="btn btn-primary" id="remove-users-from-trip-button">
 </div>
 
 <h5>Trip Trails</h5>
