@@ -13,7 +13,7 @@ function initMap() {
         const map = new google.maps.Map(
             document.querySelector("#tripmapdiv"), {
                 center: res.lat_long,
-                zoom: 15,
+                zoom: 13,
             },
         );
         const newMarker = new google.maps.Marker({
