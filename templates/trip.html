@@ -62,7 +62,7 @@
 </button>
 <ul>
     {% for trip_trail in trip.trip_trails %}
-        <li>
+        <li id={{trip_trail.trail_id}}>
             <a href="/trail/{{trip_trail.trail_id}}">{{trip_trail.trail.trail_name}}</a>
             <br>
             <p>Added by {{trip_trail.user.username}}</p>
