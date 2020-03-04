@@ -661,6 +661,27 @@ def remove_trip_users():
         return "An error has occurred"
 
 
+@app.route("/removetriptrails", methods=["POST"])
+def remove_trip_trail():
+    """Removes a Trail_Trip instance"""
+
+    trip_id = int(request.form.get("trip_id"))
+    trail_id = int(request.form.get("trail_id"))
+    tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
+                                       (Trip_Trail.trip_id == trip_id)).first()
+
+    if tt_query:
+
+        trail_name = tt_query.trail.trail_name
+        db.session.delete(tt_query)
+        db.session.commit()
+
+        return trail_name
+
+    else:
+        return "An error has occurred"
+
+
 # @app.route("/trip/user/getallusertrips")
 # def get_users_trips():
 #     """Gets all trips associated with a given user"""
