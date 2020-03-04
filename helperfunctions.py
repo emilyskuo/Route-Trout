@@ -23,8 +23,6 @@ def call_geocoding_api(search_terms):
     r = requests.get(api_url, params=payload)
     response = r.json()
 
-    print(response)
-
     # Check to see if search was valid
     if response.get("results"):
         lat_long = response["results"][0]["geometry"]["location"]
@@ -111,8 +109,6 @@ def delete_trip_users(trip_id):
     """Deletes all Trip_User instances associated with a given trip_id"""
 
     trip_users = Trip_User.query.filter_by(trip_id=trip_id).all()
-
-    print(trip_users)
 
     for tu in trip_users:
         db.session.delete(tu)
