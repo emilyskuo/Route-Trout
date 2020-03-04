@@ -53,14 +53,6 @@ console.log(addUsersSelect.val());
 addUsersButton.on("click", (evt) => {
     evt.preventDefault();
     const list_users_selected = addUsersSelect.val();
-    console.log(list_users_selected)
-    // $.post("/addtripusers", {trip_id: trip_id, list_user_ids: list_users_selected}, (res) => {
-    //     console.log(res);
-    //     for (const user_id in res) {
-    //         console.log(res.user_id)
-    //         tripUserUL.append(`<li>${res.user_id}</li>`)
-    //     };
-    // })
     for (const user_id of list_users_selected) {
         $.post("/addtripusers", {trip_id: trip_id, user_id: user_id}, (res) => {
         console.log(res);

@@ -636,24 +636,6 @@ def add_trip_users():
 
     return username
 
-    # trip_id = request.form.get("trip_id")
-    # list_user_ids = request.form.get("list_user_ids")
-
-    # print(list_user_ids)
-
-    # tu_dict = {}
-
-    # for user_id in list_user_ids:
-    #     tu = Trip_User(trip_id=trip_id, user_id=int(user_id),
-    #                    date_joined=datetime.now())
-
-    #     db.session.add(tu)
-    #     db.session.commit()
-
-    #     tu_dict[user_id] = tu.user.username
-
-    # return jsonify(tu_dict)
-
 
 # @app.route("/trip/user/getallusertrips")
 # def get_users_trips():
