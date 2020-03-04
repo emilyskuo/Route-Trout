@@ -27,7 +27,7 @@
 
 <h5 class="edit">Trip Participants</h5> 
 <button class="btn btn-link edit" type="button" id="edit-trip-users-button">
-    Edit
+    Add/Remove
 </button>
     <ul id="trip-user-ul">
         {% for trip_user in trip.trip_users %}
@@ -51,12 +51,15 @@
             <option value={{trip_user.user_id}}>{{trip_user.user.username}}</option>
             {% endfor %}
         </select>
-        <input type="submit" value="Remove users from trip" class="btn btn-primary" id="remove-users-from-trip-button">
+        <input type="submit" value="Remove users from trip" class="btn btn-danger" id="remove-users-from-trip-button">
     </div>
 </div>
 
-<h5>Trip Trails</h5>
+<h5 class="edit">Trip Trails</h5>
 {% if trip.trip_trails %}
+<button class="btn btn-link edit" type="button" id="edit-trip-trails-button">
+    Remove Trails
+</button>
 <ul>
     {% for trip_trail in trip.trip_trails %}
         <li>
@@ -66,6 +69,14 @@
         </li>
     {% endfor %}
 </ul>
+<div id="remove-trip-trails-div" class="hidden">
+    <select name="remove-trails[]" multiple="multiple" id="remove-trip-trails" class="select2">
+        {% for trip_trail in trip.trip_trails %}
+        <option value={{trip_trail.trail_id}}>{{trip_trail.trail.trail_name}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Remove trails from trip" class="btn btn-danger" id="remove-trip-trails-button">
+</div>
 {% else %}
 <p>No trails added to this trip</p>
 {% endif %}
