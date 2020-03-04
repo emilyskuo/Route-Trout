@@ -46,6 +46,13 @@ editAccomSubmit.on("click", (evt) => {
     });
 });
 
+const editUsersButton = $("#edit-trip-users-button");
+const editUsersDiv = $("#add-remove-trip-users-div");
+
+editUsersButton.on("click", () => {
+    editUsersDiv.removeClass("hidden");
+});
+
 // Event listeners for adding Trip Participants
 
 const addUsersButton = $("#add-users-to-trip-button");
