@@ -621,16 +621,16 @@ def update_trip_accommodations():
 def add_trip_users():
     """Add Trip_User instances"""
 
-    trip_id = request.form.get("trip_id")
-    user_id = request.form.get("user_id")
-    tu_query = Trip_User.query.filter((Trip_User.user_id == int(user_id)) &
-                                      (Trip_User.trip_id == int(trip_id))).first()
+    trip_id = int(request.form.get("trip_id"))
+    user_id = int(request.form.get("user_id"))
+    tu_query = Trip_User.query.filter((Trip_User.user_id == user_id) &
+                                      (Trip_User.trip_id == trip_id)).first()
 
     if tu_query:
         return "User already added to trip"
 
     else:
-        tu = Trip_User(trip_id=trip_id, user_id=int(user_id),
+        tu = Trip_User(trip_id=trip_id, user_id=user_id,
                        date_joined=datetime.now())
 
         db.session.add(tu)
