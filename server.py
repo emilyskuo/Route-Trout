@@ -641,6 +641,25 @@ def add_trip_users():
         return username
 
 
+@app.route("/removetripusers", methods=["POST"])
+def remove_trip_users():
+    """Remove Trip_User instances"""
+
+    trip_id = request.form.get("trip_id")
+    user_id = request.form.get("user_id")
+    tu = Trip_User.query.filter((user_id == int(user_id)) &
+                                (trip_id == int(trip_id))).first()
+
+    if tu:
+        username = tu.user.username
+        db.session.delete(tu)
+        db.session.commit()
+
+        return username
+
+    else:
+        return "An error has occurred"
+
 
 # @app.route("/trip/user/getallusertrips")
 # def get_users_trips():
