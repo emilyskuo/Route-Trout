@@ -592,6 +592,27 @@ def unarchive_a_trip():
     return "Successfully unarchived"
 
 
+@app.route("/updatetripname", methods=["POST"])
+def update_trip_name():
+    """Update the name for a given trip"""
+
+    trip_id = request.form.get("trip_id")
+    trip_name = request.form.get("trip_name")
+
+    trip = Trip.query.get(trip_id)
+
+    if trip:
+        trip.trip_name = trip_name
+
+        db.session.add(trip)
+        db.session.commit()
+
+        return trip_name
+
+    else:
+        return "An error has occurred"
+
+
 @app.route("/updatetripaccoms", methods=["POST"])
 def update_trip_accommodations():
     """Update the accommodations & associated lat/long for a given trip"""
