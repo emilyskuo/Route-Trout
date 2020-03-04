@@ -15,6 +15,10 @@ $(document).ready(function() {
     $("#remove-users-from-trip").select2();
 });
 
+$(document).ready(function() {
+    $("#remove-trip-trails").select2();
+});
+
 // Event listeners for editing Trip Accommodations
 const editAccomButton = $("#edit-trip-accom-button");
 const editAccomDiv = $("#edit-trip-accom-div");
@@ -94,6 +98,17 @@ delUsersButton.on("click", (evt) => {
         });
     };
     editUsersDiv.addClass("hidden");
+});
+
+
+// Event listener for Remove Trails button
+
+const editTrailsButton = $("#edit-trip-trails-button");
+const editTrailsDiv = $("#remove-trip-trails-div");
+
+
+editTrailsButton.on("click", () => {
+    editTrailsDiv.removeClass("hidden");
 });
 
 // Event listeners for Archive & Unarchive buttons
