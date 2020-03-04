@@ -29,7 +29,6 @@ function initMap() {
         });
 
         for (const trail of res.trip_trails) {
-            console.log(trail)
             const trailMarker = new google.maps.Marker({
                 position: trail.trail_lat_long,
                 map: map,
