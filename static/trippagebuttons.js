@@ -46,6 +46,8 @@ editAccomSubmit.on("click", (evt) => {
     });
 });
 
+// Event listener for Trip Participants edit button
+
 const editUsersButton = $("#edit-trip-users-button");
 const editUsersDiv = $("#add-remove-trip-users-div");
 
@@ -71,6 +73,7 @@ addUsersButton.on("click", (evt) => {
             };
         });
     };
+    editUsersDiv.addClass("hidden");
 });
 
 // Event listeners for removing Trip Participants
@@ -90,6 +93,7 @@ delUsersButton.on("click", (evt) => {
             };
         });
     };
+    editUsersDiv.addClass("hidden");
 });
 
 // Event listeners for Archive & Unarchive buttons
