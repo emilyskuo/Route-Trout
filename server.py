@@ -550,9 +550,11 @@ def get_trip_info():
     return jsonify(response)
 
 
-@app.route("/deletetrip/<trip_id>")
-def delete_a_trip(trip_id):
+@app.route("/deletetrip", methods=["POST"])
+def delete_a_trip():
     """Deletes trip from database"""
+
+    trip_id = request.form.get("trip_id")
 
     delete_trip_users(trip_id)
     delete_trip_trails(trip_id)
@@ -562,6 +564,21 @@ def delete_a_trip(trip_id):
     flash(flash_msg)
 
     return redirect("/account/trips")
+
+
+@app.route("/istriparchived")
+def check_if_trip_archived():
+    """Checks whether a trip's is_archived attribute is True or False"""
+
+    trip_id = request.args.get("trip_id")
+
+    trip = Trip.query.get(trip_id)
+
+    if trip.is_archived:
+        return "true"
+
+    else:
+        return "false"
 
 
 @app.route("/archivetrip", methods=["POST"])
