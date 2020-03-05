@@ -8,8 +8,11 @@ $("#search-results-search").attr("value", search);
 const nextButton = $("#next-button");
 const prevButton = $("#prev-button");
 
+// Variables for start & stop of search results
 let start = 0;
 let stop = 10;
+
+// Array to hold Google Map Markers for trails being displayed on map
 let markerArray = [];
 
 function initMap() {
@@ -18,12 +21,14 @@ function initMap() {
             $("#search-map-container").html("Invalid search terms, please try again");
             nextButton.addClass("hidden");
         } else {
+            // Create a Map instance
             const map = new google.maps.Map(
                 document.querySelector("#search-map-container"),
                 {zoom: 8,
                 center: res
                 }
             );
+            // Function to add markers to the map with an info window & event listeners
             const addMarker = (markerInfo, trail) => {
                 const marker = new google.maps.Marker(markerInfo);
                 markerArray.push(marker);
@@ -42,24 +47,31 @@ function initMap() {
                 });
                 return marker;
             };
+            // Function to set each marker in markerArray on the map
             const setMarkersOnMap = (map) => {
                 for (let i = 0; i < markerArray.length; i++) {
                     markerArray[i].setMap(map);
                 }
             };
+            // Function to remove all markers from map & empty markerArray
             const deleteMarkers = () => {
                 setMarkersOnMap(null);
                 markerArray = []
             }
+            // Function to get search results
             const getSearchResults = (searchTerms) => {
                 $.get(`/json/search`, {search: searchTerms}, (res2) => {
+                    // Hide "previous button" if no previous trails available
                     if (start <= 0) {
                         $("#prev-button").addClass("hidden");
                     }
+                    // Hide "next button" if no further trails are available
                     if (stop >= res2.length){
                         $("#next-button").addClass("hidden");
                     }
+                    // Slice get request response based on start/stop
                     let list_slice = res2.slice(start, stop);
+                    // Display each trail within the list slice & set markers on map
                     for (const trail of list_slice) {
                         $("#trail-list-container").append(
                             `<div id=${trail.id}>
@@ -77,10 +89,10 @@ function initMap() {
                             title: trail.name,
                         };
                         const marker = addMarker(markerInfo, trail);
+                        // Event listeners on each of the trail text divs to animate map marker
                         $(`#${trail.id}`).on("mouseenter", () => {
                             marker.setAnimation(google.maps.Animation.BOUNCE);
                         });
-                        
                         $(`#${trail.id}`).on("mouseleave", () => {
                             marker.setAnimation(undefined);
                         });
@@ -88,7 +100,22 @@ function initMap() {
                     setMarkersOnMap(map);
                 })
             };
+            const getTripLocations = () => {
+                $.get("/trip/user/getallusertrips", (res) => {
+                    console.log(res);
+                    for (const trip_id of Object.values(res)) {
+                        console.log(trip_id);
+                        if (trip_id.trip_lat !== null) {
+                            console.log(trip_id.trip_lat);
+                        } else {
+                            console.log("this didn't work");
+                        }
+                    };
+                });
+            };
             getSearchResults(search);
+            getTripLocations();
+            // Increment/decrement when next or prev buttons are clicked
             nextButton.on("click", () => {
                 start += 10;
                 stop += 10;
