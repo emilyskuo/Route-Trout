@@ -136,6 +136,7 @@ function initMap() {
                             console.log("this didn't work");
                         };
                     };
+                    setMarkersOnMap(map);
                 });
             };
             getSearchResults(search);
