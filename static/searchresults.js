@@ -159,6 +159,7 @@ function initMap() {
                 deleteMarkers();
                 $("#trail-list-container").empty()
                 getSearchResults(search);
+                getTripLocations();
                 $("#prev-button").removeClass("hidden");
             });
 
@@ -168,6 +169,7 @@ function initMap() {
                 deleteMarkers();
                 $("#trail-list-container").empty()
                 getSearchResults(search);
+                getTripLocations();
                 $("#next-button").removeClass("hidden");
             });
         }
