@@ -719,36 +719,27 @@ def remove_trip_trail():
         return "An error has occurred"
 
 
-# @app.route("/trip/user/getallusertrips")
-# def get_users_trips():
-#     """Gets all trips associated with a given user"""
+@app.route("/trip/user/getallusertrips")
+def get_users_trips():
+    """Gets all trips associated with a given user"""
 
-#     all_tu = Trip_User.query.filter_by(user_id=session["user_id"]).all()
+    all_tu = Trip_User.query.filter_by(user_id=session["user_id"]).all()
 
-#     tu_dict = {}
+    print(all_tu)
 
-#     for tu in all_tu:
-#         if tu.trip.is_archived is False:
-#             tu_dict[int(tu.trip_id)] = {
-#                 "trip_name": tu.trip.trip_name,
-#                 "trip_lat": tu.trip.accom_lat,
-#                 "trip_lng": tu.trip.accom_long,
-#                 "trip_trails": {
-#                     "list_trails": tu.trip.trip_trails
-#                 }
-#             }
-#             for tt in tu.trip.trip_trails:
-#                 print(tt)
-#                 tu_dict[tu.trip_id]["trip_trails"][tt.trail.trail_id] = {
-#                     "trail_name": tt.trail.trail_name,
-#                     "trail_long": float(tt.trail.long),
-#                     "trail_lat": float(tt.trail.lat),
-#                     "trail_id": int(tt.trail_id)
-#                 }
+    tu_dict = {}
 
-#     print(tu_dict)
+    for tu in all_tu:
+        if tu.trip.is_archived is False:
+            tu_dict[tu.trip_id] = {
+                "trip_name": tu.trip.trip_name,
+                "trip_lat": tu.trip.accom_lat,
+                "trip_lng": tu.trip.accom_long,
+            }
 
-#     return jsonify(tu_dict)
+    print(tu_dict)
+
+    return jsonify(tu_dict)
 
 
 if __name__ == "__main__":
