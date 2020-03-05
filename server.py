@@ -745,11 +745,17 @@ def get_trip_trail_info():
 
     trip_id = request.args.get("trip_id")
 
+    print(trip_id)
+
     all_tt = Trip_Trail.query.filter_by(trip_id=trip_id).all()
+
+    if not all_tt:
+        return "No tt here"
 
     tt_dict = {}
 
     for tt in all_tt:
+        print(tt)
         tt_dict[tt.trail_id] = {
             "trail_name": tt.trail.trail_name,
             "trail_lat": tt.trail.lat,
@@ -757,6 +763,7 @@ def get_trip_trail_info():
             "trail_id": tt.trail_id
         }
 
+    print(tt_dict)
     return jsonify(tt_dict)
 
 
