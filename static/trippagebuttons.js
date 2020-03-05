@@ -24,7 +24,7 @@ const editNameSubmit = $("#edit-trip-name-submit");
 const tripNameH = $("#trip-name-h")
 
 editNameButton.on("click", () => {
-    editNameDiv.removeClass("hidden");
+    editNameDiv.toggle();
 });
 
 editNameSubmit.on("click", (evt) => {
@@ -35,7 +35,7 @@ editNameSubmit.on("click", (evt) => {
             alert(res);
         } else {
             tripNameH.html(res);
-            editNameDiv.addClass("hidden");
+            editNameDiv.toggle();
         };
     })
 });
@@ -47,8 +47,8 @@ const editAccomSubmit = $("#edit-trip-accom-submit");
 const tripAccomP = $("#trip-accom-p")
 
 editAccomButton.on("click", () => {
-    editAccomDiv.removeClass("hidden");
-    tripAccomP.addClass("hidden");
+    editAccomDiv.toggle();
+    tripAccomP.toggle();
 });
 
 editAccomSubmit.on("click", (evt) => {
@@ -61,8 +61,8 @@ editAccomSubmit.on("click", (evt) => {
             // Update html in <p>
             tripAccomP.html(res);
             // Hide edit form & unhide tripAccomP
-            editAccomDiv.addClass("hidden");
-            tripAccomP.removeClass("hidden");
+            editAccomDiv.toggle();
+            tripAccomP.toggle();
             // Refresh map with new coordinates
             initMap();
             // Update "Search for trails nearby" link
@@ -77,7 +77,7 @@ const editUsersButton = $("#edit-trip-users-button");
 const editUsersDiv = $("#add-remove-trip-users-div");
 
 editUsersButton.on("click", () => {
-    editUsersDiv.removeClass("hidden");
+    editUsersDiv.toggle();
 });
 
 // Event listeners for adding Trip Participants
@@ -98,7 +98,7 @@ addUsersButton.on("click", (evt) => {
             };
         });
     };
-    editUsersDiv.addClass("hidden");
+    editUsersDiv.toggle();
 });
 
 // Event listeners for removing Trip Participants
@@ -118,7 +118,7 @@ delUsersButton.on("click", (evt) => {
             };
         });
     };
-    editUsersDiv.addClass("hidden");
+    editUsersDiv.toggle();
 });
 
 
@@ -129,13 +129,11 @@ const editTrailsDiv = $("#remove-trip-trails-div");
 
 
 editTrailsButton.on("click", () => {
-    editTrailsDiv.removeClass("hidden");
+    editTrailsDiv.toggle();
 });
-
 
 const remTrailsButton = $("#remove-trip-trails-button");
 const remTrailsSelect = $("#remove-trip-trails");
-
 
 remTrailsButton.on("click", (evt) => {
     evt.preventDefault();
@@ -149,7 +147,7 @@ remTrailsButton.on("click", (evt) => {
             };
         });
     };
-    editTrailsDiv.addClass("hidden");
+    editTrailsDiv.toggle();
     initMap();
 });
 
@@ -160,21 +158,21 @@ const unarchiveButton = $("#unarchive-trip");
 
 $.get("/istriparchived", {trip_id: trip_id}, (res) => {
     if (res === "true") {
-        archiveButton.addClass("hidden");
-        unarchiveButton.removeClass("hidden");
+        archiveButton.toggle();
+        unarchiveButton.toggle();
     };
 });
 
 archiveButton.on("click", () => {
     $.post("/archivetrip", {trip_id: trip_id}, () => {
-        archiveButton.addClass("hidden");
-        unarchiveButton.removeClass("hidden");
+        archiveButton.toggle();
+        unarchiveButton.toggle();
     });
 });
 unarchiveButton.on("click", () => {
     $.post("/unarchivetrip", {trip_id: trip_id}, () => {
-        archiveButton.removeClass("hidden");
-        unarchiveButton.addClass("hidden");
+        archiveButton.toggle();
+        unarchiveButton.toggle();
     });
 });
 
@@ -185,5 +183,5 @@ const deleteTripButton = $("#first-delete-trip-button");
 const deleteTripDiv = $("#confirm-delete-trip-div");
 
 deleteTripButton.on("click", () => {
-    deleteTripDiv.removeClass("hidden");
+    deleteTripDiv.toggle();
 });
