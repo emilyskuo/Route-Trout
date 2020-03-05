@@ -15,6 +15,8 @@ let stop = 10;
 // Array to hold Google Map Markers for trails being displayed on map
 let markerArray = [];
 
+const houseIcon = "/static/images/house.png"
+
 function initMap() {
     $.get(`/json/search-coords`, {search: search}, (res) => {
         if (res === "Invalid search terms") {
@@ -107,9 +109,32 @@ function initMap() {
                         console.log(trip_id);
                         if (trip_id.trip_lat !== null) {
                             console.log(trip_id.trip_lat);
+                            const marker = new google.maps.Marker({
+                                position: {
+                                    lat: Number(trip_id.trip_lat),
+                                    lng: Number(trip_id.trip_lng)
+                                },
+                                map: map,
+                                title: trip_id.trip_name,
+                                icon: houseIcon
+                            });
+                            markerArray.push(marker);
+                            const infowindow = new google.maps.InfoWindow({
+                                content: `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`,
+                            });
+                            marker.addListener("click", () => {
+                                map.setZoom(11);
+                                map.panTo(marker.getPosition());
+                                infowindow.open(marker.get("map"), marker);
+                            });
+                            infowindow.addListener("closeclick", () => {
+                                infowindow.close();
+                                map.setZoom(8);
+                                map.setCenter(res);
+                            });
                         } else {
                             console.log("this didn't work");
-                        }
+                        };
                     };
                 });
             };
