@@ -1,6 +1,7 @@
 "use strict";
 
-const houseIcon = "/static/images/house.png"
+const houseIcon = "/static/images/house.png";
+const hikerIcon = "/static/images/hiker.png";
 
 function initMap() {
     $.get(`/json/tripinfo`, {trip_id: trip_id}, (res) => {
@@ -26,6 +27,7 @@ function initMap() {
             const trailMarker = new google.maps.Marker({
                 position: trail.trail_lat_long,
                 map: map,
+                icon: hikerIcon,
             });
             const trailWindow = new google.maps.InfoWindow({
                 content: `<b>Trail:</b> <a href="/trail/${trail.trail_id}">${trail.trail_name}</a>`
