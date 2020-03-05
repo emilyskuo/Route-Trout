@@ -16,6 +16,7 @@ let stop = 10;
 let markerArray = [];
 
 const houseIcon = "/static/images/house.png"
+const hikerIcon = "/static/images/hiker.png"
 
 function initMap() {
     $.get(`/json/search-coords`, {search: search}, (res) => {
@@ -106,10 +107,19 @@ function initMap() {
             const getTripTrails = (trip_id) => {
                 $.get("/json/gettriptrailinfo", {trip_id: trip_id}, (res) => {
                     if (res !== "No tt here") {
-                        console.log(res);
                         for (const trail of Object.values(res)) {
-                            console.log(trail);
-                            console.log(trail.trail_name);
+                            const markerInfo = {
+                                position: {
+                                    lat: Number(trail.trail_lat),
+                                    lng: Number(trail.trail_lng)
+                                },
+                                map: map,
+                                title: trail.trail_name,
+                                icon: hikerIcon
+                            };
+                            const infoWindowContent = `Trail: <a href="/trail/${trail.trail_id}">${trail.trail_name}</a> <br>
+                                Trip Name : <a href="/trip/${trail.trip_id}">${trail.trip_name}</a>`;
+                            addMarker(markerInfo, infoWindowContent);
                         }
                     }
                     else {
