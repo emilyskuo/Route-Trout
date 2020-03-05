@@ -743,6 +743,31 @@ def get_users_trips():
     return jsonify(tu_dict)
 
 
+@app.route("/gettriptrailinfo")
+def get_trip_trail_info():
+    """Gets trip_trail information associated with a given trip"""
+
+    trip_id = int(request.args.get("trip_id"))
+
+    all_tt = Trip_Trail.query.filter_by(trip_id=trip_id).all()
+
+    print(all_tt)
+
+    tt_dict = {}
+
+    for tt in all_tt:
+        tt_dict[tt.trail_id] = {
+            "trail_name": tt.trail.trail_name,
+            "trail_lat": tt.trail.lat,
+            "trail_lng": tt.trail.long,
+            "trail_id": tt.trail_id
+        }
+
+    print(tt_dict)
+
+    return jsonify(tt_dict)
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
