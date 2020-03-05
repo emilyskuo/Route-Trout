@@ -760,7 +760,9 @@ def get_trip_trail_info():
             "trail_name": tt.trail.trail_name,
             "trail_lat": tt.trail.lat,
             "trail_lng": tt.trail.long,
-            "trail_id": tt.trail_id
+            "trail_id": tt.trail_id,
+            "trip_id": tt.trip_id,
+            "trip_name": tt.trip.trip_name,
         }
 
     print(tt_dict)
