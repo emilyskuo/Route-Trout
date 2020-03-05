@@ -105,12 +105,18 @@
 <button type="button" class="btn btn-secondary hidden" id="unarchive-trip">
     Unarchive this trip
 </button>
-
-<a href="/deletetrip/{{trip.trip_id}}">
-    <button type="button" class="btn btn-danger" id="delete-trip">
-    Delete this trip
-    </button>
-</a>
+<button type="button" class="btn btn-danger" id="first-delete-trip-button">
+Delete this trip
+</button>
+<div id="confirm-delete-trip-div" class="hidden">
+    <h6>
+        Deleting this trip is irreversible, are you sure you want to continue?
+    </h6>
+    <form action="/deletetrip" method="POST">
+        <input type="number" class="hidden" name="trip_id" value="{{trip.trip_id}}">
+        <input type="submit" class="btn btn-danger" id="delete-trip" value="I'm sure, delete this trip">
+    </form>
+</div>
 
 <script src="/static/trippagebuttons.js"></script>
 <!-- Script to initialize Google map & place marker -->
