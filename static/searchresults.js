@@ -103,19 +103,22 @@ function initMap() {
                     setMarkersOnMap(map);
                 })
             };
-            // const getTripTrails = () => {
-            //     $.get("/json/gettriptrailinfo", {trip_id: trip_id}, (res) => {
-            //         if (res) {
-            //             console.log(res);
-            //         }
-            //         else {
-            //             console.log("nope");
-            //         }
-            //     })
-            // }
+            const getTripTrails = (trip_id) => {
+                $.get("/json/gettriptrailinfo", {trip_id: trip_id}, (res) => {
+                    if (res !== "No tt here") {
+                        console.log(res);
+                        for (const trail of Object.values(res)) {
+                            console.log(trail);
+                            console.log(trail.trail_name);
+                        }
+                    }
+                    else {
+                        console.log("nope");
+                    }
+                });
+            };
             const getTripLocations = () => {
                 $.get("/json/getallusertrips", (res) => {
-                    console.log(res);
                     for (const trip_id of Object.values(res)) {
                         if (trip_id.trip_lat !== null) {
                             const markerInfo = {
@@ -132,6 +135,7 @@ function initMap() {
                         } else {
                             console.log("this didn't work");
                         };
+                        getTripTrails(trip_id.trip_id);
                     };
                     setMarkersOnMap(map);
                 });
