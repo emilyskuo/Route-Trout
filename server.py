@@ -735,6 +735,7 @@ def get_users_trips():
                 "trip_name": tu.trip.trip_name,
                 "trip_lat": tu.trip.accom_lat,
                 "trip_lng": tu.trip.accom_long,
+                "trip_id": tu.trip_id
             }
 
     print(tu_dict)
