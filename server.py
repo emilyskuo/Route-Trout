@@ -703,8 +703,8 @@ def remove_trip_users():
 def remove_trip_trail():
     """Removes a Trail_Trip instance"""
 
-    trip_id = int(request.form.get("trip_id"))
-    trail_id = int(request.form.get("trail_id"))
+    trip_id = request.form.get("trip_id")
+    trail_id = request.form.get("trail_id")
     tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
                                        (Trip_Trail.trip_id == trip_id)).first()
 
@@ -719,13 +719,11 @@ def remove_trip_trail():
         return "An error has occurred"
 
 
-@app.route("/trip/user/getallusertrips")
+@app.route("/json/getallusertrips")
 def get_users_trips():
     """Gets all trips associated with a given user"""
 
     all_tu = Trip_User.query.filter_by(user_id=session["user_id"]).all()
-
-    print(all_tu)
 
     tu_dict = {}
 
@@ -738,20 +736,16 @@ def get_users_trips():
                 "trip_id": tu.trip_id
             }
 
-    print(tu_dict)
-
     return jsonify(tu_dict)
 
 
-@app.route("/gettriptrailinfo")
+@app.route("/json/gettriptrailinfo")
 def get_trip_trail_info():
     """Gets trip_trail information associated with a given trip"""
 
-    trip_id = int(request.args.get("trip_id"))
+    trip_id = request.args.get("trip_id")
 
     all_tt = Trip_Trail.query.filter_by(trip_id=trip_id).all()
-
-    print(all_tt)
 
     tt_dict = {}
 
@@ -762,8 +756,6 @@ def get_trip_trail_info():
             "trail_lng": tt.trail.long,
             "trail_id": tt.trail_id
         }
-
-    print(tt_dict)
 
     return jsonify(tt_dict)
 
