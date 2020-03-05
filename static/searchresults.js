@@ -31,11 +31,11 @@ function initMap() {
                 }
             );
             // Function to add markers to the map with an info window & event listeners
-            const addMarker = (markerInfo, trail) => {
+            const addMarker = (markerInfo, infoWindowContent) => {
                 const marker = new google.maps.Marker(markerInfo);
                 markerArray.push(marker);
                 const infowindow = new google.maps.InfoWindow({
-                    content: `Trail Name : <a href="/trail/${trail.id}">${trail.name}</a>`,
+                    content: infoWindowContent,
                 });
                 marker.addListener("click", () => {
                     map.setZoom(11);
@@ -90,7 +90,8 @@ function initMap() {
                             map: map,
                             title: trail.name,
                         };
-                        const marker = addMarker(markerInfo, trail);
+                        const infoWindowContent = `Trail Name : <a href="/trail/${trail.id}">${trail.name}</a>`;
+                        const marker = addMarker(markerInfo, infoWindowContent);
                         // Event listeners on each of the trail text divs to animate map marker
                         $(`#${trail.id}`).on("mouseenter", () => {
                             marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -102,14 +103,22 @@ function initMap() {
                     setMarkersOnMap(map);
                 })
             };
+            // const getTripTrails = () => {
+            //     $.get("/json/gettriptrailinfo", {trip_id: trip_id}, (res) => {
+            //         if (res) {
+            //             console.log(res);
+            //         }
+            //         else {
+            //             console.log("nope");
+            //         }
+            //     })
+            // }
             const getTripLocations = () => {
-                $.get("/trip/user/getallusertrips", (res) => {
+                $.get("/json/getallusertrips", (res) => {
                     console.log(res);
                     for (const trip_id of Object.values(res)) {
-                        console.log(trip_id);
                         if (trip_id.trip_lat !== null) {
-                            console.log(trip_id.trip_lat);
-                            const marker = new google.maps.Marker({
+                            const markerInfo = {
                                 position: {
                                     lat: Number(trip_id.trip_lat),
                                     lng: Number(trip_id.trip_lng)
@@ -117,21 +126,9 @@ function initMap() {
                                 map: map,
                                 title: trip_id.trip_name,
                                 icon: houseIcon
-                            });
-                            markerArray.push(marker);
-                            const infowindow = new google.maps.InfoWindow({
-                                content: `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`,
-                            });
-                            marker.addListener("click", () => {
-                                map.setZoom(11);
-                                map.panTo(marker.getPosition());
-                                infowindow.open(marker.get("map"), marker);
-                            });
-                            infowindow.addListener("closeclick", () => {
-                                infowindow.close();
-                                map.setZoom(8);
-                                map.setCenter(res);
-                            });
+                            };
+                            const infoWindowContent = `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`;
+                            addMarker(markerInfo, infoWindowContent);
                         } else {
                             console.log("this didn't work");
                         };
