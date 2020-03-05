@@ -154,8 +154,16 @@ remTrailsButton.on("click", (evt) => {
 });
 
 // Event listeners for Archive & Unarchive buttons
+
 const archiveButton = $("#archive-trip");
 const unarchiveButton = $("#unarchive-trip");
+
+$.get("/istriparchived", {trip_id: trip_id}, (res) => {
+    if (res === "true") {
+        archiveButton.addClass("hidden");
+        unarchiveButton.removeClass("hidden");
+    };
+});
 
 archiveButton.on("click", () => {
     $.post("/archivetrip", {trip_id: trip_id}, () => {
@@ -168,4 +176,14 @@ unarchiveButton.on("click", () => {
         archiveButton.removeClass("hidden");
         unarchiveButton.addClass("hidden");
     });
+});
+
+
+// Event listener for Delete button
+
+const deleteTripButton = $("#first-delete-trip-button");
+const deleteTripDiv = $("#confirm-delete-trip-div");
+
+deleteTripButton.on("click", () => {
+    deleteTripDiv.removeClass("hidden");
 });
