@@ -1,9 +1,7 @@
 from flask import (Flask, render_template, redirect, request, flash, session,
                    jsonify)
-from flask_sqlalchemy import SQLAlchemy
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
-import requests
 import os
 from datetime import datetime
 
