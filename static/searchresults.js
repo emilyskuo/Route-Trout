@@ -7,6 +7,8 @@ $("#search-results-search").attr("value", search);
 
 const nextButton = $("#next-button");
 const prevButton = $("#prev-button");
+const hideTripsButton = $("#hide-trip-markers");
+const showTripsButton = $("#show-trip-markers");
 
 // Variables for start & stop of search results
 let start = 0;
@@ -16,8 +18,8 @@ let stop = 10;
 let markerArray = [];
 let tripMarkerArray = [];
 
-const houseIcon = "/static/images/house.png"
-const hikerIcon = "/static/images/hiker.png"
+const houseIcon = "/static/images/house.png";
+const hikerIcon = "/static/images/hiker.png";
 
 function initMap() {
     $.get(`/json/search-coords`, {search: search}, (res) => {
@@ -51,21 +53,20 @@ function initMap() {
                 });
                 return marker;
             };
-            // Function to set each marker in markerArray on the map
+            // Function to set each marker in given markerArray on the map
             const setMarkersOnMap = (map, markerArray) => {
                 for (let i = 0; i < markerArray.length; i++) {
                     markerArray[i].setMap(map);
                 }
             };
-            // const setTripMarkersOnMap = (map) => {
-            //     for (let i = 0; i < tripMarkerArray.length; i++) {
-            //         tripMarkerArray[i].setMap(map);
-            //     }
-            // };
-            // Function to remove all markers from map & empty markerArray
+            // Function to remove markers from map & empty given markerArray
             const deleteMarkers = (markerArray) => {
                 setMarkersOnMap(null, markerArray);
                 markerArray = []
+            };
+            // Function to hide markers from given markerArray
+            const hideMarkers = (markerArray) => {
+                setMarkersOnMap(null, markerArray);
             };
             // Function to get search results
             const getSearchResults = (searchTerms) => {
@@ -127,11 +128,8 @@ function initMap() {
                             const infoWindowContent = `Trail: <a href="/trail/${trail.trail_id}">${trail.trail_name}</a> <br>
                                 Trip Name : <a href="/trip/${trail.trip_id}">${trail.trip_name}</a>`;
                             addMarker(markerInfo, infoWindowContent, tripMarkerArray);
-                        }
-                    }
-                    else {
-                        console.log("nope");
-                    }
+                        };
+                    };
                 });
             };
             const getTripLocations = () => {
@@ -150,8 +148,6 @@ function initMap() {
                             };
                             const infoWindowContent = `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`;
                             addMarker(markerInfo, infoWindowContent, tripMarkerArray);
-                        } else {
-                            console.log("this didn't work");
                         };
                         getTripTrails(trip_id.trip_id);
                     };
@@ -167,7 +163,6 @@ function initMap() {
                 deleteMarkers(markerArray);
                 $("#trail-list-container").empty()
                 getSearchResults(search);
-                // getTripLocations();
                 $("#prev-button").removeClass("hidden");
             });
 
@@ -177,10 +172,19 @@ function initMap() {
                 deleteMarkers(markerArray);
                 $("#trail-list-container").empty()
                 getSearchResults(search);
-                // getTripLocations();
                 $("#next-button").removeClass("hidden");
             });
-        }
+            hideTripsButton.on("click", () => {
+                hideMarkers(tripMarkerArray);
+                hideTripsButton.toggle();
+                showTripsButton.toggle();
+            });
+            showTripsButton.on("click", () => {
+                setMarkersOnMap(map, tripMarkerArray);
+                hideTripsButton.toggle();
+                showTripsButton.toggle();
+            });
+        };
     });
-}
+};
 
