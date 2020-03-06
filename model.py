@@ -5,6 +5,7 @@ import bcrypt
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     """Users of hiking app"""
 

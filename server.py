@@ -3,7 +3,6 @@ from flask import (Flask, render_template, redirect, request, flash, session,
 from jinja2 import StrictUndefined
 from flask_debugtoolbar import DebugToolbarExtension
 import os
-from datetime import datetime
 
 from model import (User, Trail, User_Trail, Trip, Trip_User,
                    Trip_Trail, db, connect_to_db)
@@ -332,7 +331,6 @@ def save_trail_to_user_list():
 
     if "user_id" in session:
         trail_id = request.form.get("trail_id")
-        date_added = datetime.now()
 
         saved_trail = User_Trail(user_id=session["user_id"], trail_id=trail_id,
                                  date_added=date_added)
@@ -378,8 +376,6 @@ def mark_saved_trail_as_complete():
             db.session.commit()
 
         else:
-
-            date_added = datetime.now()
             saved_trail = User_Trail(user_id=user_id, trail_id=trail_id,
                                      date_added=date_added, is_completed=True)
 
@@ -472,8 +468,7 @@ def create_new_trip():
     db.session.commit()
 
     # Add Trip_User instance for creator of the trip upon creation of the trip
-    new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=session["user_id"],
-                       date_joined=datetime.now())
+    new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=session["user_id"])
 
     db.session.add(new_tu)
     db.session.commit()
@@ -501,7 +496,7 @@ def add_trail_to_trip(trail_id, trip_id):
 
     if not tt_query:
         tt = Trip_Trail(trail_id=trail_id, trip_id=trip_id,
-                        added_by=session["user_id"], date_added=datetime.now())
+                        added_by=session["user_id"])
 
         db.session.add(tt)
         db.session.commit()
@@ -664,8 +659,7 @@ def add_trip_users():
         return "User already added to trip"
 
     else:
-        tu = Trip_User(trip_id=trip_id, user_id=user_id,
-                       date_joined=datetime.now())
+        tu = Trip_User(trip_id=trip_id, user_id=user_id)
 
         db.session.add(tu)
         db.session.commit()

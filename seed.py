@@ -6,8 +6,6 @@ from model import (User, Trail, User_Trail, Trip, Trip_User,
                    Trip_Trail, db, connect_to_db)
 from server import app
 
-from datetime import datetime
-
 
 def load_sample_users():
     """Create sample user instances"""
@@ -39,10 +37,10 @@ def load_sample_user_trails():
 
     users = User.query.all()
 
-    ut1 = User_Trail(user_id=users[0].user_id, trail_id=1234, is_completed=True, date_added=datetime.now())
-    ut2 = User_Trail(user_id=users[1].user_id, trail_id=1234, is_completed=False, date_added=datetime.now())
-    ut3 = User_Trail(user_id=users[1].user_id, trail_id=12345, is_completed=False, date_added=datetime.now())
-    ut4 = User_Trail(user_id=users[0].user_id, trail_id=12345, is_completed=True, date_added=datetime.now())
+    ut1 = User_Trail(user_id=users[0].user_id, trail_id=1234, is_completed=True)
+    ut2 = User_Trail(user_id=users[1].user_id, trail_id=1234, is_completed=False)
+    ut3 = User_Trail(user_id=users[1].user_id, trail_id=12345, is_completed=False)
+    ut4 = User_Trail(user_id=users[0].user_id, trail_id=12345, is_completed=True)
 
     db.session.add_all([ut1, ut2, ut3, ut4])
 
