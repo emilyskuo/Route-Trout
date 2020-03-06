@@ -15,7 +15,7 @@ let start = 0;
 let stop = 10;
 
 // Array to hold Google Map Markers for trails being displayed on map
-let markerArray = [];
+let searchMarkerArray = [];
 let tripMarkerArray = [];
 
 const houseIcon = "/static/images/house.png";
@@ -62,7 +62,7 @@ function initMap() {
             // Function to remove markers from map & empty given markerArray
             const deleteMarkers = (markerArray) => {
                 setMarkersOnMap(null, markerArray);
-                markerArray = []
+                searchMarkerArray = [];
             };
             // Function to hide markers from given markerArray
             const hideMarkers = (markerArray) => {
@@ -99,7 +99,7 @@ function initMap() {
                             title: trail.name,
                         };
                         const infoWindowContent = `Trail Name : <a href="/trail/${trail.id}">${trail.name}</a>`;
-                        const marker = addMarker(markerInfo, infoWindowContent, markerArray);
+                        const marker = addMarker(markerInfo, infoWindowContent, searchMarkerArray);
                         // Event listeners on each of the trail text divs to animate map marker
                         $(`#${trail.id}`).on("mouseenter", () => {
                             marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -108,7 +108,7 @@ function initMap() {
                             marker.setAnimation(undefined);
                         });
                     }
-                    setMarkersOnMap(map, markerArray);
+                    setMarkersOnMap(map, searchMarkerArray);
                 })
             };
             const getTripTrails = (trip_id) => {
@@ -160,7 +160,7 @@ function initMap() {
             nextButton.on("click", () => {
                 start += 10;
                 stop += 10;
-                deleteMarkers(markerArray);
+                deleteMarkers(searchMarkerArray);
                 $("#trail-list-container").empty()
                 getSearchResults(search);
                 $("#prev-button").removeClass("hidden");
@@ -169,7 +169,7 @@ function initMap() {
             prevButton.on("click", () => {
                 start -= 10;
                 stop -= 10;
-                deleteMarkers(markerArray);
+                deleteMarkers(searchMarkerArray);
                 $("#trail-list-container").empty()
                 getSearchResults(search);
                 $("#next-button").removeClass("hidden");
