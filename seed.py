@@ -3,7 +3,7 @@
 from sqlalchemy import func
 
 from model import (User, Trail, User_Trail, Trip, Trip_User,
-                   Trip_Trail, Trip_Comment, db, connect_to_db)
+                   Trip_Trail, db, connect_to_db)
 from server import app
 
 from datetime import datetime
@@ -84,22 +84,6 @@ def load_sample_trip_trails():
     db.session.commit()
 
 
-def load_sample_trip_comments():
-    """Create sample trip_comment instances"""
-
-    tc1 = Trip_Comment(trip_id=1, added_by=1,
-                       comment_text="wow this sounds so amazing!",
-                       date_added=datetime.now())
-    tc2 = Trip_Comment(trip_id=1, added_by=2,
-                       comment_text="ew i hate this")
-    tc3 = Trip_Comment(trip_id=2, added_by=1,
-                       comment_text="super excited!")
-
-    db.session.add_all([tc1, tc2, tc3])
-
-    db.session.commit()
-
-
 def set_val_user_id():
     """Set value for the next user_id after seeding database"""
 
@@ -165,19 +149,6 @@ def set_val_trip_trail_id():
     db.session.commit()
 
 
-def set_val_trip_comment_id():
-    """Set value for the next tc_id after seeding database"""
-
-    # Get the Max tc_id in the database
-    result = db.session.query(func.max(Trip_Comment.tc_id)).one()
-    max_id = int(result[0])
-
-    # Set the value for the next tc_id to be max_id + 1
-    query = "SELECT setval('trip_comments_tc_id_seq', :new_id)"
-    db.session.execute(query, {'new_id': max_id + 1})
-    db.session.commit()
-
-
 # To seed sample data into the database, run this file
 if __name__ == "__main__":
     connect_to_db(app)
@@ -187,7 +158,6 @@ if __name__ == "__main__":
     User_Trail.query.delete()
     Trip_User.query.delete()
     Trip_Trail.query.delete()
-    Trip_Comment.query.delete()
     Trip.query.delete()
     Trail.query.delete()
     User.query.delete()
@@ -201,12 +171,10 @@ if __name__ == "__main__":
     load_sample_trips()
     load_sample_trip_users()
     load_sample_trip_trails()
-    load_sample_trip_comments()
     set_val_user_id()
     set_val_user_trail_id()
     set_val_trip_id()
     set_val_trip_user_id()
     set_val_trip_trail_id()
-    set_val_trip_comment_id()
 
     print("Sample data seeded")

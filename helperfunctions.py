@@ -2,7 +2,7 @@ import requests
 import os
 
 from model import (User, Trail, User_Trail, Trip, Trip_User,
-                   Trip_Trail, Trip_Comment, db, connect_to_db)
+                   Trip_Trail, db, connect_to_db)
 
 
 GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
@@ -123,17 +123,6 @@ def delete_trip_trails(trip_id):
 
     for tt in trip_trails:
         db.session.delete(tt)
-
-    db.session.commit()
-
-
-def delete_trip_comments(trip_id):
-    """Deletes all Trip_Comment instances associated with a given trip_id"""
-
-    trip_comments = Trip_Comment.query.filter_by(trip_id=trip_id).all()
-
-    for tc in trip_comments:
-        db.session.delete(tc)
 
     db.session.commit()
 

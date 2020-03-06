@@ -80,7 +80,6 @@ class User_Trail(db.Model):
     trail_id = db.Column(db.Integer, db.ForeignKey("trails.trail_id"),
                          nullable=False)
     is_completed = db.Column(db.Boolean, default=False)
-    date_added = db.Column(db.DateTime)
 
     user = db.relationship('User', backref='user_trails')
     trail = db.relationship('Trail', backref='user_trails')
@@ -105,8 +104,6 @@ class Trip(db.Model):
     accom_lat = db.Column(db.Float)
     is_archived = db.Column(db.Boolean, default=False)
 
-    # think about using chron to check/archive trips
-
     def __repr__(self):
         """Define representation of trip objects"""
 
@@ -125,7 +122,6 @@ class Trip_User(db.Model):
                         nullable=False)
     trip_id = db.Column(db.Integer, db.ForeignKey("trips.trip_id"),
                         nullable=False)
-    date_joined = db.Column(db.DateTime)
 
     user = db.relationship('User', backref='trip_users')
     trip = db.relationship('Trip', backref='trip_users')
@@ -150,7 +146,6 @@ class Trip_Trail(db.Model):
                         nullable=False)
     added_by = db.Column(db.Integer, db.ForeignKey("users.user_id"),
                          nullable=False)
-    date_added = db.Column(db.DateTime)
 
     trail = db.relationship('Trail', backref='trip_trails')
     trip = db.relationship('Trip', backref='trip_trails')
@@ -160,28 +155,6 @@ class Trip_Trail(db.Model):
         """Define representation of trip_trail objects"""
 
         return f"<Trip_trail id={self.tt_id}>"
-
-
-class Trip_Comment(db.Model):
-    """Comments from users on a given trip."""
-
-    __tablename__ = "trip_comments"
-
-    tc_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    trip_id = db.Column(db.Integer, db.ForeignKey("trips.trip_id"),
-                        nullable=False)
-    added_by = db.Column(db.Integer, db.ForeignKey("users.user_id"),
-                         nullable=False)
-    date_added = db.Column(db.DateTime)
-    comment_text = db.Column(db.Text)
-
-    trip = db.relationship('Trip', backref='trip_comments')
-    user = db.relationship('User', backref='trip_comments')
-
-    def __repr__(self):
-        """Define representation of trip_trail objects"""
-
-        return f"<Trip_trail id={self.tc_id}>"
 
 
 def connect_to_db(app, db_name='postgresql:///hikingapp'):

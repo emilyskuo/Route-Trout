@@ -6,12 +6,11 @@ import os
 from datetime import datetime
 
 from model import (User, Trail, User_Trail, Trip, Trip_User,
-                   Trip_Trail, Trip_Comment, db, connect_to_db)
+                   Trip_Trail, db, connect_to_db)
 
 from helperfunctions import (call_geocoding_api, call_hiking_project_api,
                              seed_trails_into_db, delete_trip_users,
-                             delete_trip_trails, delete_trip_comments,
-                             delete_trip)
+                             delete_trip_trails, delete_trip)
 
 GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
 HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
@@ -556,7 +555,6 @@ def delete_a_trip():
 
     delete_trip_users(trip_id)
     delete_trip_trails(trip_id)
-    delete_trip_comments(trip_id)
     flash_msg = delete_trip(trip_id)
 
     flash(flash_msg)
