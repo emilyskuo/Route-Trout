@@ -14,6 +14,7 @@ let stop = 10;
 
 // Array to hold Google Map Markers for trails being displayed on map
 let markerArray = [];
+let tripMarkerArray = [];
 
 const houseIcon = "/static/images/house.png"
 const hikerIcon = "/static/images/hiker.png"
@@ -32,7 +33,7 @@ function initMap() {
                 }
             );
             // Function to add markers to the map with an info window & event listeners
-            const addMarker = (markerInfo, infoWindowContent) => {
+            const addMarker = (markerInfo, infoWindowContent, markerArray) => {
                 const marker = new google.maps.Marker(markerInfo);
                 markerArray.push(marker);
                 const infowindow = new google.maps.InfoWindow({
@@ -51,16 +52,21 @@ function initMap() {
                 return marker;
             };
             // Function to set each marker in markerArray on the map
-            const setMarkersOnMap = (map) => {
+            const setMarkersOnMap = (map, markerArray) => {
                 for (let i = 0; i < markerArray.length; i++) {
                     markerArray[i].setMap(map);
                 }
             };
+            // const setTripMarkersOnMap = (map) => {
+            //     for (let i = 0; i < tripMarkerArray.length; i++) {
+            //         tripMarkerArray[i].setMap(map);
+            //     }
+            // };
             // Function to remove all markers from map & empty markerArray
-            const deleteMarkers = () => {
-                setMarkersOnMap(null);
+            const deleteMarkers = (markerArray) => {
+                setMarkersOnMap(null, markerArray);
                 markerArray = []
-            }
+            };
             // Function to get search results
             const getSearchResults = (searchTerms) => {
                 $.get(`/json/search`, {search: searchTerms}, (res2) => {
@@ -92,7 +98,7 @@ function initMap() {
                             title: trail.name,
                         };
                         const infoWindowContent = `Trail Name : <a href="/trail/${trail.id}">${trail.name}</a>`;
-                        const marker = addMarker(markerInfo, infoWindowContent);
+                        const marker = addMarker(markerInfo, infoWindowContent, markerArray);
                         // Event listeners on each of the trail text divs to animate map marker
                         $(`#${trail.id}`).on("mouseenter", () => {
                             marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -101,7 +107,7 @@ function initMap() {
                             marker.setAnimation(undefined);
                         });
                     }
-                    setMarkersOnMap(map);
+                    setMarkersOnMap(map, markerArray);
                 })
             };
             const getTripTrails = (trip_id) => {
@@ -120,7 +126,7 @@ function initMap() {
                             };
                             const infoWindowContent = `Trail: <a href="/trail/${trail.trail_id}">${trail.trail_name}</a> <br>
                                 Trip Name : <a href="/trip/${trail.trip_id}">${trail.trip_name}</a>`;
-                            addMarker(markerInfo, infoWindowContent);
+                            addMarker(markerInfo, infoWindowContent, tripMarkerArray);
                         }
                     }
                     else {
@@ -143,13 +149,13 @@ function initMap() {
                                 zIndex: 50,
                             };
                             const infoWindowContent = `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`;
-                            addMarker(markerInfo, infoWindowContent);
+                            addMarker(markerInfo, infoWindowContent, tripMarkerArray);
                         } else {
                             console.log("this didn't work");
                         };
                         getTripTrails(trip_id.trip_id);
                     };
-                    setMarkersOnMap(map);
+                    setMarkersOnMap(map, tripMarkerArray);
                 });
             };
             getSearchResults(search);
@@ -158,20 +164,20 @@ function initMap() {
             nextButton.on("click", () => {
                 start += 10;
                 stop += 10;
-                deleteMarkers();
+                deleteMarkers(markerArray);
                 $("#trail-list-container").empty()
                 getSearchResults(search);
-                getTripLocations();
+                // getTripLocations();
                 $("#prev-button").removeClass("hidden");
             });
 
             prevButton.on("click", () => {
                 start -= 10;
                 stop -= 10;
-                deleteMarkers();
+                deleteMarkers(markerArray);
                 $("#trail-list-container").empty()
                 getSearchResults(search);
-                getTripLocations();
+                // getTripLocations();
                 $("#next-button").removeClass("hidden");
             });
         }
