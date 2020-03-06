@@ -1,10 +1,9 @@
 """Create database classes & tables for hiking trails app"""
 
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
 
 db = SQLAlchemy()
-
 
 class User(db.Model):
     """Users of hiking app"""
@@ -14,7 +13,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String(200), nullable=False, unique=True)
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.Binary(128))
     fname = db.Column(db.String(50))
     lname = db.Column(db.String(50))
     cell = db.Column(db.String(15))
@@ -30,12 +29,15 @@ class User(db.Model):
     def set_password(self, password):
         """Generate hash for users' passwords"""
 
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = bcrypt.hashpw(password.encode("utf-8"),
+                                           bcrypt.gensalt(15))
 
     def check_password(self, password):
         """Check if password matches with password hash"""
 
-        return check_password_hash(self.password_hash, password)
+        password = password.encode("utf-8")
+
+        return bcrypt.checkpw(password, self.password_hash)
 
 
 class Trail(db.Model):
@@ -185,7 +187,7 @@ class Trip_Comment(db.Model):
 def connect_to_db(app, db_name='postgresql:///hikingapp'):
     """Connect database to Flask app"""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///testdb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_name
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
@@ -194,6 +196,6 @@ def connect_to_db(app, db_name='postgresql:///hikingapp'):
 # For testing database & relations, run this file interactively
 if __name__ == "__main__":
     from server import app
-    connect_to_db(app, 'postgresql:///testdb')
+    connect_to_db(app)  # , 'postgresql:///testdb')
 
     print("Connected to db")
