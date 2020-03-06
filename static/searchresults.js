@@ -21,6 +21,15 @@ let tripMarkerArray = [];
 const houseIcon = "/static/images/house.png";
 const hikerIcon = "/static/images/hiker.png";
 
+const colorToDifficultyConversion = {
+    "green": "Easy",
+    "greenBlue": "Moderately Easy",
+    "blue": "Intermediate",
+    "blueBlack": "Somewhat Difficult",
+    "black": "Difficult",
+    "dblack": "Extremely Difficult"
+};
+
 function initMap() {
     $.get(`/json/search-coords`, {search: search}, (res) => {
         if (res === "Invalid search terms") {
@@ -83,11 +92,13 @@ function initMap() {
                     let list_slice = res2.slice(start, stop);
                     // Display each trail within the list slice & set markers on map
                     for (const trail of list_slice) {
+                        const difficulty = trail.difficulty;
                         $("#trail-list-container").append(
                             `<div id=${trail.id}>
                             <img src="${trail.imgSqSmall}">
                             <a href="/trail/${trail.id}">${trail.name}</a>
                             <b>Length:</b> ${trail.length}
+                            <b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}
                             </div>`
                             );
                         const markerInfo = {
@@ -154,6 +165,7 @@ function initMap() {
                     setMarkersOnMap(map, tripMarkerArray);
                 });
             };
+            // Load search results & trip locations
             getSearchResults(search);
             getTripLocations();
             // Increment/decrement when next or prev buttons are clicked
@@ -165,7 +177,6 @@ function initMap() {
                 getSearchResults(search);
                 $("#prev-button").removeClass("hidden");
             });
-
             prevButton.on("click", () => {
                 start -= 10;
                 stop -= 10;
@@ -174,6 +185,7 @@ function initMap() {
                 getSearchResults(search);
                 $("#next-button").removeClass("hidden");
             });
+            // Toggle trip markers on map
             hideTripsButton.on("click", () => {
                 hideMarkers(tripMarkerArray);
                 hideTripsButton.toggle();
