@@ -10,8 +10,8 @@ from server import app
 def load_sample_users():
     """Create sample user instances"""
 
-    user1 = User(username="hello", email="hello@hello.com")
-    user2 = User(username="dude", email="dude@hello.com")
+    user1 = User(user_id=1, username="hello", email="hello@hello.com")
+    user2 = User(user_id=2, username="dude", email="dude@hello.com")
 
     user1.set_password("hello")
     user2.set_password("dudeman")
@@ -35,12 +35,10 @@ def load_sample_trails():
 def load_sample_user_trails():
     """Create sample user_trail instances"""
 
-    users = User.query.all()
-
-    ut1 = User_Trail(user_id=users[0].user_id, trail_id=1234, is_completed=True)
-    ut2 = User_Trail(user_id=users[1].user_id, trail_id=1234, is_completed=False)
-    ut3 = User_Trail(user_id=users[1].user_id, trail_id=12345, is_completed=False)
-    ut4 = User_Trail(user_id=users[0].user_id, trail_id=12345, is_completed=True)
+    ut1 = User_Trail(user_id=1, trail_id=1234, is_completed=True)
+    ut2 = User_Trail(user_id=2, trail_id=1234, is_completed=False)
+    ut3 = User_Trail(user_id=2, trail_id=12345, is_completed=False)
+    ut4 = User_Trail(user_id=1, trail_id=12345, is_completed=True)
 
     db.session.add_all([ut1, ut2, ut3, ut4])
 
