@@ -198,7 +198,9 @@ def display_saved_trails():
 
     # Query database to find User_trail objects belonging to user
     # & not marked complete
-    saved_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+
+    user_id = session.get("user_id")
+    saved_trails = User_Trail.query.filter((User_Trail.user_id == user_id)
                                            & (User_Trail.is_completed.is_(False))).all()
 
     return render_template("account-savedlist.html", saved_trails=saved_trails)
@@ -210,7 +212,8 @@ def display_completed_trails():
 
     # Query database to find User_trail objects belonging to user
     # & not marked complete
-    completed_trails = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+    user_id = session.get("user_id")
+    completed_trails = User_Trail.query.filter((User_Trail.user_id == user_id)
                                                & (User_Trail.is_completed.is_(True))).all()
 
     return render_template("account-completedlist.html",
@@ -221,7 +224,8 @@ def display_completed_trails():
 def display_user_trips():
     """Display a user's trips"""
 
-    user_trips = Trip_User.query.filter_by(user_id=session["user_id"]).all()
+    user_id = session.get("user_id")
+    user_trips = Trip_User.query.filter_by(user_id=user_id).all()
 
     return render_template("account-trips.html", user_trips=user_trips)
 
@@ -301,9 +305,11 @@ def display_trail_info(trail_id):
     """Display trail information page"""
 
     trail = Trail.query.get(trail_id)
-    trips = Trip_User.query.filter_by(user_id=session["user_id"]).all()
+    user_id = session.get("user_id)")
+    trips = []
 
-    print(trips)
+    if user_id:
+        trips = Trip_User.query.filter_by(user_id=user_id).all()
 
     return render_template("trail.html", trail=trail,
                            GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY, trips=trips)
@@ -332,8 +338,7 @@ def save_trail_to_user_list():
     if "user_id" in session:
         trail_id = request.form.get("trail_id")
 
-        saved_trail = User_Trail(user_id=session["user_id"], trail_id=trail_id,
-                                 date_added=date_added)
+        saved_trail = User_Trail(user_id=session["user_id"], trail_id=trail_id)
 
         db.session.add(saved_trail)
         db.session.commit()
@@ -349,13 +354,16 @@ def unsave_trail_to_user_list():
     """Remove a User-Trail instance"""
 
     trail_id = request.form.get("trail_id")
-    trail_to_delete = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
-                                              & (User_Trail.trail_id == trail_id)).first()
 
-    db.session.delete(trail_to_delete)
-    db.session.commit()
+    if "user_id" in session:
+        user_id = session.get("user_id")
+        trail_to_delete = User_Trail.query.filter((User_Trail.user_id == user_id)
+                                                & (User_Trail.trail_id == trail_id)).first()
 
-    return "Trail removed"
+        db.session.delete(trail_to_delete)
+        db.session.commit()
+
+        return "Trail removed"
 
 
 @app.route("/user/complete-trail", methods=["POST"])
@@ -363,7 +371,7 @@ def mark_saved_trail_as_complete():
     """Update a User-Trail's is_completed attribute to True"""
 
     if "user_id" in session:
-        user_id = session["user_id"]
+        user_id = session.get("user_id")
         trail_id = int(request.form.get("trail_id"))
 
         saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
@@ -377,7 +385,7 @@ def mark_saved_trail_as_complete():
 
         else:
             saved_trail = User_Trail(user_id=user_id, trail_id=trail_id,
-                                     date_added=date_added, is_completed=True)
+                                     is_completed=True)
 
             db.session.add(saved_trail)
             db.session.commit()
@@ -392,26 +400,30 @@ def mark_saved_trail_as_complete():
 def unmark_saved_trail_as_complete():
     """Update a User-Trail's is_completed attribute to False"""
 
-    user_id = session["user_id"]
+    user_id = session.get("user_id")
     trail_id = int(request.form.get("trail_id"))
 
-    saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
-                                          & (User_Trail.trail_id == trail_id)).first()
+    if user_id:
+        saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
+                                            & (User_Trail.trail_id == trail_id)).first()
 
-    saved_trail.is_completed = False
+        saved_trail.is_completed = False
 
-    db.session.add(saved_trail)
-    db.session.commit()
+        db.session.add(saved_trail)
+        db.session.commit()
 
-    return "Trail unmarked as complete"
+        return "Trail unmarked as complete"
 
 
 @app.route("/user/is-trail-saved/<trail_id>")
 def check_if_trail_saved_for_user(trail_id):
     """For a given user, check if a trail is saved in user_trails"""
 
-    ut = User_Trail.query.filter((User_Trail.user_id == session["user_id"]) &
-                                 (User_Trail.trail_id == trail_id)).first()
+    user_id = session.get("user_id")
+
+    if user_id:
+        ut = User_Trail.query.filter((User_Trail.user_id == user_id) &
+                                     (User_Trail.trail_id == trail_id)).first()
 
     response = {}
 
@@ -468,7 +480,8 @@ def create_new_trip():
     db.session.commit()
 
     # Add Trip_User instance for creator of the trip upon creation of the trip
-    new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=session["user_id"])
+    user_id = session.get("user_id")
+    new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=user_id)
 
     db.session.add(new_tu)
     db.session.commit()
@@ -495,8 +508,9 @@ def add_trail_to_trip(trail_id, trip_id):
                                        (Trip_Trail.trip_id == trip_id)).first()
 
     if not tt_query:
+        user_id = session.get("user_id")
         tt = Trip_Trail(trail_id=trail_id, trip_id=trip_id,
-                        added_by=session["user_id"])
+                        added_by=user_id)
 
         db.session.add(tt)
         db.session.commit()
@@ -713,7 +727,9 @@ def remove_trip_trail():
 def get_users_trips():
     """Gets all trips associated with a given user"""
 
-    all_tu = Trip_User.query.filter_by(user_id=session["user_id"]).all()
+    user_id = session.get("user_id")
+
+    all_tu = Trip_User.query.filter_by(user_id=user_id).all()
 
     tu_dict = {}
 
