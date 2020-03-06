@@ -105,17 +105,32 @@
 <button type="button" class="btn btn-secondary hidden" id="unarchive-trip">
     Unarchive this trip
 </button>
-<button type="button" class="btn btn-danger" id="first-delete-trip-button">
+<button type="button" class="btn btn-danger" id="first-delete-trip-button" data-toggle="modal" data-target="#confirm-delete-trip-modal">
 Delete this trip
 </button>
-<div id="confirm-delete-trip-div" class="hidden">
-    <h6>
-        Deleting this trip is irreversible, are you sure you want to continue?
-    </h6>
-    <form action="/deletetrip" method="POST">
-        <input type="number" class="hidden" name="trip_id" value="{{trip.trip_id}}">
-        <input type="submit" class="btn btn-danger" id="delete-trip" value="I'm sure, delete this trip">
-    </form>
+<div id="confirm-delete-trip-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="delete-trip-modal-title" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete-trip-modal-title">
+                    Delete this trip?
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                Deleting this trip is irreversible.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form action="/deletetrip" method="POST">
+                    <input type="number" class="hidden" name="trip_id" value="{{trip.trip_id}}">
+                    <input type="submit" class="btn btn-danger" id="delete-trip" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="/static/trippagebuttons.js"></script>
