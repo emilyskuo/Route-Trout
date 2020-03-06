@@ -115,7 +115,8 @@ function initMap() {
                                 },
                                 map: map,
                                 title: trail.trail_name,
-                                icon: hikerIcon
+                                icon: hikerIcon,
+                                zIndex: 50,
                             };
                             const infoWindowContent = `Trail: <a href="/trail/${trail.trail_id}">${trail.trail_name}</a> <br>
                                 Trip Name : <a href="/trip/${trail.trip_id}">${trail.trip_name}</a>`;
@@ -138,7 +139,8 @@ function initMap() {
                                 },
                                 map: map,
                                 title: trip_id.trip_name,
-                                icon: houseIcon
+                                icon: houseIcon,
+                                zIndex: 50,
                             };
                             const infoWindowContent = `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`;
                             addMarker(markerInfo, infoWindowContent);
