@@ -37,7 +37,7 @@ editNameSubmit.on("click", (evt) => {
             tripNameH.html(res);
             editNameDiv.toggle();
         };
-    })
+    });
 });
 
 // Event listeners for editing Trip Accommodations
