@@ -305,7 +305,7 @@ def display_trail_info(trail_id):
     """Display trail information page"""
 
     trail = Trail.query.get(trail_id)
-    user_id = session.get("user_id)")
+    user_id = session.get("user_id")
     trips = []
 
     if user_id:
@@ -358,7 +358,7 @@ def unsave_trail_to_user_list():
     if "user_id" in session:
         user_id = session.get("user_id")
         trail_to_delete = User_Trail.query.filter((User_Trail.user_id == user_id)
-                                                & (User_Trail.trail_id == trail_id)).first()
+                                                  & (User_Trail.trail_id == trail_id)).first()
 
         db.session.delete(trail_to_delete)
         db.session.commit()
