@@ -146,7 +146,7 @@ def set_val_trip_trail_id():
 
 
 # To seed sample data into the database, run this file
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     connect_to_db(app)
 
     # Create tables if not already created. Delete all entries in tables

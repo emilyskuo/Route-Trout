@@ -168,8 +168,8 @@ def connect_to_db(app, db_name='postgresql:///hikingapp'):
 
 
 # For testing database & relations, run this file interactively
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     from server import app
-    connect_to_db(app)  # , 'postgresql:///testdb')
+    connect_to_db(app)
 
     print("Connected to db")

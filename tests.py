@@ -3,6 +3,9 @@ import unittest
 from server import app, db, connect_to_db
 import seed
 
+GOOGLE_MAPS_KEY = "key"
+HIKING_PROJECT_KEY = "key"
+
 
 class TestFlaskRoutes(unittest.TestCase):
     """Test Flask routes"""
@@ -35,6 +38,24 @@ class TestFlaskRoutes(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'<form action="/login" method="POST">', result.data)
 
+    def test_account_pg(self):
+        """Test account page when logged in"""
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
+
+        result = self.client.get("/account")
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Update your account information", result.data)
+
+    def test_account_pg_catch(self):
+        """Test account page when not logged in"""
+        
+        result = self.client.get("/account", follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"You need to be logged in", result.data)
+
     def test_logout(self):
         """Test logout page"""
 
@@ -45,6 +66,13 @@ class TestFlaskRoutes(unittest.TestCase):
         result = self.client.get("/logout", follow_redirects=True)
         self.assertEqual(result.status_code, 200)
         self.assertIn(b"Logged out", result.data)
+
+    def test_search_results(self):
+        """Test search results page"""
+
+        result = self.client.get("/search")
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"<h2>Search Results</h2>", result.data)
 
 
 class TestdbRoutes(unittest.TestCase):
@@ -109,6 +137,16 @@ class TestdbRoutes(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn(b"Login successful", result.data)
 
+    def test_login_wrong_submission(self):
+        """Test user log in form submission with wrong info"""
+
+        result = self.client.post("/login",
+                                  data={"username": "hello",
+                                        "password": "goobye"},
+                                  follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"Incorrect login information", result.data)
+
     def test_register_submission(self):
         """Test registration form submission"""
 
@@ -119,6 +157,29 @@ class TestdbRoutes(unittest.TestCase):
                                   follow_redirects=True)
         self.assertEqual(result.status_code, 200)
         self.assertIn(b'<form action="/login" method="POST">', result.data)
+
+    def test_register_submission_username_catch(self):
+        """Test registration form submission if username already taken"""
+
+        result = self.client.post("/register",
+                                  data={"username": "hello",
+                                        "email": "hello@username.com",
+                                        "password": "userpassword"},
+                                  follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"The username hello is already taken", result.data)
+
+    def test_register_submission_email_catch(self):
+        """Test registration form submission if email already taken"""
+
+        result = self.client.post("/register",
+                                  data={"username": "newuser",
+                                        "email": "hello@hello.com",
+                                        "password": "userpassword"},
+                                  follow_redirects=True)
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b"There&#39;s already an account associated with hello@hello.com", result.data)
+
 
 
 if __name__ == "__main__":
