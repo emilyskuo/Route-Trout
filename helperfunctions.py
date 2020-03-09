@@ -62,10 +62,11 @@ def convert_trail_difficulty(color_difficulty):
         "blue": "Intermediate",
         "blueBlack": "Somewhat Difficult",
         "black": "Difficult",
-        "dblack": "Extremely Difficult"
+        "dblack": "Extremely Difficult",
+        "missing": "Information Missing",
     }
 
-    return color_dict[color_difficulty]
+    return color_dict.get(color_difficulty)
 
 
 def seed_trails_into_db(api_response):

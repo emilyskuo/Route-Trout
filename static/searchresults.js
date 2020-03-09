@@ -27,7 +27,8 @@ const colorToDifficultyConversion = {
     "blue": "Intermediate",
     "blueBlack": "Somewhat Difficult",
     "black": "Difficult",
-    "dblack": "Extremely Difficult"
+    "dblack": "Extremely Difficult",
+    "missing": "Information Missing"
 };
 
 function initMap() {
