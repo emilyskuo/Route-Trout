@@ -117,7 +117,9 @@ def show_account_options():
 def show_acct_info_form():
     """Display form for user to update account information"""
 
-    return render_template("/account-userinfo.html")
+    user = User.query.get(session.get("user_id"))
+
+    return render_template("/account-userinfo.html", user=user)
 
 
 @app.route("/account/updateacctinfo", methods=["POST"])

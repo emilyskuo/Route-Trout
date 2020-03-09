@@ -13,28 +13,33 @@
         <div class="form-row">
           <div class="col">
             <label for="fname">First Name</label>
-              <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+              <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" 
+              {% if user.fname%} value={{user.fname}} {% endif %}>
           </div>
           <div class="col">
             <label for="lname">Last Name</label>
-              <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+              <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name"
+              {% if user.lname%} value={{user.lname}} {% endif %}>
           </div>
         </div>
         <label for="cell">Cellphone Number</label>
           <input type="tel" class="form-control" id="cell" name="cell" placeholder="eg 123-456-7890" 
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" {% if user.cell%} value={{user.cell}} {% endif %}>
         <div class="form-row">
           <div class="col">
             <label for="city">City</label>
-            <input type="text" class="form-control" id="city" name="city" placeholder="City">
+            <input type="text" class="form-control" id="city" name="city" placeholder="City"
+            {% if user.city%} value={{user.city}} {% endif %}>
           </div>
           <div class="col">
             <label for="state">City</label>
-            <input type="text" class="form-control" id="state" name="state" placeholder="State" maxlength=2>
+            <input type="text" class="form-control" id="state" name="state" placeholder="State" maxlength=2
+            {% if user.state%} value={{user.state}} {% endif %}>
           </div>
           <div class="col">
             <label for="zipcode">Zip Code</label>
-            <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code">
+            <input type="text" class="form-control" id="zipcode" name="zipcode" placeholder="Zip Code" maxlength=5
+            {% if user.zipcode%} value={{user.zipcode}} {% endif %}>
           </div>
         </div>   
         <input type="submit" class="btn btn-primary"> 
