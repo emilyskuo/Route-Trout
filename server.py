@@ -177,33 +177,45 @@ def update_account_info():
 
 @app.route("/account/changepassword")
 def show_change_pass_form():
+    """Show form for users to change their password"""
 
-    return render_template("account-changepass.html")
+    if "user_id" in session:
+        return render_template("account-changepass.html")
+
+    else:
+        flash("You need to be logged in to access that page")
+        return redirect("/login")
 
 
 @app.route("/account/changepassword", methods=["POST"])
 def change_user_password():
     """Change a user's password"""
 
-    old_pass = request.form.get("oldpass")
-    new_pass = request.form.get("newpass")
+    if "user_id" in session:
+        old_pass = request.form.get("oldpass")
+        new_pass = request.form.get("newpass")
 
-    user = User.query.get(session["user_id"])
+        user = User.query.get(session["user_id"])
 
-    if user.check_password(old_pass):
-        user.set_password(new_pass)
+        if user.check_password(old_pass):
+            user.set_password(new_pass)
 
-        db.session.add(user)
-        db.session.commit()
+            db.session.add(user)
+            db.session.commit()
 
-        flash("Password successfully updated")
+            flash("Password successfully updated")
 
-        return redirect("/account")
+            return redirect("/account")
+
+        else:
+            flash("Incorrect password, please try again")
+
+            return redirect("/account")
 
     else:
-        flash("Incorrect password, please try again")
+        flash("You need to be logged in to access that page")
 
-        return redirect("/account")
+        return redirect("/login")
 
 
 @app.route("/account/savedtrails")
@@ -212,12 +224,19 @@ def display_saved_trails():
 
     # Query database to find User_trail objects belonging to user
     # & not marked complete
+    if "user_id" in session:
+        user_id = session.get("user_id")
+        saved_trails = User_Trail.query.filter((User_Trail.user_id == user_id)
+                                               & (User_Trail.is_completed.is_(False))).all()
 
-    user_id = session.get("user_id")
-    saved_trails = User_Trail.query.filter((User_Trail.user_id == user_id)
-                                           & (User_Trail.is_completed.is_(False))).all()
+        return render_template("account-savedlist.html",
+                               saved_trails=saved_trails)
 
-    return render_template("account-savedlist.html", saved_trails=saved_trails)
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
+
 
 
 @app.route("/account/completedtrails")
@@ -226,34 +245,44 @@ def display_completed_trails():
 
     # Query database to find User_trail objects belonging to user
     # & not marked complete
-    user_id = session.get("user_id")
-    completed_trails = User_Trail.query.filter((User_Trail.user_id == user_id)
-                                               & (User_Trail.is_completed.is_(True))).all()
+    if "user_id" in session:
+        user_id = session.get("user_id")
+        completed_trails = User_Trail.query.filter((User_Trail.user_id == user_id)
+                                                   & (User_Trail.is_completed.is_(True))).all()
 
-    return render_template("account-completedlist.html",
-                           completed_trails=completed_trails)
+        return render_template("account-completedlist.html",
+                               completed_trails=completed_trails)
 
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 @app.route("/account/trips")
 def display_user_trips():
     """Display a user's trips"""
 
-    user_id = session.get("user_id")
-    user_trips = Trip_User.query.filter_by(user_id=user_id).all()
+    if "user_id" in session:
+        user_id = session.get("user_id")
+        user_trips = Trip_User.query.filter_by(user_id=user_id).all()
 
-    active_trips = []
-    archived_trips = []
+        active_trips = []
+        archived_trips = []
 
-    for ut in user_trips:
-        if ut.trip.is_archived is True:
-            archived_trips.append(ut)
-        else:
-            active_trips.append(ut)
-    
-    print(archived_trips)
+        for ut in user_trips:
+            if ut.trip.is_archived is True:
+                archived_trips.append(ut)
+            else:
+                active_trips.append(ut)
 
-    return render_template("account-trips.html", active_trips=active_trips,
-                           archived_trips=archived_trips)
+        return render_template("account-trips.html", active_trips=active_trips,
+                               archived_trips=archived_trips)
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
+
 
 
 @app.route("/logout")
@@ -391,16 +420,18 @@ def unsave_trail_to_user_list():
 
         return "Trail removed"
 
+    else:
+        return "You must sign in to edit saved trails"
+
 
 @app.route("/user/complete-trail", methods=["POST"])
 def mark_saved_trail_as_complete():
     """Update a User-Trail's is_completed attribute to True"""
 
     if "user_id" in session:
-        user_id = session.get("user_id")
         trail_id = int(request.form.get("trail_id"))
 
-        saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
+        saved_trail = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
                                               & (User_Trail.trail_id == trail_id)).first()
 
         if saved_trail:
@@ -426,12 +457,12 @@ def mark_saved_trail_as_complete():
 def unmark_saved_trail_as_complete():
     """Update a User-Trail's is_completed attribute to False"""
 
-    user_id = session.get("user_id")
-    trail_id = int(request.form.get("trail_id"))
+    if "user_id" in session:
 
-    if user_id:
-        saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
-                                            & (User_Trail.trail_id == trail_id)).first()
+        trail_id = int(request.form.get("trail_id"))
+
+        saved_trail = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+                                              & (User_Trail.trail_id == trail_id)).first()
 
         saved_trail.is_completed = False
 
@@ -472,43 +503,56 @@ def check_if_trail_saved_for_user(trail_id):
 def show_new_trip_form():
     """Show form for user to create a new Trip instance"""
 
-    return render_template("createnewtrip.html")
+    if "user_id" in session:
+
+        return render_template("createnewtrip.html")
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/createnewtrip", methods=["POST"])
 def create_new_trip():
     """Create a new Trip instance"""
 
-    trip_name = request.form.get("trip-name")
-    accommodations = request.form.get("accommodations")
-    creator_id = session.get("user_id")
+    if "user_id" in session:
+        trip_name = request.form.get("trip-name")
+        accommodations = request.form.get("accommodations")
+        creator_id = session.get("user_id")
 
-    # Create new trip instance
-    new_trip = Trip(trip_name=trip_name, creator_id=creator_id,
-                    trip_accommodations=accommodations)
+        # Create new trip instance
+        new_trip = Trip(trip_name=trip_name, creator_id=creator_id,
+                        trip_accommodations=accommodations)
 
-    # If accommodations field was filled in, find the lat/long
-    # and add the values to new_trip
-    if accommodations:
-        lat_long = call_geocoding_api(accommodations)
-        if lat_long != "Invalid search terms":
-            accomm_long = lat_long["lng"]
-            accomm_lat = lat_long["lat"]
+        # If accommodations field was filled in, find the lat/long
+        # and add the values to new_trip
+        if accommodations:
+            lat_long = call_geocoding_api(accommodations)
+            if lat_long != "Invalid search terms":
+                accomm_long = lat_long["lng"]
+                accomm_lat = lat_long["lat"]
 
-            new_trip.accom_lat = accomm_lat
-            new_trip.accom_long = accomm_long
+                new_trip.accom_lat = accomm_lat
+                new_trip.accom_long = accomm_long
 
-    db.session.add(new_trip)
-    db.session.commit()
+        db.session.add(new_trip)
+        db.session.commit()
 
-    # Add Trip_User instance for creator of the trip upon creation of the trip
-    user_id = session.get("user_id")
-    new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=user_id)
+        # Add Trip_User instance for creator of the trip upon creation of the trip
+        user_id = session.get("user_id")
+        new_tu = Trip_User(trip_id=new_trip.trip_id, user_id=user_id)
 
-    db.session.add(new_tu)
-    db.session.commit()
+        db.session.add(new_tu)
+        db.session.commit()
 
-    return redirect(f"/trip/{new_trip.trip_id}")
+        return redirect(f"/trip/{new_trip.trip_id}")
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/trip/<int:trip_id>")
@@ -526,23 +570,29 @@ def show_trip(trip_id):
 def add_trail_to_trip(trail_id, trip_id):
     """Adds a Trail_Trip instance"""
 
-    tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
-                                       (Trip_Trail.trip_id == trip_id)).first()
+    if "user_id" in session:
+        tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
+                                        (Trip_Trail.trip_id == trip_id)).first()
 
-    if not tt_query:
-        user_id = session.get("user_id")
-        tt = Trip_Trail(trail_id=trail_id, trip_id=trip_id,
-                        added_by=user_id)
+        if not tt_query:
+            user_id = session.get("user_id")
+            tt = Trip_Trail(trail_id=trail_id, trip_id=trip_id,
+                            added_by=user_id)
 
-        db.session.add(tt)
-        db.session.commit()
+            db.session.add(tt)
+            db.session.commit()
 
-        flash("Trail added to trip!")
+            flash("Trail added to trip!")
+
+        else:
+            flash("Trail added to trip!")
+
+        return redirect(f"/trail/{trail_id}")
 
     else:
-        flash("Trail added to trip!")
+        flash("You need to be logged in to access that page")
 
-    return redirect(f"/trail/{trail_id}")
+        return redirect("/login")
 
 
 @app.route("/json/tripinfo")
@@ -582,15 +632,21 @@ def get_trip_info():
 def delete_a_trip():
     """Deletes trip from database"""
 
-    trip_id = request.form.get("trip_id")
+    if "user_id" in session:
+        trip_id = request.form.get("trip_id")
 
-    delete_trip_users(trip_id)
-    delete_trip_trails(trip_id)
-    flash_msg = delete_trip(trip_id)
+        delete_trip_users(trip_id)
+        delete_trip_trails(trip_id)
+        flash_msg = delete_trip(trip_id)
 
-    flash(flash_msg)
+        flash(flash_msg)
 
-    return redirect("/account/trips")
+        return redirect("/account/trips")
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/istriparchived")
@@ -612,137 +668,180 @@ def check_if_trip_archived():
 def archive_a_trip():
     """Archive's a trip in database"""
 
-    trip_id = request.form.get("trip_id")
-    trip = Trip.query.get(trip_id)
-    trip.is_archived = True
+    if "user_id" in session:
+        trip_id = request.form.get("trip_id")
+        trip = Trip.query.get(trip_id)
+        trip.is_archived = True
 
-    db.session.add(trip)
-    db.session.commit()
+        db.session.add(trip)
+        db.session.commit()
 
-    return "Successfully archived"
+        return "Successfully archived"
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/unarchivetrip", methods=["POST"])
 def unarchive_a_trip():
     """Unarchive's a trip in database"""
 
-    trip_id = request.form.get("trip_id")
-    trip = Trip.query.get(trip_id)
-    trip.is_archived = False
+    if "user_id" in session:
+        trip_id = request.form.get("trip_id")
+        trip = Trip.query.get(trip_id)
+        trip.is_archived = False
 
-    db.session.add(trip)
-    db.session.commit()
+        db.session.add(trip)
+        db.session.commit()
 
-    return "Successfully unarchived"
+        return "Successfully unarchived"
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/updatetripname", methods=["POST"])
 def update_trip_name():
     """Update the name for a given trip"""
 
-    trip_id = request.form.get("trip_id")
-    trip_name = request.form.get("trip_name")
+    if "user_id" in session:
+        trip_id = request.form.get("trip_id")
+        trip_name = request.form.get("trip_name")
 
-    trip = Trip.query.get(trip_id)
+        trip = Trip.query.get(trip_id)
 
-    if trip:
-        trip.trip_name = trip_name
+        if trip:
+            trip.trip_name = trip_name
 
-        db.session.add(trip)
-        db.session.commit()
+            db.session.add(trip)
+            db.session.commit()
 
-        return trip_name
+            return trip_name
+
+        else:
+            return "An error has occurred"
 
     else:
-        return "An error has occurred"
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/updatetripaccoms", methods=["POST"])
 def update_trip_accommodations():
     """Update the accommodations & associated lat/long for a given trip"""
 
-    trip_id = request.form.get("trip_id")
-    trip_accom = request.form.get("trip_accom")
+    if "user_id" in session:
+        trip_id = request.form.get("trip_id")
+        trip_accom = request.form.get("trip_accom")
 
-    trip = Trip.query.get(trip_id)
+        trip = Trip.query.get(trip_id)
 
-    trip.trip_accommodations = trip_accom
-    lat_long = call_geocoding_api(trip_accom)
+        trip.trip_accommodations = trip_accom
+        lat_long = call_geocoding_api(trip_accom)
 
-    if lat_long != "Invalid search terms":
-        trip.accom_long = lat_long["lng"]
-        trip.accom_lat = lat_long["lat"]
+        if lat_long != "Invalid search terms":
+            trip.accom_long = lat_long["lng"]
+            trip.accom_lat = lat_long["lat"]
 
-        db.session.add(trip)
-        db.session.commit()
+            db.session.add(trip)
+            db.session.commit()
 
-        return f"{trip_accom}"
+            return f"{trip_accom}"
+
+        else:
+            return "Address could not be read"
 
     else:
-        return "Address could not be read"
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/addtripusers", methods=["POST"])
 def add_trip_users():
     """Add Trip_User instances"""
+    
+    if "user_id" in session:
+        trip_id = int(request.form.get("trip_id"))
+        user_id = int(request.form.get("user_id"))
+        tu_query = Trip_User.query.filter((Trip_User.user_id == user_id) &
+                                        (Trip_User.trip_id == trip_id)).first()
 
-    trip_id = int(request.form.get("trip_id"))
-    user_id = int(request.form.get("user_id"))
-    tu_query = Trip_User.query.filter((Trip_User.user_id == user_id) &
-                                      (Trip_User.trip_id == trip_id)).first()
+        if tu_query:
+            return "User already added to trip"
 
-    if tu_query:
-        return "User already added to trip"
+        else:
+            tu = Trip_User(trip_id=trip_id, user_id=user_id)
+
+            db.session.add(tu)
+            db.session.commit()
+
+            username = tu.user.username
+
+            return username
 
     else:
-        tu = Trip_User(trip_id=trip_id, user_id=user_id)
+        flash("You need to be logged in to access that page")
 
-        db.session.add(tu)
-        db.session.commit()
-
-        username = tu.user.username
-
-        return username
+        return redirect("/login")
 
 
 @app.route("/removetripusers", methods=["POST"])
 def remove_trip_users():
     """Remove Trip_User instances"""
 
-    trip_id = int(request.form.get("trip_id"))
-    user_id = int(request.form.get("user_id"))
-    tu = Trip_User.query.filter((Trip_User.user_id == user_id) &
-                                (Trip_User.trip_id == trip_id)).first()
+    if "user_id" in session:
+        trip_id = int(request.form.get("trip_id"))
+        user_id = int(request.form.get("user_id"))
+        tu = Trip_User.query.filter((Trip_User.user_id == user_id) &
+                                    (Trip_User.trip_id == trip_id)).first()
 
-    if tu:
-        username = tu.user.username
-        db.session.delete(tu)
-        db.session.commit()
+        if tu:
+            username = tu.user.username
+            db.session.delete(tu)
+            db.session.commit()
 
-        return username
+            return username
+
+        else:
+            return "An error has occurred"
 
     else:
-        return "An error has occurred"
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/removetriptrails", methods=["POST"])
 def remove_trip_trail():
     """Removes a Trail_Trip instance"""
 
-    trip_id = request.form.get("trip_id")
-    trail_id = request.form.get("trail_id")
-    tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
-                                       (Trip_Trail.trip_id == trip_id)).first()
+    if "user_id" in session:
+        trip_id = request.form.get("trip_id")
+        trail_id = request.form.get("trail_id")
+        tt_query = Trip_Trail.query.filter((Trip_Trail.trail_id == trail_id) &
+                                        (Trip_Trail.trip_id == trip_id)).first()
 
-    if tt_query:
+        if tt_query:
 
-        db.session.delete(tt_query)
-        db.session.commit()
+            db.session.delete(tt_query)
+            db.session.commit()
 
-        return str(trail_id)
+            return str(trail_id)
+
+        else:
+            return "An error has occurred"
 
     else:
-        return "An error has occurred"
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
+
 
 
 @app.route("/json/getallusertrips")
