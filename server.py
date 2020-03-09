@@ -117,50 +117,62 @@ def show_account_options():
 def show_acct_info_form():
     """Display form for user to update account information"""
 
-    user = User.query.get(session.get("user_id"))
+    if "user_id" in session:
+        user = User.query.get(session.get("user_id"))
 
-    return render_template("/account-userinfo.html", user=user)
+        return render_template("/account-userinfo.html", user=user)
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/account/updateacctinfo", methods=["POST"])
 def update_account_info():
     """Update a user's account information"""
 
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-    cell = request.form.get("cell")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zipcode = request.form.get("zipcode")
+    if "user_id" in session:
+        fname = request.form.get("fname")
+        lname = request.form.get("lname")
+        cell = request.form.get("cell")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        zipcode = request.form.get("zipcode")
 
-    user = User.query.get(session["user_id"])
+        user = User.query.get(session["user_id"])
 
-    # Form fields are not required - only update database if text was entered
-    # in that field
-    if len(fname) > 0:
-        user.fname = fname
+        # Form fields are not required - only update database if text was
+        # entered in that field and not the same as what's already in the db
+        if len(fname) > 0 and fname != user.fname:
+            user.fname = fname
 
-    if len(lname) > 0:
-        user.lname = lname
+        if len(lname) > 0 and lname != user.lname:
+            user.lname = lname
 
-    if len(cell) > 0:
-        user.cell = cell
+        if len(cell) > 0 and cell != user.cell:
+            user.cell = cell
 
-    if len(city) > 0:
-        user.city = city
+        if len(city) > 0 and city != user.city:
+            user.city = city
 
-    if len(state) > 0:
-        user.state = state
+        if len(state) > 0 and state != user.state:
+            user.state = state
 
-    if len(zipcode) > 0:
-        user.zipcode = zipcode
+        if len(zipcode) > 0 and zipcode != user.zipcode:
+            user.zipcode = zipcode
 
-    db.session.add(user)
-    db.session.commit()
+        db.session.add(user)
+        db.session.commit()
 
-    flash("Information updated!")
+        flash("Information updated!")
 
-    return redirect("/account")
+        return redirect("/account/updateacctinfo")
+
+    else:
+        flash("You need to be logged in to access that page")
+
+        return redirect("/login")
 
 
 @app.route("/account/changepassword")
