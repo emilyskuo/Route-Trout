@@ -227,7 +227,19 @@ def display_user_trips():
     user_id = session.get("user_id")
     user_trips = Trip_User.query.filter_by(user_id=user_id).all()
 
-    return render_template("account-trips.html", user_trips=user_trips)
+    active_trips = []
+    archived_trips = []
+
+    for ut in user_trips:
+        if ut.trip.is_archived is True:
+            archived_trips.append(ut)
+        else:
+            active_trips.append(ut)
+    
+    print(archived_trips)
+
+    return render_template("account-trips.html", active_trips=active_trips,
+                           archived_trips=archived_trips)
 
 
 @app.route("/logout")
@@ -455,15 +467,11 @@ def create_new_trip():
 
     trip_name = request.form.get("trip-name")
     accommodations = request.form.get("accommodations")
-    trip_start_date = request.form.get("start-date")
-    trip_end_date = request.form.get("end-date")
     creator_id = session.get("user_id")
 
     # Create new trip instance
     new_trip = Trip(trip_name=trip_name, creator_id=creator_id,
-                    trip_accommodations=accommodations,
-                    trip_start_date=trip_start_date,
-                    trip_end_date=trip_end_date)
+                    trip_accommodations=accommodations)
 
     # If accommodations field was filled in, find the lat/long
     # and add the values to new_trip
