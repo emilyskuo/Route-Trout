@@ -95,11 +95,23 @@ function initMap() {
                     for (const trail of list_slice) {
                         const difficulty = trail.difficulty;
                         $("#trail-list-container").append(
-                            `<div id=${trail.id}>
-                            <img src="${trail.imgSqSmall}">
-                            <a href="/trail/${trail.id}">${trail.name}</a>
-                            <b>Length:</b> ${trail.length} miles
-                            <b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}
+                            `<div id=${trail.id} class="row">
+                                <div class="col">
+                                    <div class="row justify-content-center">
+                                    <img src="${trail.imgSqSmall}">
+                                    </div>
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="row">
+                                    <a href="/trail/${trail.id}">${trail.name}</a>
+                                    </div>
+                                    <div class="row">
+                                    <b>Length:</b> ${trail.length} miles
+                                    </div>
+                                    <div class="row">
+                                    <b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}
+                                    </div>
+                                </div>
                             </div>`
                             );
                         const markerInfo = {
