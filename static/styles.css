@@ -15,3 +15,86 @@
 .select2 {
     width: 400px;
 }
+
+.btn-primary {
+    background-color: #00A6A6;
+    border-color: #00A6A6;    
+}
+
+.btn-primary:hover {
+    background-color: #019191;
+    border-color: #019191; 
+}
+
+.btn-secondary {
+    background-color: #456990;
+    border-color: #456990;
+}
+
+.btn-secondary:hover {
+    background-color: #3e5e81;
+    border-color: #3e5e81;
+}
+
+.btn-danger {
+    background-color: #FF8360;
+    border-color: #FF8360;
+}
+
+.btn-danger:hover {
+    background-color: #ee7b5b;
+    border-color: #ee7b5b;
+}
+
+.homepage {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.nav-link {
+    color: #00A6A6;
+}
+.nav-link:hover {
+    color: #019191;
+}
+
+#homepage {
+    background: rgba(0, 0, 0, 0.5);
+    width: 500px;
+}
+
+#homepage-search-div {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#homepage-header {
+    color: white;
+    text-align: center;
+    -webkit-text-stroke: 1px gray;
+}
+
+#homepage-search-btn {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+    background: url("/static/images/Video-still.png") no-repeat;
+    background-size: cover;
+    transition: 1s opacity;
+}
