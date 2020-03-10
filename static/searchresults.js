@@ -98,7 +98,7 @@ function initMap() {
                             `<div id=${trail.id}>
                             <img src="${trail.imgSqSmall}">
                             <a href="/trail/${trail.id}">${trail.name}</a>
-                            <b>Length:</b> ${trail.length}
+                            <b>Length:</b> ${trail.length} miles
                             <b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}
                             </div>`
                             );
