@@ -8,6 +8,7 @@
 {% block content %}
 <div class="row" id="search-terms-div">
   <div class="col edit">
+    <h2 class="edit">Search Results</h2>
     <label for="search-results-search" class="edit">Search for trails</label>
     <form action="/search" class="edit">
       <input type="text" name="search" id="search-results-search" class="edit">
@@ -17,7 +18,6 @@
 </div>
 <div class="row">
   <div class="col" id="search-list">
-    <h2>Search Results</h2>
     <div id="trail-list-container">
     </div>
     <button type="button" class="btn btn-primary hidden" id="prev-button">

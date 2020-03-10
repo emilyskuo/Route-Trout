@@ -114,10 +114,11 @@ body {
 }
 
 #search-map-container{
-    height: 80vh;
+    height: 85vh;
 }
 
 #search-list {
+    height: 85vh;
     overflow: scroll;
 }
 
