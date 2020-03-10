@@ -7,6 +7,11 @@ body {
     min-height: 100%;
 }
 
+.row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .map-container {
     height: 400px;
     width: 100%;
@@ -68,6 +73,11 @@ body {
 
 #navbar-logo {
     height: 50px;
+}
+
+.card-img {
+    height: 100px;
+    width: 100px;
 }
 
 .homepage {

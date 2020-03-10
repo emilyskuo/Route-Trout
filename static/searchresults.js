@@ -95,21 +95,17 @@ function initMap() {
                     for (const trail of list_slice) {
                         const difficulty = trail.difficulty;
                         $("#trail-list-container").append(
-                            `<div id=${trail.id} class="row">
-                                <div class="col">
-                                    <div class="row justify-content-center">
-                                    <img src="${trail.imgSqSmall}">
+                            `<div id=${trail.id} class="card mb-3">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4 align-contents-center justify-content-center">
+                                        <img src="${trail.imgSqSmall}" class="card-img" alt="${trail.name}">
                                     </div>
-                                </div>
-                                <div class="col align-self-center">
-                                    <div class="row">
-                                    <a href="/trail/${trail.id}">${trail.name}</a>
-                                    </div>
-                                    <div class="row">
-                                    <b>Length:</b> ${trail.length} miles
-                                    </div>
-                                    <div class="row">
-                                    <b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                        <h4 class="card-title"><a href="/trail/${trail.id}">${trail.name}</a></h4>
+                                        <p class="card-text"><b>Length:</b> ${trail.length} miles</p>
+                                        <p class="card-text"><b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>`
