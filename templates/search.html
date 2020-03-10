@@ -6,27 +6,34 @@
 {% endblock %}
 
 {% block content %}
-<h2>Search Results</h2>
-<div class="form-group">
-  <label for="search-results-search">Search for trails</label>
-  <form action="/search">
-    <input type="text" name="search" id="search-results-search" class="form-control">
-    <input type="submit" class="btn btn-primary" value="Search">
-  </form>
-  <button class="btn btn-primary" id="hide-trip-markers">Hide Trip Markers</button>
-  <button class="btn btn-primary hidden" id="show-trip-markers">Show Trip Markers</button>
+<div class="row" id="search-terms-div">
+  <div class="col edit">
+    <label for="search-results-search" class="edit">Search for trails</label>
+    <form action="/search" class="edit">
+      <input type="text" name="search" id="search-results-search" class="edit">
+      <input type="submit" class="btn btn-primary edit" value="Search">
+    </form>
+  </div>
 </div>
-<div id="search-map-container" class="map-container"></div>
-
-<div id="trail-list-container">
-
+<div class="row">
+  <div class="col" id="search-list">
+    <h2>Search Results</h2>
+    <div id="trail-list-container">
+    </div>
+    <button type="button" class="btn btn-primary hidden" id="prev-button">
+      Previous 10 trails
+    </button>
+    <button type="button" class="btn btn-primary" id="next-button">
+      Next 10 trails
+    </button>
+  </div>
+  <div class="col" id="search-map">
+    <div id="search-map-container" class="map-container">
+    </div>
+    <button class="btn btn-primary" id="hide-trip-markers">Hide Trip Markers</button>
+    <button class="btn btn-primary hidden" id="show-trip-markers">Show Trip Markers</button>
+  </div>
 </div>
-<button type="button" class="btn btn-primary hidden" id="prev-button">
-  Previous 10 trails
-</button>
-<button type="button" class="btn btn-primary" id="next-button">
-  Next 10 trails
-</button>
 
 <script src="/static/searchresults.js"></script>
 <script async defer
