@@ -10,15 +10,15 @@
 <video poster="/static/images/Video-still.png" id="homepage-video" playsinline autoplay muted loop>
   <source = src="/static/images/Video.mp4" type="video/mp4">
 </video>
-
-<div id="homepage" class="homepage">
-  <h2 id="homepage-header" class="homepage">Search for hiking trails here!</h2>
-
-  <div class="form-group" id="homepage-search-div" class="homepage">
-    <form action="/search" id="homepage-search-form" class="homepage">
-      <input type="text" name="search" id="homepage-search-bar" class="form-control" class="homepage">
-      <input type="submit" class="btn btn-primary" value="Search" id="homepage-search-btn" class="homepage">
-    </form>
+<div id="homepage-wrapper" class="homepage">
+  <div id="homepage" class="homepage">
+    <h2 id="homepage-header" class="homepage">ROUTE POTATO</h2>
+    <div class="form-group" id="homepage-search-div" class="homepage">
+      <form action="/search" id="homepage-search-form" class="homepage">
+        <input type="text" name="search" id="homepage-search-bar" class="form-control" class="homepage" placeholder="Search for hiking trails">
+        <input type="submit" class="btn btn-primary" value="Search" id="homepage-search-btn" class="homepage">
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}
