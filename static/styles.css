@@ -65,6 +65,10 @@ body {
     color: #019191;
 }
 
+#navbar-logo {
+    height: 50px;
+}
+
 .homepage {
     display: flex !important;
 }
