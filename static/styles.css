@@ -6,10 +6,11 @@ html{
 body {
     min-height: 100%;
 }
+
 .map-container {
-    height: 400px;  /* The height is 400 pixels */
-    width: 100%;  /* The width is the width of the web page */
-    }
+    height: 400px;
+    width: 100%;
+}
 
 .hidden {
     display: none;
@@ -110,6 +111,14 @@ body {
 #homepage-search-btn {
     flex: 1 0 auto;
     margin: 0 0 0 12px;
+}
+
+#search-map-container{
+    height: 80vh;
+}
+
+#search-list {
+    overflow: scroll;
 }
 
 video {
