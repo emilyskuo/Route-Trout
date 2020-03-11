@@ -10,129 +10,152 @@
 {% endblock %}
 
 {% block content %}
-<div>
-    <h2 class="edit" id="trip-name-h">{{trip.trip_name}}</h2>
-    <button class="btn btn-link edit" type="button" id="edit-trip-name-button">
-        Edit
-    </button>
-    <div class="form-group hidden" id="edit-trip-name-div">
-        <form class="form-group" id="edit-trip-name-form">
-        <input type="text" class="form-control" id="trip_name" name="trip_name" value="{{trip.trip_name}}">
-        <input type="submit" class="btn btn-primary" id="edit-trip-name-submit" value="Update Trip Name">
-        </form>
-    </div>
-</div>
-<div>
-    <h5 class="edit">Trip Accommodations</h5>
-    <button class="btn btn-link edit" type="button" id="edit-trip-accom-button">
-        Edit
-    </button>
-    <p id="trip-accom-p">{{trip.trip_accommodations}}</p>
-    <div class="form-group hidden" id="edit-trip-accom-div">
-        <form class="form-group" id="edit-trip-accom-form">
-        <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
-        <input type="submit" class="btn btn-primary" id="edit-trip-accom-submit" value="Update Trip Accommodations">
-        </form>
-    </div>
-</div>
-<h5 class="edit">Trip Participants</h5> 
-<button class="btn btn-link edit" type="button" id="edit-trip-users-button">
-    Add/Remove
-</button>
-    <ul id="trip-user-ul">
-        {% for trip_user in trip.trip_users %}
-            <li id={{trip_user.user.username}}>{{trip_user.user.username}}</li>
-        {% endfor %}
-    </ul>
-
-<div id="add-remove-trip-users-div" class="hidden">
-    <div id="add-users-to-trip-div">
-        <select name="users[]" multiple="multiple" id="add-users-to-trip" class="select2">
-            {% for user in all_users %}
-            <option value={{user.user_id}}>{{user.username}}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Add users to trip" class="btn btn-primary" id="add-users-to-trip-button">
-    </div>
-
-    <div id="remove-users-from-trip-div">
-        <select name="remove-users[]" multiple="multiple" id="remove-users-from-trip" class="select2">
-            {% for trip_user in trip.trip_users %}
-            <option value={{trip_user.user_id}}>{{trip_user.user.username}}</option>
-            {% endfor %}
-        </select>
-        <input type="submit" value="Remove users from trip" class="btn btn-danger" id="remove-users-from-trip-button">
-    </div>
-</div>
-
-<h5 class="edit">Trip Trails</h5>
-{% if trip.trip_trails %}
-<button class="btn btn-link edit" type="button" id="edit-trip-trails-button">
-    Remove Trails
-</button>
-<ul>
-    {% for trip_trail in trip.trip_trails %}
-        <li id={{trip_trail.trail_id}}>
-            <a href="/trail/{{trip_trail.trail_id}}">{{trip_trail.trail.trail_name}}</a>
-            <br>
-            <p>Added by {{trip_trail.user.username}}</p>
-        </li>
-    {% endfor %}
-</ul>
-<div id="remove-trip-trails-div" class="hidden">
-    <select name="remove-trails[]" multiple="multiple" id="remove-trip-trails" class="select2">
-        {% for trip_trail in trip.trip_trails %}
-        <option value={{trip_trail.trail_id}}>{{trip_trail.trail.trail_name}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Remove trails from trip" class="btn btn-danger" id="remove-trip-trails-button">
-</div>
-{% else %}
-<p>No trails added to this trip</p>
-{% endif %}
-<a href="/search?search={{trip.trip_accommodations}}" id="trip-trail-search-a">
-    <button type="button" class="btn btn-primary" id="trip-trail-search-button">
-    Search for trails nearby
-    </button>
-</a>
-
-<div id="tripmapdiv" class="map-container"></div>
-
-
-<button type="button" class="btn btn-secondary" id="archive-trip">
-    Archive this trip
-</button>
-<button type="button" class="btn btn-secondary hidden" id="unarchive-trip">
-    Unarchive this trip
-</button>
-<button type="button" class="btn btn-danger" id="first-delete-trip-button" data-toggle="modal" data-target="#confirm-delete-trip-modal">
-Delete this trip
-</button>
-<div id="confirm-delete-trip-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="delete-trip-modal-title" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="delete-trip-modal-title">
-                    Delete this trip?
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-            </div>
-            <div class="modal-body">
-                Deleting this trip is irreversible.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form action="/deletetrip" method="POST">
-                    <input type="number" class="hidden" name="trip_id" value="{{trip.trip_id}}">
-                    <input type="submit" class="btn btn-danger" id="delete-trip" value="Delete">
+<div class="row justify-content-center">
+    <div class="col">
+        <div class="row">
+            <h2 class="edit" id="trip-name-h">{{trip.trip_name}}</h2>
+            <button class="btn btn-link edit" type="button" id="edit-trip-name-button">
+                Edit
+            </button>
+        </div>
+        <div class="row">
+            <div class="form-group hidden" id="edit-trip-name-div">
+                <form class="form-group" id="edit-trip-name-form">
+                    <input type="text" class="form-control" id="trip_name" name="trip_name" value="{{trip.trip_name}}">
+                    <input type="submit" class="btn btn-primary" id="edit-trip-name-submit" value="Update Trip Name">
                 </form>
+            </div>
+        </div>
+        <div class="row">
+            <h5 class="edit">Trip Accommodations</h5>
+            <button class="btn btn-link edit" type="button" id="edit-trip-accom-button">
+                Edit
+            </button>
+        </div>
+        <div class="row">
+            <p id="trip-accom-p">{{trip.trip_accommodations}}</p>
+            <div class="form-group hidden" id="edit-trip-accom-div">
+                <form class="form-group" id="edit-trip-accom-form">
+                <input type="text" class="form-control" id="trip_accom" name="trip_accom" value="{{trip.trip_accommodations}}">
+                <input type="submit" class="btn btn-primary" id="edit-trip-accom-submit" value="Update Trip Accommodations">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <h5 class="edit">Trip Participants</h5> 
+            <button class="btn btn-link edit" type="button" id="edit-trip-users-button">
+                Add/Remove
+            </button>
+        </div>
+        <div class="row">
+            <ul id="trip-user-ul">
+                {% for trip_user in trip.trip_users %}
+                <li id={{trip_user.user.username}}>{{trip_user.user.username}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="add-remove-trip-users-div" class="hidden row">
+            <div id="add-users-to-trip-div">
+                <select name="users[]" multiple="multiple" id="add-users-to-trip" class="select2">
+                    {% for user in all_users %}
+                    <option value={{user.user_id}}>{{user.username}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Add users to trip" class="btn btn-primary" id="add-users-to-trip-button">
+            </div>
+            <div id="remove-users-from-trip-div">
+                <select name="remove-users[]" multiple="multiple" id="remove-users-from-trip" class="select2">
+                    {% for trip_user in trip.trip_users %}
+                    <option value={{trip_user.user_id}}>{{trip_user.user.username}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Remove users from trip" class="btn btn-danger" id="remove-users-from-trip-button">
+            </div>
+        </div>
+        <div class="row">
+            <h5 class="edit">Trip Trails</h5>
+            {% if trip.trip_trails %}
+            <button class="btn btn-link edit" type="button" id="edit-trip-trails-button">
+                Remove Trails
+            </button>
+        </div>
+        <div class="row">
+
+            <ul>
+                {% for trip_trail in trip.trip_trails %}
+                <li id={{trip_trail.trail_id}}>
+                    <a href="/trail/{{trip_trail.trail_id}}">{{trip_trail.trail.trail_name}}</a>
+                    <br>
+                    <p>Added by {{trip_trail.user.username}}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="remove-trip-trails-div" class="hidden row">
+            <select name="remove-trails[]" multiple="multiple" id="remove-trip-trails" class="select2">
+                {% for trip_trail in trip.trip_trails %}
+                <option value={{trip_trail.trail_id}}>{{trip_trail.trail.trail_name}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Remove trails from trip" class="btn btn-danger" id="remove-trip-trails-button">
+            {% else %}
+            <p>No trails added to this trip</p>
+            {% endif %}
+        </div>
+        <div class="row">
+
+            <a href="/search?search={{trip.trip_accommodations}}" id="trip-trail-search-a">
+                <button type="button" class="btn btn-primary" id="trip-trail-search-button">
+                    Search for trails nearby
+                </button>
+            </a>
+        </div>
+    </div>
+
+
+    <div id="tripmapdiv" class="map-container col">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+
+        <button type="button" class="btn btn-secondary" id="archive-trip">
+            Archive this trip
+        </button>
+        <button type="button" class="btn btn-secondary hidden" id="unarchive-trip">
+            Unarchive this trip
+        </button>
+        <button type="button" class="btn btn-danger" id="first-delete-trip-button" data-toggle="modal" data-target="#confirm-delete-trip-modal">
+            Delete this trip
+        </button>
+        <div id="confirm-delete-trip-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="delete-trip-modal-title" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="delete-trip-modal-title">
+                            Delete this trip?
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Deleting this trip is irreversible.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <form action="/deletetrip" method="POST">
+                            <input type="number" class="hidden" name="trip_id" value="{{trip.trip_id}}">
+                            <input type="submit" class="btn btn-danger" id="delete-trip" value="Delete">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
+    
 <script src="/static/trippagebuttons.js"></script>
 <!-- Script to initialize Google map & place marker -->
 <script src="/static/displaytripmap.js"></script>
