@@ -96,13 +96,13 @@ function initMap() {
                         const difficulty = trail.difficulty;
                         $("#trail-list-container").append(
                             `<div id=${trail.id} class="card mb-3">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4 align-contents-center justify-content-center">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-md-4">
                                         <img src="${trail.imgSqSmall}" class="card-img" alt="${trail.name}">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                        <h4 class="card-title"><a href="/trail/${trail.id}">${trail.name}</a></h4>
+                                        <h5 class="card-title"><a href="/trail/${trail.id}">${trail.name}</a></h5>
                                         <p class="card-text"><b>Length:</b> ${trail.length} miles</p>
                                         <p class="card-text"><b>Difficulty:</b> ${colorToDifficultyConversion[difficulty]}</p>
                                         </div>
