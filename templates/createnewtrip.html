@@ -6,17 +6,25 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+
+<div class="container">
+  <div class="row align-items-center">
     <div id="create-new-trip" class="col">
-      <h2>Create a new trip!</h2>
-      <form class="form-group" action="/createnewtrip" method="POST">
-        <label for="trip-name">Trip Name</label>
-            <input type="text" class="form-control" id="trip-name" name="trip-name" placeholder="Trip Name">
-        <label for="accommodations">Trip Accommodations</label>
-            <input type="text" class="form-control" id="accommodations" name="accommodations" placeholder="Trip Accommodations">      
-        <input type="submit" class="btn btn-primary"> 
-      </form>
+      <div class="row justify-content-center">
+        <h2>Create a new trip!</h2>
+      </div>
+      <div class="row align-items-center justify-content-center">
+        <form class="form-group" action="/createnewtrip" method="POST">
+          <label for="trip-name">Name your trip</label>
+              <input type="text" class="form-control" id="trip-name" name="trip-name" placeholder="Trip Name">
+          <label for="accommodations">Where are you staying?</label>
+              <input type="text" class="form-control" id="accommodations" name="accommodations" placeholder="Trip Accommodations">      
+          <input type="submit" class="btn btn-primary"> 
+        </form>
+      </div>
     </div>
   </div>
+</div>
+
 
 {% endblock %}
