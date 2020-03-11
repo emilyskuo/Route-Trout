@@ -17,7 +17,7 @@ body {
 }
 
 .map-container {
-    height: 400px;
+    height: 500px;
     width: 100%;
 }
 
@@ -93,6 +93,23 @@ body {
 .btn-danger:focus {
     background-color: #ee7b5b;
     border-color: #ee7b5b;
+}
+
+.btn-link {
+    color: #00A6A6;
+    padding-top: 0;
+}
+
+.btn-link:hover {
+    color: #019191;
+}
+
+.btn-link:active {
+    color: #019191;
+}
+
+.btn-link:focus {
+    color: #019191;
 }
 
 .navbar {
@@ -175,6 +192,10 @@ body {
     position: absolute;
     top: 80vh;
     left: 40%;
+}
+
+#tripmapdiv{
+    margin: 15px;
 }
 
 video {
