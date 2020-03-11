@@ -12,6 +12,8 @@ body {
 .row {
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .map-container {
@@ -79,6 +81,16 @@ body {
 }
 
 .btn-danger:hover {
+    background-color: #ee7b5b;
+    border-color: #ee7b5b;
+}
+
+.btn-danger:active {
+    background-color: #ee7b5b;
+    border-color: #ee7b5b;
+}
+
+.btn-danger:focus {
     background-color: #ee7b5b;
     border-color: #ee7b5b;
 }
