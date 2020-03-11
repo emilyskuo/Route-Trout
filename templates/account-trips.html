@@ -6,33 +6,32 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
+
+  <div class="row justify-content-center">
     <div class="col" id="trips-list-div">
       <h4>Active Trips:</h4>
       {% if active_trips %}
-        <ul id="active-trips-list-ul">
-          {% for trip in active_trips %}
-              <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
-          {% endfor %}
-        </ul>
-        {% else %}
-          <p>No active trips!</p>
+      <ul id="active-trips-list-ul">
+        {% for trip in active_trips %}
+        <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No active trips!</p>
+      {% endif %}
+      {% if archived_trips %}
+      <h5>Archived Trips:</h5>
+      <ul id="archived-trips-list-ul">
+        {% for trip in archived_trips %}
+        <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
+        {% endfor %}
+      </ul>
       {% endif %}
       <a href="/createnewtrip">
         <button class="btn btn-primary">Create a new trip!</button>
       </a>
-      {% if archived_trips %}
-      <h5>Archived Trips:</h5>
-        <ul id="archived-trips-list-ul">
-          {% for trip in archived_trips %}
-              <li><a href="/trip/{{trip.trip_id}}">{{trip.trip.trip_name}}</a></li>
-          {% endfor %}
-        </ul>
-      {% endif %}
     </div>
-</div>
+  </div>
 
-<!-- <a href="/createnewtrip">
-  <button class="btn btn-primary">Create a new trip!</button>
-</a> -->
+
 {% endblock %}
