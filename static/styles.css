@@ -135,6 +135,12 @@ body {
     overflow: scroll;
 }
 
+.trip-button {
+    position: absolute;
+    top: 80vh;
+    left: 40%;
+}
+
 video {
     position: fixed;
     top: 50%;
