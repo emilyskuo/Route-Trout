@@ -1,10 +1,12 @@
 /* Set the size of the div element that contains the map */
 html{
     height: 100%;
+
 }
 
 body {
     min-height: 100%;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .row {
@@ -39,6 +41,17 @@ body {
     border-color: #019191; 
 }
 
+.btn-primary:active {
+    background-color: #019191 !important;
+    border-color: #019191 !important; 
+}
+
+.btn-primary:focus {
+    background-color: #019191 !important;
+    border-color: #019191 !important; 
+}
+
+
 .btn-secondary {
     background-color: #456990;
     border-color: #456990;
@@ -48,6 +61,17 @@ body {
     background-color: #3e5e81;
     border-color: #3e5e81;
 }
+
+.btn-secondary:active {
+    background-color: #3e5e81;
+    border-color: #3e5e81;
+}
+
+.btn-secondary:focus {
+    background-color: #3e5e81;
+    border-color: #3e5e81;
+}
+
 
 .btn-danger {
     background-color: #FF8360;
