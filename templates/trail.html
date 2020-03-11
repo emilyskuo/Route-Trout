@@ -8,55 +8,59 @@
 {% endblock %}
 
 {% block content %}
-
-<div class="container-fluid">
-    <h1 id="trail-name">{{trail.trail_name}}</h1>
-    <img src={{trail.img_lg_url}}>
-    <p>{{trail.description}}</p>
-    <p>Length: {{trail.length}} miles</p>
-    <p>Difficulty: {{trail.difficulty}}</p>
-    <p>Location: {{trail.city}}, {{trail.state}}</p>
-    <p>Ascent: {{trail.ascent}} feet</p>
-    <p>Descent: {{trail.descent}} feet</p>
-    <p>Highest Altitude: {{trail.high_altitude}} feet</p>
-    <p>Lowest Altitude: {{trail.low_altitude}} feet</p>
-
-    <button type="button" class="btn btn-primary" id="save-button">
-        Save this trail
-    </button>
-    <button type="button" class="btn btn-primary hidden" id="unsave-button">
-        Unsave this trail
-    </button>
-
-    <button type="button" class="btn btn-primary" id="complete-button">
-        Mark the trail as completed
-    </button>
-    <button type="button" class="btn btn-primary hidden" id="uncomplete-button">
-        Unmark the trail as completed
-    </button>
-
-  <span class="dropdown" id="add-trips-span">
-    <a role="button" class="btn btn-primary dropdown-toggle" id="add-to-trip-button" 
-            href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Add to trip
-    </a>
-    <div class="dropdown-menu" aria-labelledby="add-to-trip-button">
-        {% for trip in trips %}
-        <a class="dropdown-item" href="/trail/{{trail.trail_id}}/addtotrip/{{trip.trip_id}}" id="{{trip.trip_id}}">
-            {{trip.trip.trip_name}}
-        </a>
-        {% endfor %}
+<div class="row">
+    <div class="col">
+        <div class="container">
+            <h1 id="trail-name">{{trail.trail_name}}</h1>
+            <img src={{trail.img_lg_url}}>
+            <p>{{trail.description}}</p>
+            <p><b>Length:</b> {{trail.length}} miles</p>
+            <p><b>Difficulty:</b> {{trail.difficulty}}</p>
+            <p><b>Location:</b> {{trail.city}}, {{trail.state}}</p>
+            <p><b>Ascent:</b> {{trail.ascent}} feet</p>
+            <p><b>Descent:</b> {{trail.descent}} feet</p>
+            <p><b>Highest Altitude:</b> {{trail.high_altitude}} feet</p>
+            <p><b>Lowest Altitude:</b> {{trail.low_altitude}} feet</p>
+        </div>
     </div>
-
-
-    <button type="button" class="btn btn-primary hidden" id="remove-from-trip-button">
-        Remove from trip
-    </button>
-</span>
-
+    <div class="col">
+        <div id="trail-map-container" class="map-container">
+        </div>
+    </div>
 </div>
 
-<div id="trail-map-container" class="map-container"></div>
+<div class="row">
+    <div class="col text-right">
+        <button type="button" class="btn btn-primary" id="save-button">
+            Save this trail
+        </button>
+        <button type="button" class="btn btn-primary hidden" id="unsave-button">
+            Unsave this trail
+        </button>
+        <button type="button" class="btn btn-primary" id="complete-button">
+            Mark the trail as completed
+        </button>
+        <button type="button" class="btn btn-primary hidden" id="uncomplete-button">
+            Unmark the trail as completed
+        </button>
+    
+      {% if trips %}
+      <span class="btn-group" id="add-trips-span">
+        <button type="button" class="btn btn-primary dropdown-toggle" id="add-to-trip-button" 
+                href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Add to trip
+        </button>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="add-to-trip-button">
+            {% for trip in trips %}
+            <a class="dropdown-item" href="/trail/{{trail.trail_id}}/addtotrip/{{trip.trip_id}}" id="{{trip.trip_id}}">
+                {{trip.trip.trip_name}}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+      </span>
+    </div>
+</div>
 
 <!-- Script to capture interaction with save & complete buttons on trail pages -->
 <script src="/static/trailpagebuttons.js"></script>
