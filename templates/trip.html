@@ -10,12 +10,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-5">
+<div class="row">
+    <div class="col">
         <div class="row">
-            <div class="col">
-                <h2 class="edit" id="trip-name-h">{{trip.trip_name}}</h2>
-            </div>
+            <h2 class="edit" id="trip-name-h">{{trip.trip_name}}</h2>
             <div class="col text-right">
                 <button class="btn btn-link edit" type="button" id="edit-trip-name-button">
                     Edit
@@ -30,6 +28,10 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-5">
         <div class="row">
             <div class="col">
                 <h5 class="">Trip Accommodations</h5>
@@ -145,7 +147,6 @@
 
 <div class="row">
     <div class="col text-right">
-
         <button type="button" class="btn btn-secondary" id="archive-trip">
             Archive this trip
         </button>
