@@ -10,8 +10,12 @@
 {% block content %}
 <div class="row">
     <div class="col">
+        <h1 id="trail-name">{{trail.trail_name}}</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
         <div class="container">
-            <h1 id="trail-name">{{trail.trail_name}}</h1>
             <img src={{trail.img_lg_url}}>
             <p>{{trail.description}}</p>
             <p><b>Length:</b> {{trail.length}} miles</p>
@@ -23,9 +27,7 @@
             <p><b>Lowest Altitude:</b> {{trail.low_altitude}} feet</p>
         </div>
     </div>
-    <div class="col">
-        <div id="trail-map-container" class="map-container">
-        </div>
+    <div id="trail-map-container" class="map-container col">
     </div>
 </div>
 
