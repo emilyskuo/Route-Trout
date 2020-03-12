@@ -123,9 +123,11 @@ function initMap() {
                         // Event listeners on each of the trail text divs to animate map marker
                         $(`#${trail.id}`).on("mouseenter", () => {
                             marker.setAnimation(google.maps.Animation.BOUNCE);
+                            $(`#${trail.id}`).css("background-color", "#f8f9fa");
                         });
                         $(`#${trail.id}`).on("mouseleave", () => {
                             marker.setAnimation(undefined);
+                            $(`#${trail.id}`).css("background-color", "#ffffff");
                         });
                     }
                     setMarkersOnMap(map, searchMarkerArray);
