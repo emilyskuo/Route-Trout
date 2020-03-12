@@ -6,21 +6,16 @@
 {% endblock %}
 
 {% block content %}
-<div class="row align-items-center" id="search-terms-div">
-  <div class="col">
-    <h2>Search Results</h2>
-  </div>
-  <div class="col">
-    <label for="search-results-search" class="edit">Update Search</label>
-    <form action="/search" class="edit">
-      <input type="text" name="search" id="search-results-search" class="edit">
-      <input type="submit" class="btn btn-primary edit" value="Search">
+<div class="row align-items-top flex-row" id="search-terms-div">
+    <form action="/search" class="d-flex flex-grow-1">
+      <input type="text" name="search" id="search-results-search" class="d-flex flex-grow-1">
+      <input type="submit" class="btn btn-primary d-flex" id="search-results-search-button" value="Search">
     </form>
-  </div>
 </div>
 <div class="row">
-  <div class="col" id="search-list">
+  <div class="col fixed-width-card" id="search-list">
     <div id="trail-list-container">
+        <h4 id="trail-list-header"></h4>
     </div>
     <button type="button" class="btn btn-primary hidden" id="prev-button">
       Previous 10 trails

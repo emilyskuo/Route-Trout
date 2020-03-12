@@ -228,6 +228,16 @@ a:hover {
     overflow: scroll;
 }
 
+#search-terms-div {
+    padding: 16px;
+}
+
+#search-results-search {
+    margin: 0 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .trip-button {
     position: absolute;
     top: 80vh;

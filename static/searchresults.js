@@ -5,6 +5,8 @@ const search = params.get("search");
 
 $("#search-results-search").attr("value", search);
 
+$("#trail-list-header").html(`Hiking trails near ${search}`);
+
 const nextButton = $("#next-button");
 const prevButton = $("#prev-button");
 const hideTripsButton = $("#hide-trip-markers");
