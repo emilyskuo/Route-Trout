@@ -12,7 +12,7 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        <div class="row">
+        <div class="row align-items-center">
             <h2 class="edit" id="trip-name-h">{{trip.trip_name}}</h2>
             <div class="col text-right">
                 <button class="btn btn-link edit" type="button" id="edit-trip-name-button">
@@ -73,23 +73,19 @@
             </div>
         </div>
         <div id="add-remove-trip-users-div" class="hidden row">
-            <div id="col">
-                <div id="add-users-to-trip-div">
-                    <select name="users[]" multiple="multiple" id="add-users-to-trip" class="select2">
-                        {% for user in all_users %}
-                        <option value={{user.user_id}}>{{user.username}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Add users to trip" class="btn btn-primary" id="add-users-to-trip-button">
-                </div>
-                <div id="remove-users-from-trip-div">
-                    <select name="remove-users[]" multiple="multiple" id="remove-users-from-trip" class="select2">
-                        {% for trip_user in trip.trip_users %}
-                        <option value={{trip_user.user_id}}>{{trip_user.user.username}}</option>
-                        {% endfor %}
-                    </select>
-                    <input type="submit" value="Remove users from trip" class="btn btn-danger" id="remove-users-from-trip-button">
-                </div>
+            <div class="col">
+                <select name="users[]" multiple="multiple" id="add-users-to-trip" class="select2">
+                    {% for user in all_users %}
+                    <option value={{user.user_id}}>{{user.username}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Add users to trip" class="btn btn-primary" id="add-users-to-trip-button">
+                <select name="remove-users[]" multiple="multiple" id="remove-users-from-trip" class="select2">
+                    {% for trip_user in trip.trip_users %}
+                    <option value={{trip_user.user_id}}>{{trip_user.user.username}}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Remove users from trip" class="btn btn-danger" id="remove-users-from-trip-button">
             </div>
         </div>
         <div class="row">
