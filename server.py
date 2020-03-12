@@ -531,8 +531,9 @@ def mark_saved_trail_as_complete():
 
     if "user_id" in session:
         trail_id = int(request.form.get("trail_id"))
+        user_id = session["user_id"]
 
-        saved_trail = User_Trail.query.filter((User_Trail.user_id == session["user_id"])
+        saved_trail = User_Trail.query.filter((User_Trail.user_id == user_id)
                                               & (User_Trail.trail_id == trail_id)).first()
 
         if saved_trail:
