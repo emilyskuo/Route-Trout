@@ -42,7 +42,7 @@ function initMap() {
             // Create a Map instance
             const map = new google.maps.Map(
                 document.querySelector("#search-map-container"),
-                {zoom: 8,
+                {zoom: 10,
                 center: res
                 }
             );
@@ -54,13 +54,13 @@ function initMap() {
                     content: infoWindowContent,
                 });
                 marker.addListener("click", () => {
-                    map.setZoom(11);
+                    map.setZoom(13);
                     map.panTo(marker.getPosition());
                     infowindow.open(marker.get("map"), marker);
                 });
                 infowindow.addListener("closeclick", () => {
                     infowindow.close();
-                    map.setZoom(8);
+                    map.setZoom(10);
                     map.setCenter(res);
                 });
                 return marker;
