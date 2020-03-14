@@ -10,13 +10,21 @@ from server import app
 def load_sample_users():
     """Create sample user instances"""
 
-    user1 = User(user_id=1, username="hello", email="hello@hello.com")
-    user2 = User(user_id=2, username="dude", email="dude@hello.com")
+    user1 = User(user_id=1, username="JaneRoe",
+                 email="jane@roeyourboat.com")
+    user2 = User(user_id=2, username="JohnnyHook",
+                 email="johnny@sharkbait.com")
+    user3 = User(user_id=3, username="MikeBass",
+                 email="mike@deepsea.com")
+    user4 = User(user_id=4, username="SallyShells",
+                 email="sallysells@seashells.com")
 
     user1.set_password("hello")
-    user2.set_password("dudeman")
+    user2.set_password("hello")
+    user3.set_password("hello")
+    user4.set_password("hello")
 
-    db.session.add_all([user1, user2])
+    db.session.add_all([user1, user2, user3, user4])
 
     db.session.commit()
 
@@ -48,8 +56,8 @@ def load_sample_user_trails():
 def load_sample_trips():
     """Create sample trip instances"""
 
-    trip1 = Trip(trip_name="Test trip 1", creator_id=1)
-    trip2 = Trip(trip_name="Test trip 2", creator_id=2)
+    trip1 = Trip(trip_name="April Fishing Trip", creator_id=1)
+    trip2 = Trip(trip_name="Climbing @ Mt. Diablo", creator_id=2)
 
     db.session.add_all([trip1, trip2])
 
