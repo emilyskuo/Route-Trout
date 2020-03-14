@@ -276,6 +276,11 @@ input {
     left: 40%;
 }
 
+#flash_msg {
+    text-align: center;
+    margin-bottom: 0;
+}
+
 video {
     position: fixed;
     top: 50%;

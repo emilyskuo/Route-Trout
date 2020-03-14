@@ -73,7 +73,11 @@
 
   <!-- Display flashed messages -->
   {% for message in get_flashed_messages() %}
-    {{ message }}
+    <div class="row align-items-center">
+      <div class="col align-self-center align-items-center">
+        <p id="flash_msg">{{ message }}</p>
+      </div>
+    </div>
   {% endfor %}
   
   <!-- Script to display navbar buttons based on logged in state -->
