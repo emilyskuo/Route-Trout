@@ -5,3 +5,4 @@ secrets.sh
 *.sql
 server.wsgi
 .htaccess
+.coverage
