@@ -35,6 +35,7 @@ const colorToDifficultyConversion = {
 
 function initMap() {
     $.get(`/json/search-coords`, {search: search}, (res) => {
+        console.log(res);
         if (res === "Invalid search terms") {
             $("#search-map-container").html("Invalid search terms, please try again");
             nextButton.addClass("hidden");
