@@ -158,24 +158,27 @@ function initMap() {
             };
             const getTripLocations = () => {
                 $.get("/json/getallusertrips", (res) => {
-                    for (const trip_id of Object.values(res)) {
-                        if (trip_id.trip_lat !== null) {
-                            const markerInfo = {
-                                position: {
-                                    lat: Number(trip_id.trip_lat),
-                                    lng: Number(trip_id.trip_lng)
-                                },
-                                map: map,
-                                title: trip_id.trip_name,
-                                icon: houseIcon,
-                                zIndex: 50,
+                    if (res !== "none") {
+                        hideTripsButton.removeClass("hidden");
+                        for (const trip_id of Object.values(res)) {
+                            if (trip_id.trip_lat !== null) {
+                                const markerInfo = {
+                                    position: {
+                                        lat: Number(trip_id.trip_lat),
+                                        lng: Number(trip_id.trip_lng)
+                                    },
+                                    map: map,
+                                    title: trip_id.trip_name,
+                                    icon: houseIcon,
+                                    zIndex: 50,
+                                };
+                                const infoWindowContent = `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`;
+                                addMarker(markerInfo, infoWindowContent, tripMarkerArray);
                             };
-                            const infoWindowContent = `Trip Name : <a href="/trip/${trip_id.trip_id}">${trip_id.trip_name}</a>`;
-                            addMarker(markerInfo, infoWindowContent, tripMarkerArray);
+                            getTripTrails(trip_id.trip_id);
                         };
-                        getTripTrails(trip_id.trip_id);
-                    };
-                    setMarkersOnMap(map, tripMarkerArray);
+                        setMarkersOnMap(map, tripMarkerArray);
+                    }
                 });
             };
             // Load search results & trip locations

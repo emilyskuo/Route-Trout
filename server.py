@@ -607,18 +607,22 @@ def get_users_trips():
 
     all_tu = Trip_User.query.filter_by(user_id=user_id).all()
 
-    tu_dict = {}
+    if all_tu:
+        tu_dict = {}
 
-    for tu in all_tu:
-        if tu.trip.is_archived is False:
-            tu_dict[tu.trip_id] = {
-                "trip_name": tu.trip.trip_name,
-                "trip_lat": tu.trip.accom_lat,
-                "trip_lng": tu.trip.accom_long,
-                "trip_id": tu.trip_id
-            }
+        for tu in all_tu:
+            if tu.trip.is_archived is False:
+                tu_dict[tu.trip_id] = {
+                    "trip_name": tu.trip.trip_name,
+                    "trip_lat": tu.trip.accom_lat,
+                    "trip_lng": tu.trip.accom_long,
+                    "trip_id": tu.trip_id
+                }
 
-    return jsonify(tu_dict)
+        return jsonify(tu_dict)
+    
+    else:
+        return "none"
 
 
 @app.route("/json/gettriptrailinfo")
