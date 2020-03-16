@@ -1,5 +1,5 @@
 import os
-os.environ["GOOGLE_MAPS_KEY"] = "GOOGLE_MAPS_KEY"
+os.environ["MAPS_GEOCODING_KEY"] = "MAPS_GEOCODING_KEY"
 os.environ["HIKING_PROJECT_KEY"] = "HIKING_PROJECT_KEY"
 
 import helperfunctions
@@ -15,7 +15,7 @@ geocoding_search_terms = "san francisco"
 geocoding_api_url = "https://maps.googleapis.com/maps/api/geocode/json"
 geocoding_api_payload = {
     "address": geocoding_search_terms,
-    "key": "GOOGLE_MAPS_KEY"
+    "key": "MAPS_GEOCODING_KEY"
 }
 
 maps_api_response_fail = {}
@@ -56,7 +56,7 @@ class TestHelperFunctions(unittest.TestCase):
     api_url = "https://maps.googleapis.com/maps/api/geocode/json"
     payload = {
         "address": search_terms,
-        "key": GOOGLE_MAPS_KEY
+        "key": MAPS_GEOCODING_KEY
     }
 
     r = requests.get(api_url, params=payload)

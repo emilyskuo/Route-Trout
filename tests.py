@@ -3,7 +3,7 @@ import unittest
 from server import app, db, connect_to_db
 import seed
 
-GOOGLE_MAPS_KEY = "key"
+MAPS_JS_KEY = "key"
 HIKING_PROJECT_KEY = "key"
 
 
