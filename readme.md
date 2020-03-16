@@ -1,4 +1,4 @@
-## ![Route Trout logo](https://routetrout.emilyskuo.com/static/images/Route%20Trout%20Dark.png "Route Trout")
+## ![Route Trout logo](https://user-images.githubusercontent.com/58803587/76804870-9a535b00-679a-11ea-89a4-3d79c945b5af.png "Route Trout")
 # Route Trout
 
 Route Trout is a resource for hikers to search for trails and plan hiking trips. Users can search for trails by location, and see the search results displayed in a list and a map. Registered users' passwords are kept secure with bcrypt, a tool that adds unique salts to each password prior to hashing.  Logged in users can add trails to their saved or completed lists, and also plan hiking trips. The Trips feature is designed to help people plan hiking trips by mapping out where they're staying, what trails are nearby, and which trails they plan to hike during that trip.
@@ -15,19 +15,19 @@ Route Trout is a resource for hikers to search for trails and plan hiking trips.
 
 ### Features
 
-##### Seach for hiking trails
+**Seach for hiking trails**
 
 To search for trails, users input a location, which is converted into coordinates using the Google Maps Geocoding API which are then sent to the Hiking Project API. The resulting JSON response is parsed & seeding into the database, and displayed as cards & mapped out. The cards are populated using JavaScript and jQuery, and formatted using Bootstrap. The map markers all have an info window and zoom action when clicked. Closing the info window reverses the zoom.
 
-##### Add trails to saved or completed lists
+**Add trails to saved or completed lists**
 
 On each trail page, there are buttons so that logged in users can easily add trails to their saved or completed trails lists. Each button click submits an AJAX request to the server to update the database accordingly.
 
-##### Plan hiking trips
+**Plan hiking trips**
 
 One of they key features on Route Trout is trip planning. Users can create trips to keep track of where they're staying, where they plan to hike, and other users involved. Once a trip is created, a separate layer of map markers appears on the search results page to visualize the trip. These trip markers are easily toggled off or on using the "hide" or "show" buttons at the bottom of the map.
 
-##### Password security
+**Password security**
 
 All passwords are uniquely salted prior to hashing using the Python bcrypt library. This ensures that every hashed password stored in the database is unique.
 
