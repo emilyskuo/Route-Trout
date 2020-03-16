@@ -5,22 +5,31 @@ Route Trout is a resource for hikers to search for trails and plan hiking trips.
 
 ### Tech Stack
 
-Backend: Python 3, PostgreSQL, Flask, SQLAlchemy, Jinja, bcrypt
+**Backend:** Python 3, PostgreSQL, Flask, SQLAlchemy, Jinja, bcrypt
 
-Frontend: JavaScript, jQuery, HTML 5, CSS 3, Bootstrap, Select 2
+**Frontend:** JavaScript, jQuery, HTML 5, CSS 3, Bootstrap, Select 2
 
-APIs: Google Maps Geocoding, Google Maps JavaScript, Hiking Project
+**APIs:** Google Maps Geocoding, Google Maps JavaScript, Hiking Project
 
-Deployment: Google Cloud Platform, Apache2
+**Deployment:** Google Cloud Platform, Apache2
 
 ### Features
 
 ##### Seach for hiking trails
 
+To search for trails, users input a location, which is converted into coordinates using the Google Maps Geocoding API which are then sent to the Hiking Project API. The resulting JSON response is parsed & seeding into the database, and displayed as cards & mapped out. The cards are populated using JavaScript and jQuery, and formatted using Bootstrap. The map markers all have an info window and zoom action when clicked. Closing the info window reverses the zoom.
+
 ##### Add trails to saved or completed lists
+
+On each trail page, there are buttons so that logged in users can easily add trails to their saved or completed trails lists. Each button click submits an AJAX request to the server to update the database accordingly.
 
 ##### Plan hiking trips
 
+One of they key features on Route Trout is trip planning. Users can create trips to keep track of where they're staying, where they plan to hike, and other users involved. Once a trip is created, a separate layer of map markers appears on the search results page to visualize the trip. These trip markers are easily toggled off or on using the "hide" or "show" buttons at the bottom of the map.
+
+##### Password security
+
+All passwords are uniquely salted prior to hashing using the Python bcrypt library. This ensures that every hashed password stored in the database is unique.
 
 ### Future Features
 
