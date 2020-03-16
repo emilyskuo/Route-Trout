@@ -5,7 +5,7 @@ from model import (User, Trail, User_Trail, Trip, Trip_User,
                    Trip_Trail, db, connect_to_db)
 
 
-GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
+MAPS_GEOCODING_KEY = os.environ['MAPS_GEOCODING_KEY']
 HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
 
 
@@ -17,7 +17,7 @@ def call_geocoding_api(search_terms):
     api_url = "https://maps.googleapis.com/maps/api/geocode/json"
     payload = {
         "address": search_terms,
-        "key": GOOGLE_MAPS_KEY
+        "key": MAPS_GEOCODING_KEY
     }
 
     r = requests.get(api_url, params=payload)

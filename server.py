@@ -11,10 +11,11 @@ from helperfunctions import (call_geocoding_api, call_hiking_project_api,
                              seed_trails_into_db, delete_trip_users,
                              delete_trip_trails, delete_trip)
 
-GOOGLE_MAPS_KEY = os.environ['GOOGLE_MAPS_KEY']
 HIKING_PROJECT_KEY = os.environ['HIKING_PROJECT_KEY']
+MAPS_JS_KEY = os.environ['MAPS_JS_KEY']
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def index():
@@ -297,7 +298,7 @@ def log_out_user():
 def display_search_results():
     """Display search results"""
 
-    return render_template("search.html", GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+    return render_template("search.html", MAPS_JS_KEY=MAPS_JS_KEY)
 
 
 # ~~~~~ TRAIL-RELATED ROUTES ~~~~~ #
@@ -314,7 +315,7 @@ def display_trail_info(trail_id):
         trips = Trip_User.query.filter_by(user_id=user_id).all()
 
     return render_template("trail.html", trail=trail,
-                           GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY, trips=trips)
+                           MAPS_JS_KEY=MAPS_JS_KEY, trips=trips)
 
 
 # ~~~~~ TRIP-RELATED ROUTES ~~~~~ #
@@ -383,7 +384,7 @@ def show_trip(trip_id):
     all_users = User.query.all()
 
     return render_template("trip.html", trip=trip, all_users=all_users,
-                           GOOGLE_MAPS_KEY=GOOGLE_MAPS_KEY)
+                           MAPS_JS_KEY=MAPS_JS_KEY)
 
 
 @app.route("/trail/<trail_id>/addtotrip/<trip_id>")
