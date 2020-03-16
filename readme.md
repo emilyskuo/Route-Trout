@@ -1,4 +1,4 @@
-## ![Route Trout logo](https://user-images.githubusercontent.com/58803587/76804870-9a535b00-679a-11ea-89a4-3d79c945b5af.png "Route Trout")
+## ![Route Trout logo](https://user-images.githubusercontent.com/58803587/76805145-4e54e600-679b-11ea-9c78-8c5677de99d3.png "Route Trout")
 # Route Trout
 
 Route Trout is a resource for hikers to search for trails and plan hiking trips. Users can search for trails by location, and see the search results displayed in a list and a map. Registered users' passwords are kept secure with bcrypt, a tool that adds unique salts to each password prior to hashing.  Logged in users can add trails to their saved or completed lists, and also plan hiking trips. The Trips feature is designed to help people plan hiking trips by mapping out where they're staying, what trails are nearby, and which trails they plan to hike during that trip.
