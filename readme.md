@@ -3,6 +3,13 @@
 
 Route Trout is a resource for hikers to search for trails and plan hiking trips. Users can search for trails by location, and see the search results displayed in a list and a map. Registered users' passwords are kept secure with bcrypt, a tool that adds unique salts to each password prior to hashing.  Logged in users can add trails to their saved or completed lists, and also plan hiking trips. The Trips feature is designed to help people plan hiking trips by mapping out where they're staying, what trails are nearby, and which trails they plan to hike during that trip.
 
+**Contents**
+- [Tech Stack] (#tech-stack)
+- [Features] (#features)
+- [Future Features] (#future-features)
+- [About the Developer] (#about-the-developer)
+- [Installation] (#installation)
+
 ### Tech Stack
 
 **Backend:** Python 3, PostgreSQL, Flask, SQLAlchemy, Jinja, bcrypt
@@ -46,3 +53,41 @@ All passwords are uniquely salted prior to hashing using the Python bcrypt libra
 ### About the Developer
 
 Emily Kuo is a software engineer in the San Francisco Bay Area, and previously worked as an Account Director in the pharmaceutical advertising industry. Her love of hiking & planning trips led her to build Route Trout as her capstone project at Hackbright Academy.
+
+### Installation
+
+**Prerequisites**
+
+To run Route Trout, API keys for Google Maps Geocoding, Google Maps JavaScript, and the Hiking Project. Python 3 and PostgreSQL also need to be installed on your machine.
+
+**Running Route Trout on your machine**
+
+Clone this repository
+```
+$ git clone https://github.com/emilyskuo/Route-Trout.git
+```
+Optional: Create and activate a virtual environment using virtualenv
+```
+$ pip3 install virtualenv
+$ virtualenv env
+$ source env/bin/activate
+```
+Install dependencies from requirements.txt
+```
+$ pip3 install -r requirements.txt
+```
+Create environmental variables to hold your API keys
+```
+$ export MAPS_GEOCODING_KEY='{YOUR GEOCODING API KEY HERE}'
+$ export MAPS_JS_KEY='{YOUR MAPS JS API KEY HERE}'
+$ export HIKING_PROJECT_KEY='{YOUR HIKING PROJECT API KEY HERE}'
+```
+Create your database & seed sample data
+```
+$ createdb hikingapp
+$ python3 seed.py
+```
+Run the app on localhost
+```
+$ python3 server.py
+```
