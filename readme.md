@@ -10,7 +10,7 @@ Route Trout is a resource for hikers to search for trails and plan hiking trips.
 - [About the Developer](#about-the-developer)
 - [Installation](#installation)
 
-## [Tech Stack](#tech-stack)
+## Tech Stack
 
 **Backend:** Python 3, PostgreSQL, Flask, SQLAlchemy, Jinja, bcrypt
 
@@ -18,9 +18,9 @@ Route Trout is a resource for hikers to search for trails and plan hiking trips.
 
 **APIs:** Google Maps Geocoding, Google Maps JavaScript, Hiking Project
 
-**Deployment:** Google Cloud Platform, Apache2
+**Deployment:** Google Cloud Platform, Cloudflare, Apache2
 
-## [Features](#features)
+## Features
 
 **Seach for hiking trails**
 
@@ -44,21 +44,21 @@ One of they key features on Route Trout is trip planning. Users can create trips
 
 All passwords are uniquely salted prior to hashing using the Python bcrypt library. This ensures that every hashed password stored in the database is unique.
 
-## [Future Features](#future-features)
+## Future Features
 
 - Display a user's recently viewed trails
 - Implement discussions within trips
 - Friendships between users
 
-## [About the Developer](#about-the-developer)
+## About the Developer
 
 Emily Kuo is a software engineer in the San Francisco Bay Area, and previously worked as an Account Director in the pharmaceutical advertising industry. Her love of hiking & planning trips led her to build Route Trout as her capstone project at Hackbright Academy.
 
-## [Installation](#installation)
+## Installation
 
 **Prerequisites**
 
-To run Route Trout, you will need API keys for Google Maps Geocoding, Google Maps JavaScript, and the Hiking Project. Python 3 and PostgreSQL also need to be installed on your machine.
+To run Route Trout, you will need API keys for [Google Maps Geocoding](https://developers.google.com/maps/documentation/geocoding/start), [Google Maps JavaScript](https://developers.google.com/maps/documentation/javascript/tutorial), and the [Hiking Project](https://www.hikingproject.com/data). Python 3 and PostgreSQL also need to be installed on your machine.
 
 **Running Route Trout on your machine**
 
