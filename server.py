@@ -885,6 +885,9 @@ if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True
+
+    app.secret_key = "super secret"
+
     # For getting error messages in Jinja when variables are undefined
     app.jinja_env.undefined = StrictUndefined
     # make sure templates, etc. are not cached in debug mode
@@ -893,4 +896,4 @@ if __name__ == "__main__":
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
 
-    app.run()
+    app.run(port=5000, host='0.0.0.0')
