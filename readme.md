@@ -7,8 +7,8 @@ Route Trout is a resource for hikers to search for trails and plan hiking trips.
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Future Features](#future-features)
-- [About the Developer](#about-the-developer)
 - [Installation](#installation)
+- [About the Developer](#about-the-developer)
 
 ## Tech Stack
 
@@ -50,10 +50,6 @@ All passwords are uniquely salted prior to hashing using the Python bcrypt libra
 - Implement discussions within trips
 - Friendships between users
 
-## About the Developer
-
-Emily Kuo is a software engineer in the San Francisco Bay Area, and previously worked as an Account Director in the pharmaceutical advertising industry. Her love of hiking & planning trips led her to build Route Trout as her capstone project at Hackbright Academy.
-
 ## Installation
 
 **Prerequisites**
@@ -91,3 +87,7 @@ Run the app on localhost
 ```
 $ python3 server.py
 ```
+
+## About the Developer
+
+Emily Kuo is a software engineer in the San Francisco Bay Area, and previously worked as an Account Director in the pharmaceutical advertising industry. Her love of hiking & planning trips led her to build Route Trout as her capstone project at Hackbright Academy.
