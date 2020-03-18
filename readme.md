@@ -59,33 +59,33 @@ To run Route Trout, you will need API keys for [Google Maps Geocoding](https://d
 **Running Route Trout on your machine**
 
 Clone this repository
-```
-$ git clone https://github.com/emilyskuo/Route-Trout.git
+```shell
+git clone https://github.com/emilyskuo/Route-Trout.git
 ```
 Optional: Create and activate a virtual environment using virtualenv
-```
-$ pip3 install virtualenv
-$ virtualenv env
-$ source env/bin/activate
+```shell
+pip3 install virtualenv
+virtualenv env
+source env/bin/activate
 ```
 Install dependencies from requirements.txt
-```
-$ pip3 install -r requirements.txt
+```shell
+pip3 install -r requirements.txt
 ```
 Create environmental variables to hold your API keys
-```
-$ export MAPS_GEOCODING_KEY='{YOUR GEOCODING API KEY HERE}'
-$ export MAPS_JS_KEY='{YOUR MAPS JS API KEY HERE}'
-$ export HIKING_PROJECT_KEY='{YOUR HIKING PROJECT API KEY HERE}'
+```shell
+export MAPS_GEOCODING_KEY='{YOUR GEOCODING API KEY HERE}'
+export MAPS_JS_KEY='{YOUR MAPS JS API KEY HERE}'
+export HIKING_PROJECT_KEY='{YOUR HIKING PROJECT API KEY HERE}'
 ```
 Create your database & seed sample data
-```
-$ createdb hikingapp
-$ python3 seed.py
+```shell
+createdb hikingapp
+python3 seed.py
 ```
 Run the app on localhost
-```
-$ python3 server.py
+```shell
+python3 server.py
 ```
 
 ## About the Developer
