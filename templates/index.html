@@ -21,4 +21,28 @@
     </div>
   </div>
 </div>
+
+{% if "most_recent_trail" in session %}
+<p id="most_recent_trail" class="hidden">{{session["most_recent_trail"]}}</p>
+<div id="recent-trails-holder" class="col">
+  <div class="row">
+    <div class="col">
+      <h4 id="recently-viewed-header">Recently viewed trails:</h4>
+    </div>
+  </div>
+  <div id="most_recent_div" class="row align-items-center justify-content-center">
+  </div>
+</div>
+
+{% endif %}
+{% if "second_most_recent" in session %}
+<p id="second_most_recent" class="hidden">{{session["second_most_recent"]}}</p>
+
+{% endif %}
+{% if "third_most_recent" in session %}
+<p id="third_most_recent" class="hidden">{{session["third_most_recent"]}}</p>
+{% endif %}
+
+<script src="/static/homepage.js"></script>
+
 {% endblock %}
