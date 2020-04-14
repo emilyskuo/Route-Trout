@@ -8,6 +8,7 @@ from model import (User, Trail, User_Trail, Trip, Trip_User,
                    Trip_Trail, db, connect_to_db)
 
 from helperfunctions import (call_geocoding_api, call_hiking_project_api,
+                             call_hiking_project_api_trail_id,
                              seed_trails_into_db, delete_trip_users,
                              delete_trip_trails, delete_trip)
 
@@ -313,6 +314,14 @@ def display_trail_info(trail_id):
 
     if user_id:
         trips = Trip_User.query.filter_by(user_id=user_id).all()
+
+    if session.get("second_most_recent"):
+        session["third_most_recent"] = session.get("second_most_recent")
+
+    if session.get("most_recent_trail"):
+        session["second_most_recent"] = session.get("most_recent_trail")
+
+    session["most_recent_trail"] = str(trail_id)
 
     return render_template("trail.html", trail=trail,
                            MAPS_JS_KEY=MAPS_JS_KEY, trips=trips)
@@ -876,6 +885,15 @@ def remove_trip_trail():
 
     else:
         return "You need to be logged in to access that page"
+
+
+@app.route("/gettrailbyid", methods=["GET"])
+def call_hiking_project_api_single_trail():
+
+    trail_id = request.args.get("trail_id")
+    response = call_hiking_project_api_trail_id(trail_id)
+
+    return jsonify(response)
 
 
 connect_to_db(app)
