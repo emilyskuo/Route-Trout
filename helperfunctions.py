@@ -53,6 +53,22 @@ def call_hiking_project_api(lat_long):
     return response
 
 
+def call_hiking_project_api_trail_id(trail_id):
+    """Query Hiking Project API to retrieve info about one trail"""
+
+    hiking_api_url = "https://www.hikingproject.com/data/get-trails-by-id"
+
+    payload = {
+        "ids": trail_id,
+        "key": HIKING_PROJECT_KEY
+    }
+
+    r = requests.get(hiking_api_url, params=payload)
+    response = r.json()
+
+    return response
+
+
 def convert_trail_difficulty(color_difficulty):
     """Convert Hiking Project API's difficulty rating from color to words"""
 
