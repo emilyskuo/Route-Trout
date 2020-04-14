@@ -291,6 +291,18 @@ input {
     font-weight: bold;
 }
 
+#recent-trails-holder {
+    position: absolute;
+    top: 75vh;
+    background: rgba(0, 0, 0, 0.4);  
+}
+
+#recently-viewed-header {
+    margin-top: 8px;
+    color: white;
+    text-align: center;
+}
+
 video {
     position: fixed;
     top: 50%;
